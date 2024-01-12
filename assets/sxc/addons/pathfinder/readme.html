@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="Madman" />
+	<meta name="description" content="SXC Path Finder Readme" />
+	<title>SXC Path Finder Readme</title>
+	<style type="text/css">
+		body
+		{
+			color: #002030;
+			background-color: #002030;
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size: 90%;
+			line-height: 160%;
+		}
+		.body-frame
+		{
+			width: 1000px;
+			color: #001040;
+			background-color: #C0C8CF;
+			text-align: left;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 40px 10px;
+		}
+		.body-head
+		{
+			vertical-align: top;
+		}
+		.body-content
+		{
+			vertical-align: top;
+			text-align: justify;
+		}
+		.body-toc
+		{
+			width: 100%;
+			text-align: center;
+			margin: 40px auto 120px;
+		}
+		.body-toc-head
+		{
+			width: 50%;
+			font-family: helvetica,arial,sans-serif;
+			font-size: 160%;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #005060;
+			text-align: center;
+			vertical-align: top;
+			padding-bottom: 10px;
+		}
+		.body-toc-content
+		{
+			width: 50%;
+			font-family: helvetica,arial,sans-serif;
+			font-size: 100%;
+			font-weight: normal;
+			color: #005060;
+			text-align: center;
+			vertical-align: middle;
+		}
+		.text-head-big
+		{
+			font-family: helvetica,arial,sans-serif;
+		//	text-transform: uppercase;
+			font-size: 230%;
+			color: #004060;
+		}
+		.text-head-small
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 82%;
+		}
+		.heading-chapter
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 240%;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #005060;
+			margin: 60px 0px 0px;
+		}
+		.heading-title
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 140%;
+			font-weight: normal;
+			font-variant: small-caps;
+			color: #005060;
+			margin: 40px 0px 5px;
+		}
+		.code
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 100%;
+			font-weight: normal;
+			line-height: 140%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 10px;
+			border-left: 3px solid #000000;
+			border-right: 3px solid #404040;
+			border-top: 3px solid #000000;
+			border-bottom: 3px solid #404040;
+			background-color: #202020;
+			color: #A0A0A0;
+		}
+		.quote-code
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 94%;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #004080;
+			border-right: 1px solid #004080;
+			border-top: 3px solid #004080;
+			border-bottom: 1px dashed #004080;
+			background-color: #90989F;
+			color: #002040;
+		}
+		.quote
+		{
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size: 90%;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #004080;
+			border-right: 1px solid #004080;
+			border-top: 3px solid #004080;
+			border-bottom: 1px dashed #004080;
+			background-color: #90989F;
+			color: #002040;
+		}
+		.note
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 90%;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 16px 0px;
+			padding: 8px 12px;
+			border-left: 10px solid #002040;
+			border-right: 1px dashed #002040;
+			border-top: 1px dashed #002040;
+			border-bottom: 1px dashed #002040;
+			background-color: #B0B8BF;
+			color: #002040;
+		}
+		.text-small
+		{
+			font-size: 80%;
+		}
+		.text-smaller
+		{
+			font-size: 60%;
+		}
+		.inline_file
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 110%;
+			font-weight: normal;
+			color: #802000;
+		}
+		.inline_sym
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 110%;
+			font-weight: bold;
+			color: #0040A0;
+			background-color: #A0A8AF;
+			border: 1px solid #90989F;
+			padding: 0px 5px 0px;
+		}
+		.inline_white
+		{
+			color: #FFFFFF;
+		}
+		.inline_grey
+		{
+			color: #8F8F8F;
+		}
+		.inline_yellow
+		{
+			color: #FFFF00;
+		}
+		.inline_gold
+		{
+			color: #FFC000;
+		}
+		.inline_red
+		{
+			color: #FF0000;
+		}
+		.inline_lred
+		{
+			color: #8F0000;
+		}
+		.inline_green
+		{
+			color: #00CF00;
+		}
+		.inline_lgreen
+		{
+			color: #007F00;
+		}
+		.inline_blue
+		{
+			color: #0040AF;
+		}
+		.inline_lblue
+		{
+			color: #00207F;
+		}
+		a, a:link, a:visited
+		{
+			font-weight: normal;
+			text-decoration: none;
+			font-variant: small-caps;
+			color: #004080;
+		}
+		a:hover, a:active
+		{
+			color: #804000;
+		}
+		a.toc, a.toc:link, a.toc:visited
+		{
+			width: 80%;
+			font-weight: normal;
+			text-decoration: none;
+			color: #D0D0D0;
+			background-color: #005060;
+			padding: 8px;
+			display: inline-block;
+		}
+		a.toc:hover, a.toc:active
+		{
+			color: #FFC000;
+			background-color: #802000;
+		}
+		img
+		{
+			margin: 5px 0px 16px 0px;
+			border: 2px solid #002040;
+		}
+	</style>
+</head>
+<body>
+	<table class="body-frame" border="0" cellpadding="2" cellspacing="2">
+		<tbody>
+			<tr align="right">
+				<td class="body-head">
+					<span class="text-head-big">SXC PATH <i>FIND</i>ER</span><br />
+					<span class="text-head-small">A COMPANION TOOL FOR SXC <i>ex</i>TRACTOR<br /></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="body-content">
+<h3 id="prologue" />
+<h3 class="heading-title">Prologue</h3>
+Some users may having trouble when trying to extract certain <span class="inline_sym">HashFS</span> formatted
+mod file by using SXC Extractor, especially with tons of reported missing
+items has been found. Came from that reason, the SXC Path Finder was written
+in the hope those missing items can be significantly reduced.
+<br /><br />
+SXC Path Finder (can be pronounced as Sexy Path Finder) intended to search any
+occurences of defined file names on whole files stored in an <i>HashFS</i> formatted
+mod file. Any proper file names found then can be used in the purpose as Name
+Resolver List in SXC Extractor through the <span class="inline_sym">-bl</span> switch. This tool intended to
+cut working time and hassles when extracting complex <i>HashFS</i> mod file.
+This tool is far from perfect. It is possible not all occurence of file names
+will be found.
+<br /><br /><br />
+<center>
+<span class="text-small">Visit SXC discussion thread at <a href="https://forum.scssoft.com/viewtopic.php?f=34&t=276948" target="_blank">SCS Forum</a>
+and drop a comment there<br />if you have problem, find bug, or just
+want to say hi.</span>
+</center>
+
+<table class="body-toc" border="0" cellpadding="2" cellspacing="2">
+	<tbody>
+		<tr>
+			<td class="body-toc-head">Basic Usage</td>
+		</tr>
+		<tr>
+			<td class="body-toc-content"><a class="toc" href="#about">About the Program</a></td>
+		</tr>
+		<tr>
+			<td class="body-toc-content"><a class="toc" href="#workargs">Working with Parameters</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<!---------------------------------------------------------------------------->
+
+<h1 class="heading-chapter">Basic Usage</h1>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="about" />
+<h3 class="heading-title">About the Program</h3>
+SXC Path Finder is a console program runs under Microsoft Windows. It is a
+simple text based application. No fancy GUI and no <i>bullsh*t</i>. It comes
+without installer. SXC Path Finder is shipped together as addons with SXC
+Extractor. Extract the SXC Extractor package using any ZIP Archiver program
+onto a destination folder of your choice. SXC Packer is stored under
+<span class="inline_file">addons</span> &rarr; <span class="inline_file">pathfinder</span> sub-folder.
+From Windows Explorer, press <span class="inline_file">Shift + Right Click</span> on
+the SXC Path Finder folder then choose a menu item labeled as "Open Command
+Prompt from here" or "Open Power Shell from here" depending on your Windows
+version. Running SXC Path Finder can be done by typing:
+
+<div class="code">sxclist</div>
+
+Or with Power Shell console:
+
+<div class="code"><span class="inline_white">.\</span>sxclist<span class="inline_white">.exe</span></div>
+
+After typing, press the Enter key on the keyboard to actually execute the
+application. Running SXC Path Finder without any parameter will just display
+a usage tips of parameter description, which will described more details
+below.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="workargs" />
+<h3 class="heading-title">Working with Parameters</h3>
+SXC Path Finder requires at least a single parameter in order to function. The
+parameter in an input file, must pointing to an existing file location of <i>HashFS</i> mod file
+(<span class="inline_file">.scs</span>).
+<br /><br />
+Let say we have an <i>HashFS</i> mod file located on <span class="inline_file">C:\temp\modfile.scs</span> and we want
+to search all valid file name entries on it. Run SXC Path Finder as follows:
+
+<div class="code">sxclist <span class="inline_white">C:\temp\modfile.scs</span></div>
+
+Or with Power Shell console:
+
+<div class="code">.\sxclist.exe <span class="inline_white">C:\temp\modfile.scs</span></div>
+
+Any valid entry that found will be displayed into the standard output, which
+is the screen by default. If you want to save these entries to a file, you
+need to supply the second parameter that define an output text file name to
+store the entries. Please remember this output file will be overwriten if
+exists.
+<br /><br />
+From the previous example, let say we want to store all these valid entries
+had been found to be stored in <span class="inline_file">C:\temp\missing_items.txt</span>. Run SXC Path
+Finder as follows:
+
+<div class="code">sxclist <span class="inline_white">C:\temp\modfile.scs</span> <span class="inline_gold">C:\temp\missing_items.txt</span></div>
+
+Or with Power Shell console:
+
+<div class="code">.\sxclist.exe <span class="inline_white">C:\temp\modfile.scs</span> <span class="inline_gold">C:\temp\missing_items.txt</span></div>
+
+<div class="note">
+Only mod files are supported by SXC Path Filder. If you specify an input file
+that belongs to game data (i.e. <span class="inline_file">base.scs</span> or <span class="inline_file">def.scs</span>),
+SXC Path Finder will simply reject it.</div>
+
+Please note, between parameter must be separated with (at least) a space
+character. If a parameter contains spaces, you should enclose it with
+double-quotes. Take a look at this example:
+
+<div class="code">sxclist C:\temp\modfile.scs <span class="inline_yellow">"</span>C:\my temp\missing items.txt<span class="inline_yellow">"</span></div>
+
+<div class="note">If no entry is found, SXC Path Finder will not create the output file.</div>
+
+The process may took times, especially with large mod file. When complete,
+all file names that can properly used as Name Resolver List will be stored
+in output file. Later, you can use this output file to resolve missing
+items when using SXC Extractor through <span class="inline_sym">-bl</span> switch. For example:
+
+<div class="code">sxc C:\temp\modfile.scs <span class="inline_yellow">-bl</span> <span class="inline_white">C:\temp\missing_items.txt</span></div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="epilogue" />
+<h3 class="heading-title">Epilogue</h3>
+The author of SXC Path Finder has no relation and is not affiliated with SCS
+Software. SXC Path Finder is made by user for users, in the hope it comes useful
+and handy for modders. Have fun, keep trucking, and happy modding!
+<br /><br />
+<center>---ooOoo---
+<div class="text-smaller">Revised: September 9, 2022</div></center>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

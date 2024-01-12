@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="author" content="Madman" />
+	<meta name="description" content="SXC Extractor Readme" />
+	<title>SXC Extractor Readme</title>
+	<style type="text/css">
+		body
+		{
+			color: #002010;
+			background-color: #002010;
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size: 90%;
+			line-height: 160%;
+			margin: 0px;
+			padding: 20px;
+		}
+		.body-frame
+		{
+			width: 900px;
+			min-width: 480px;
+			color: #002010;
+			background-color: #D8DFD8;
+			text-align: left;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 40px 10px;
+		}
+		.body-head
+		{
+			vertical-align: top;
+		}
+		.body-content
+		{
+			vertical-align: top;
+			text-align: justify;
+		}
+		.body-toc::after
+		{
+			width: 100%;
+			content: "";
+			clear: both;
+			display: table;
+		}
+		.body-toc-left
+		{
+			width: 50%;
+			text-align: center;
+			float: left;
+		}
+		.body-toc-right
+		{
+			width: 50%;
+			text-align: center;
+			float: right;
+		}
+		.body-toc-head
+		{
+			width: 100%;
+			font-family: helvetica,arial,sans-serif;
+			font-size: 160%;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #006050;
+			text-align: center;
+			vertical-align: top;
+			padding-top: 50px;
+			padding-bottom: 10px;
+		}
+		.body-toc-content
+		{
+			width: 100%;
+			font-family: helvetica,arial,sans-serif;
+			font-size: 100%;
+			font-weight: normal;
+			color: #006050;
+			text-align: center;
+			vertical-align: middle;
+			padding-bottom: 5px;
+		}
+		.text-head-big
+		{
+			font-family: helvetica,arial,sans-serif;
+		//	text-transform: uppercase;
+			font-size: 230%;
+			color: #006040;
+		}
+		.text-head-small
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 82%;
+		}
+		.heading-chapter
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 240%;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #006050;
+			margin: 60px 0px 0px;
+		}
+		.heading-title
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 140%;
+			font-weight: normal;
+			font-variant: small-caps;
+			color: #208060;
+			margin: 40px 0px 5px;
+		}
+		.text-small
+		{
+			font-size: 80%;
+			line-height: 120%;
+		}
+		.text-smaller
+		{
+			font-size: 60%;
+			line-height: 120%;
+		}
+		.code
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 100%;
+			font-weight: normal;
+			text-align: left;
+			line-height: 140%;
+			margin: 4px 0px 16px 0px;
+			padding: 6px 8px;
+			border-left: 2px solid #001000;
+			border-right: 2px solid #408060;
+			border-top: 2px solid #001000;
+			border-bottom: 2px solid #408060;
+			background-color: #003020;
+			color: #60C080;
+		}
+		.quote-code
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 94%;
+			font-weight: normal;
+			text-align: left;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #008040;
+			border-right: 1px solid #008040;
+			border-top: 3px solid #008040;
+			border-bottom: 1px dashed #008040;
+			background-color: #C0CFC8;
+			color: #000000;
+		}
+		.quote
+		{
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size: 90%;
+			font-weight: normal;
+			text-align: left;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #008040;
+			border-right: 1px solid #008040;
+			border-top: 3px solid #008040;
+			border-bottom: 1px dashed #008040;
+			background-color: #C0CFC8;
+			color: #000000;
+		}
+		.note
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 90%;
+			font-weight: normal;
+			text-align: justify;
+			line-height: 130%;
+			margin: 16px 0px;
+			padding: 8px 12px;
+			border-left: 10px solid #008040;
+			border-right: 1px dashed #008040;
+			border-top: 1px dashed #008040;
+			border-bottom: 1px dashed #008040;
+			background-color: #B0BFB8;
+			color: #000000;
+		}
+		.inline_file
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 110%;
+			font-weight: normal;
+			color: #802000;
+		}
+		.inline_sym
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 110%;
+			font-weight: bold;
+			color: #0040A0;
+			background-color: #A0A8AF;
+			border: 1px solid #90989F;
+			padding: 0px 5px 0px;
+		}
+	@media screen and (max-width: 800px)
+	{
+		body
+		{
+			color: #002010;
+			background-color: #002010;
+			font-family: helvetica,sans-serif;
+			font-size: 2.25vw;
+			line-height: 140%;
+			margin: 0px;
+			padding: 0px;
+		}
+		.body-frame
+		{
+			width: 100%;
+			min-width: 15%;
+			color: #002010;
+			background-color: #D8DFD8;
+			text-align: left;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 40px 10px;
+		}
+		.body-head
+		{
+			vertical-align: top;
+		}
+		.body-content
+		{
+			vertical-align: top;
+			text-align: justify;
+		}
+		.body-toc::after
+		{
+			width: 100%;
+			content: "";
+			clear: both;
+			display: table;
+		}
+		.body-toc-left
+		{
+			width: 100%;
+			text-align: center;
+		}
+		.body-toc-right
+		{
+			width: 100%;
+			text-align: center;
+		}
+		.body-toc-head
+		{
+			width: 100%;
+			font-family: helvetica,sans-serif;
+			font-size: 3.5vw;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #006050;
+			text-align: center;
+			vertical-align: top;
+			padding-top: 50px;
+			padding-bottom: 10px;
+		}
+		.body-toc-content
+		{
+			width: 100%;
+			font-family: helvetica,sans-serif;
+			font-size: 2.75vw;
+			font-weight: normal;
+			color: #006050;
+			text-align: center;
+			vertical-align: middle;
+			padding-bottom: 5px;
+		}
+		.text-head-big
+		{
+			font-family: helvetica,sans-serif;
+		//	text-transform: uppercase;
+			font-size: 3.5vw;
+			color: #006040;
+		}
+		.text-head-small
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 1.75vw;
+		}
+		.heading-chapter
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 3.5vw;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #006050;
+			margin: 60px 0px 0px;
+		}
+		.heading-title
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 3vw;
+			font-weight: normal;
+			font-variant: small-caps;
+			color: #208060;
+			margin: 40px 0px 5px;
+		}
+		.text-small
+		{
+			font-size: 2.1vw;
+			line-height: 120%;
+		}
+		.text-smaller
+		{
+			font-size: 1.8vw;
+			line-height: 120%;
+		}
+		.code
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.15vw;
+			font-weight: normal;
+			text-align: left;
+			line-height: 140%;
+			margin: 4px 0px 16px 0px;
+			padding: 4px 2px;
+			border-left: 2px solid #002000;
+			border-right: 2px solid #206040;
+			border-top: 2px solid #002000;
+			border-bottom: 2px solid #206040;
+			background-color: #003020;
+			color: #60C080;
+		}
+		.quote-code
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.15vw;
+			font-weight: normal;
+			text-align: left;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #008040;
+			border-right: 1px solid #008040;
+			border-top: 3px solid #008040;
+			border-bottom: 1px dashed #008040;
+			background-color: #C0CFC8;
+			color: #000000;
+		}
+		.quote
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 2.15vw;
+			font-weight: normal;
+			text-align: left;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #008040;
+			border-right: 1px solid #008040;
+			border-top: 3px solid #008040;
+			border-bottom: 1px dashed #008040;
+			background-color: #C0CFC8;
+			color: #000000;
+		}
+		.note
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 2.1vw;
+			font-weight: normal;
+			text-align: justify;
+			line-height: 130%;
+			margin: 16px 0px;
+			padding: 8px 12px;
+			border-left: 10px solid #008040;
+			border-right: 1px dashed #008040;
+			border-top: 1px dashed #008040;
+			border-bottom: 1px dashed #008040;
+			background-color: #B0BFB8;
+			color: #000000;
+		}
+		.inline_file
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.35vw;
+			font-weight: normal;
+			color: #802000;
+		}
+		.inline_sym
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.35vw;
+			font-weight: bold;
+			color: #0040A0;
+			background-color: #A0A8AF;
+			border: 1px solid #90989F;
+			padding: 0px 5px 0px;
+		}
+	}
+		.inline_white
+		{
+			color: #FFFFFF;
+		}
+		.inline_grey
+		{
+			color: #8F8F8F;
+		}
+		.inline_yellow
+		{
+			color: #FFFF00;
+		}
+		.inline_gold
+		{
+			color: #FFC000;
+		}
+		.inline_red
+		{
+			color: #FF0000;
+		}
+		.inline_lred
+		{
+			color: #8F0000;
+		}
+		.inline_green
+		{
+			color: #00CF00;
+		}
+		.inline_lgreen
+		{
+			color: #007F00;
+		}
+		.inline_blue
+		{
+			color: #0040AF;
+		}
+		.inline_lblue
+		{
+			color: #00207F;
+		}
+		a, a:link, a:visited
+		{
+			font-weight: normal;
+			text-decoration: none;
+			font-variant: small-caps;
+			color: #008040;
+		}
+		a:hover, a:active
+		{
+			color: #804000;
+		}
+		a.toc, a.toc:link, a.toc:visited
+		{
+			width: 90%;
+			font-weight: normal;
+			text-decoration: none;
+			color: #D0D0D0;
+			background-color: #006050;
+			padding: 8px;
+			display: inline-block;
+		}
+		a.toc:hover, a.toc:active
+		{
+			color: #FFC000;
+			background-color: #802000;
+		}
+		img
+		{
+			margin: 5px 0px 16px 0px;
+			border: 2px solid #004020;
+		}
+	</style>
+</head>
+<body>
+	<table class="body-frame" border="0" cellpadding="2" cellspacing="2">
+		<tbody>
+			<tr align="right">
+				<td class="body-head">
+					<span class="text-head-big">SXC <i>ex</i>TRACTOR</span><br />
+					<span class="text-head-small">BECAUSE SEXY DOESN'T HAVE TO BE <i>big</i><br /></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="body-content">
+
+<h3 id="prologue" />
+<h3 class="heading-title">Prologue</h3>
+The SCS Extractor has been introduced years ago, widely used by most modders
+to extend the functionality and gameplay experiences on both SCS popular games
+Euro Truck Simulator 2 and American Truck Simulator. Even though it's handy
+and useful, SCS Extractor has a big disadvantage: lack ability of selective
+file extraction. Came from that limitation, the SXC Extractor was written.
+<br /><br />
+SXC Extractor (can be pronounced as Sexy Extractor) is another level compared
+to the predecessor. It has list mode, able to selectively extract or list
+contents based on certain criteria, and also support extracting mod zipped
+files even with the "encrypted" ones. SXC Extractor however does not provide
+ability to compress or recompress. As its name says it just an extractor tool.
+<br /><br /><br />
+<center>
+<div class="text-small">Visit SXC discussion thread at <a href="https://forum.scssoft.com/viewtopic.php?f=34&t=276948" target="_blank">SCS Forum</a>
+and drop a comment there<br />if you have problem, find bug, or just
+want to say hi.</div>
+</center>
+
+<div class="body-toc">
+	<div class="body-toc-left">
+		<div class="body-toc-head">Basic Usage</div>
+		<div class="body-toc-content"><a class="toc" href="#about">About the Program</a></div>
+		<div class="body-toc-content"><a class="toc" href="#workfiles">Working with Files</a></div>
+		<div class="body-toc-content"><a class="toc" href="#listextract">List Mode &amp; Extraction</a></div>
+		<div class="body-toc-content"><a class="toc" href="#basewild">Base Path &amp; Wildcard Filtering</a></div>
+		<div class="body-toc-content"><a class="toc" href="#advancedfilter">Advanced Filtering</a></div>
+		<div class="body-toc-content"><a class="toc" href="#outputsuppress">Output Suppression</a></div>
+		<div class="body-toc-content"><a class="toc" href="#listpause">List Mode &amp; Page Pausing</a></div>
+		<div class="body-toc-content"><a class="toc" href="#listdisplay">List Mode Display</a></div>
+		<div class="body-toc-content"><a class="toc" href="#forcemode">Force Mode</a></div>
+		<div class="body-toc-content"><a class="toc" href="#quitprompt">Quit Prompt Message</a></div>
+	</div>
+	<div class="body-toc-right">
+		<div class="body-toc-head">Extended Usage</div>
+		<div class="body-toc-content"><a class="toc" href="#extractmodes">Extract Modes</a></div>
+		<div class="body-toc-content"><a class="toc" href="#sizefilter">File Size Filtering</a></div>
+		<div class="body-toc-content"><a class="toc" href="#regexfilter">Regular Expression Filtering</a></div>
+		<div class="body-toc-content"><a class="toc" href="#contentfilter">Content Text Filtering</a></div>
+		<div class="body-toc-content"><a class="toc" href="#modnobase">Mod File with No Base Root</a></div>
+		<div class="body-toc-content"><a class="toc" href="#missingitem">Working with Missing Items</a></div>
+		<div class="body-toc-content"><a class="toc" href="#nameresolver">Name Resolver List</a></div>
+		<div class="body-toc-content"><a class="toc" href="#typescan">File Type Scanning</a></div>
+	</div>
+</div>
+
+<!---------------------------------------------------------------------------->
+
+<h1 class="heading-chapter">Basic Usage</h1>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="about" />
+<h3 class="heading-title">About the Program</h3>
+SXC Extractor is a console program runs under Microsoft Windows. Like the
+predecessor, it is a simple text based application. No fancy GUI and no
+<i>bullsh*t</i>. It comes without installer. Extract the SXC Extractor package using
+any ZIP Archiver program onto a destination folder of your choice. From
+Windows Explorer, press <span class="inline_file">Shift + Right Click</span> on the extracted destination
+folder then choose a menu item labeled as "Open Command Prompt from here" or
+"Open Power Shell from here" depending on your Windows version. Running SXC
+Extractor can be done by typing:
+
+<div class="code">sxc</div>
+
+Or under Power Shell console:
+
+<div class="code"><span class="inline_white">.\</span>sxc<span class="inline_white">.exe</span></div>
+
+After typing, press the Enter key on the keyboard to actually execute the
+application. Running extractor without any parameter will just display a usage
+tips of parameter description, which will have described more details here.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="workfiles" />
+<h3 class="heading-title">Working with Files</h3>
+SXC Extractor requires at least one parameter in order to function. You need
+an input file to be processed, either SCS native game data/DLC files (with
+<span class="inline_file">.scs</span> extension) or mod zipped files (with <span class="inline_file">.scs</span> or <span class="inline_file">.zip</span> extension). It can be
+typing like this:
+
+<div class="code">sxc <span class="inline_white">thefile.scs</span></div>
+
+Or:
+
+<div class="code">.\sxc.exe <span class="inline_white">thefile.zip</span></div>
+
+Note the argument is preceding with a space character. Each argument must be
+separated with at least one space character. If an argument contains spaces,
+you should enclose it with double-quotes. Take a look at this example for
+input file that containing long path and spaces:
+
+<div class="code">sxc <span class="inline_white">"</span>C:\Program files (x86)\Steam\steamapps\common\Euro Truck Simulator 2\def.scs<span class="inline_white">"</span></div>
+
+Typing long argument can be a painful task especially if you don't know how
+to copy a fully qualified path with file name and pasting it into Windows
+console. SXC Extractor allow you to select a file in an easy way through Open
+File dialog. Use an <span class="inline_sym">-i</span> switch (lowercase letter '<span class="inline_sym">I</span>') as replacement of input
+file into the argument as follow:
+
+<div class="code">sxc <span class="inline_white">-i</span></div>
+
+It will bring you a popup dialog window to select a file. Pressing Cancel
+button on the dialog will abort the operation, and display usage tips as if
+you run the program without argument.
+<br /><br />
+Another trick is by creating a Windows shortcut and store it in the same
+folder of SXC Extractor. For example, if you create a shortcut that
+pointing to actual "<span class="inline_file">base.scs</span>" file on Steam folder with the shortcut file name
+it as "<span class="inline_file">base.scs</span>" and store it in SXC Extractor folder, you can supply this
+shortcut as the input file argument:
+
+<div class="code">sxc base.scs</div>
+
+Or:
+
+<div class="code">sxc base.scs<span class="inline_white">.lnk</span></div>
+
+When working with SCS native game data/DLC input file, SXC Extractor will
+create an associate index file (with <span class="inline_file">.idx</span> extension) and store it at the same
+folder where SXC Extractor stored. The index file will be created when opening
+input file at the first time, or re-created when the input file gets update.
+Index file is required in the purpose of speed up process to work with the
+same input file later. Note that there'll be no index file being generated
+when working with mod zipped file.
+<br /><br />
+By default, all index files (<span class="inline_file">*.idx</span>) always stored and accessed from the same
+folder where SXC Extractor located. Starting from version 1.19.10.15, you can
+specify different folder location to store and access all index files by
+putting the <span class="inline_sym">-Li</span> switch (uppercase letter '<span class="inline_sym">l</span>' and lowercase letter '<span class="inline_sym">I</span>') then
+followed by the designated path.
+<br /><br />
+For example:
+
+<div class="code">sxc base.scs <span class="inline_white">-Li</span> "C:\sxc\index files"</div>
+
+This will causing the tool to generate or load all those index files located
+on "<span class="inline_file">C:\sxc\index files</span>" folder. Make sure the folder path you specify does
+exists, otherwise SXC Extractor will revert back by looking them onto the
+default location (which is the tool's folder itself).
+<br /><br />
+Using the <span class="inline_sym">-Li</span> switch has a little disadvantage because you have to declare it
+each time running the tool's commands. For semi-permanent solution, you can
+define the path through Windows console environment variable. From the above
+example, type this command on Windows console:
+
+<div class="code">set <span class="inline_white">SXC_IDX_PATH</span>=C:\sxc\index files</div>
+
+There is not necessary to enclose the path with double-quotes when defining
+through environment variable. By defining it once, you can launch the tool
+multiple times without having to put the <span class="inline_sym">-Li</span> switch every time.
+<br /><br />
+As mentioned before, defining the path through environment variable is a
+"semi-permanent" solution because it will gone when you close the console
+window. Make it as permanent is highly not recommended unless you know what
+you're doing. Also it is advisable to always specify full qualified path and
+stay away from using relative path to prevent problems later.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="listextract" />
+<h3 class="heading-title">List Mode &amp; Extraction</h3>
+If supplying with only input file, SXC Extractor works under list mode. List
+mode is where you are able to see the list of items (files and folder paths)
+within the input file without actually extracting them. By default, only files
+with their own path are listed. To extract these items, you have to supply the
+output path argument as target extraction folder.
+<br /><br />
+Output path argument must be pointing to an existing folder with write access
+permission. Avoid supplying path to system folders as they might have special
+access permission that may not granted to Windows user currently logged in.
+Output path is specified by an <span class="inline_sym">-o</span> switch (lowercase letter '<span class="inline_sym">O</span>') followed by
+the target folder path like this:
+
+<div class="code">sxc myfile.scs <span class="inline_white">-o</span> C:\Temp</div>
+
+If the target folder path containing spaces, as usual you must enclose it with
+double-quotes, like this:
+
+<div class="code">sxc myfile.scs -o <span class="inline_white">"</span>C:\My projects\ets2 mod<span class="inline_white">"</span></div>
+
+<div class="note">
+In older version of SXC Extractor, any files stored in output folder specified
+with <span class="inline_sym">-o</span> switch will be overwriten. Starting with version 1.19.11.30, any
+existing file will be preserved. This is allow you to extract additional
+files into your project folder without accidentally overwrite the existing
+working files. If you want to overwrite the existing files anyway (like the old
+behavior ones), use <span class="inline_sym">-ov</span> instead of <span class="inline_sym">-o</span> switch.
+SXC Extractor version 1.22.9.10 also introduce additional extract modes described in
+advanced topic: <a href="#extractmodes">Extract Modes</a>.</div>
+
+SXC Extractor allow you to select target folder path by selecting it from a
+folder selection dialog. Instead of using an <span class="inline_sym">-o</span> switch, replace it with an <span class="inline_sym">-od</span>
+switch like this:
+
+<div class="code">sxc myfile.scs <span class="inline_white">-od</span></div>
+
+On execution, it will ask for target folder location through a dialog window.
+Pressing the Cancel button on the dialog will abort target folder path
+selection and automatically fallback into the list mode.
+
+<div class="note">For security reason, SXC Extractor does not natively support
+folder shortcut or logical folder like a ZIP file.</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="basewild" />
+<h3 class="heading-title">Base Path &amp; Wildcard Filtering</h3>
+The main feature of SXC Extractor is the ability to list or extract selective
+files. This is done through the <span class="inline_sym">-d</span> and <span class="inline_sym">-f</span> switches (lowercase letter '<span class="inline_sym">D</span>' and
+'<span class="inline_sym">F</span>' respectively). The <span class="inline_sym">-d</span> switch is used to specify the base path as working
+root path. Any items on input file where outside this path will be ignored and
+excluded from the process. Specify this base path as second argument after the
+<span class="inline_sym">-d</span> switch, as shown in this example:
+
+<div class="code">sxc base.scs <span class="inline_white">-d</span> unit/hookup/</div>
+
+This will list all items under "<span class="inline_file">unit/hookup/</span>" path on the "<span class="inline_file">base.scs</span>" input
+file.
+<br /><br />
+Just take a look at another example:
+
+<div class="code">sxc def.scs -o C:\Temp <span class="inline_white">-d</span> \def\world</div>
+
+This will extract all files under "<span class="inline_file">def\world\</span>" path in input file "<span class="inline_file">def.scs</span>"
+and store those files into "<span class="inline_file">C:\Temp</span>" folder. Even though you specify a base
+path, the results of extracted files still maintain the original directory
+structures. From the above example, those files (and subfolders if any) can be
+found in "<span class="inline_file">C:\Temp\def\world</span>" folder. It works that way to allow modders
+working with their mods and keep directory structures in place. Note that you
+can specify slash or backslash character as delimiter in the base path, with
+or without leading and trailing path delimiter.
+<br /><br />
+The <span class="inline_sym">-f</span> switch allow you to filter items in input file based on '<span class="inline_sym">*</span>' (asterisk)
+and '<span class="inline_sym">?</span>' (question mark) pattern characters. The text pattern follows after the
+switch. Asterisk character means "anything else" while the question mark means
+"any one character". These pattern characters can be placed anywhere, single
+or multiple times. For example, a pattern "<span class="inline_file">*side</span>" will match any text trailing
+with "side", so these text will match:
+
+<div class="quote">from the in<span class="inline_lgreen">side</span><br />
+beyond the out<span class="inline_lgreen">side</span></div>
+
+but these text won't:
+
+<div class="quote">for the in<span class="inline_lred">side</span>r<br />
+both the <span class="inline_lred">side</span>ways</div>
+
+A pattern "<span class="inline_file">the*</span>" will match any text leading with "the", so these text will
+match:
+
+<div class="quote"><span class="inline_lgreen">the</span> brown fox<br />
+<span class="inline_lgreen">the</span>re'll be only one</div>
+
+but these text won't:
+
+<div class="quote">o<span class="inline_lred">the</span>r than him<br />
+mo<span class="inline_lred">the</span>r nature</div>
+
+A pattern "<span class="inline_file">*ing*</span>" will match any text contains "ing", so all these text will
+match:
+
+<div class="quote"><span class="inline_lgreen">ing</span>redients of soup<br />
+made for anyth<span class="inline_lgreen">ing</span><br />
+the <span class="inline_lgreen">ing</span>enious winglets</div>
+
+A pattern "<span class="inline_file">*mo*th*</span>" will match any text contains "mo" followed any text
+contains "th", so these text will match:
+
+<div class="quote"><span class="inline_lgreen">mo</span>n<span class="inline_lgreen">th</span>ly income<br />
+up to his <span class="inline_lgreen">moth</span>er</div>
+
+The pattern with question mark will find any matches fit into single
+character. For example, a pattern "<span class="inline_file">ab?de</span>" would match a word like "abcde",
+"ab1de", "ab de", etc. A pattern "<span class="inline_file">some?????</span>" will match word "something",
+somewhere", or "somewhat." (notice the trailing period character). You may
+combine both asterisks and question marks on the pattern. For example, a
+pattern "<span class="inline_file">*h??self</span>" will match "himself" or "ask to herself".
+<br /><br />
+If you need to only filter entries under the working path defined in <span class="inline_sym">-d</span> switch,
+ignore all sub-entries beneath, you can define <span class="inline_sym">-f</span> switch without supplying any path delimiter.
+<br /><br />
+Have a look in this example:
+
+<div class="code">sxc def.scs <span class="inline_white">-d</span> def <span class="inline_white">-f</span> *</div>
+
+It will filter any file under the "<span class="inline_file">def\</span>" folder only, skip any existing sub-entries in it.
+<br /><br />
+Let's have a look another example:
+
+<div class="code">sxc def.scs <span class="inline_white">-d</span> def <span class="inline_white">-f</span> *_data.sii</div>
+
+It will filter any "<span class="inline_file">.sii</span>" file with file names terminated with "<span class="inline_file">_data</span>"
+inside the current working folder "<span class="inline_file">def\</span>" only.
+<br /><br />
+Another example:
+
+<div class="code">sxc def.scs <span class="inline_white">-f</span> * -ld<br />
+sxc def.scs <span class="inline_white">-d</span> / <span class="inline_white">-f</span> * -ld</div>
+
+Both are identical operation, will filter any folder names under root path only.
+<br /><br />
+With a combination of the <span class="inline_sym">-d</span> switch, you can&mdash;however, put a leading path delimiter into the
+<span class="inline_sym">-f</span> switch to apply recursive filter operation under the path defined in the
+<span class="inline_sym">-d</span> switch, like this:
+
+<div class="code">sxc def.scs -d def -f <span class="inline_white">/</span>*<br />
+sxc def.scs -d def/world -f <span class="inline_white">/</span>*</div>
+
+Although it isn't practical because you can use the <span class="inline_sym">-d</span> switch alone, and it quite faster than
+using wildcards in the <span class="inline_sym">-f</span> switch. The above lines are simply should replaced with these commands:
+
+<div class="code">sxc def.scs -d def<br />
+sxc def.scs -d def/world</div>
+
+The <span class="inline_sym">-f</span> switch if used alone without the <span class="inline_sym">-d</span> switch will find any matches
+pattern to the entire entry names. If the <span class="inline_sym">-d</span> switch supplied, matches pattern affect only to all
+entries under the base working path specified in <span class="inline_sym">-d</span> switch. Let's have a look for few usage examples of
+<span class="inline_sym">-f</span> switch as follows:
+
+<div class="code">sxc base.scs -f unit/hookup/*</div>
+
+This will list all entries under "<span class="inline_file">unit/hookup/</span>" path. The usage actually has
+similar result when using the <span class="inline_sym">-d</span> switch like this:
+
+<div class="code">sxc base.scs -d unit/hookup/</div>
+
+The difference is the <span class="inline_sym">-d</span> switch is much faster than the <span class="inline_sym">-f</span> switch. Consider
+this when working and filtering with lots of entries.
+<br /><br />
+Let's have a look another example. This will try to find any file and path
+containing word "<span class="inline_file">adviser</span>" and display matching results as the list of files.
+
+<div class="code">sxc base.scs -f *adviser*</div>
+
+This will extract any files containing "<span class="inline_file">adviser</span>" under path "<span class="inline_file">ui/</span>" and store
+the extracted files into "<span class="inline_file">C:\Temp</span>" folder. Actually this is will extract
+all Route Advisor layout definition files.
+
+<div class="code">sxc base.scs -f *adviser* -d ui -o C:\Temp</div>
+
+Starting with SXC Extractor version 1.23.2.14, you can also "<i>negate</i>" the filter
+condition by prepend it's pattern with a <span class="inline_sym">!</span> (asterisk) symbol,
+which is similar to logical <b>NOT</b> operation. This mean you want to filter all
+entries <b>EXCEPT</b> the ones meet filtering condition in the pattern. For example:
+
+<div class="code">sxc def.scs -d /def -f <span class="inline_gold">!</span>*_data.sii</div>
+
+This operation will list all "<span class="inline_file">.sii</span>" file entries under "<span class="inline_file">def/</span>" folder, <b>EXCEPT</b>
+files ended with "<span class="inline_file">_data</span>" in their name.
+<br /><br />
+Besides of using wildcards in the <span class="inline_sym">-f</span> switch, you can also use regular expression. The usage of filtering and
+searching with regular expression is described more details in advanced topic: <a href="#regexfilter">Regular Expression Filtering</a>.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="advancedfilter" />
+<h3 class="heading-title">Advanced Filtering</h3>
+SXC Extractor support multiple set of filtering criteria. This is allow you
+to perform multiple filtering in a single pass. Just create a pure text file
+containing several filtering criteria, where each line represent one set of
+both base path and wildcard filtering. This example defines three filtering
+criteria to filter only items related to Route Advisor:
+
+<div class="quote-code">material/ui/adviser<br />
+sound/ui/adviser/&amp;&amp;*adviser*<br />
+ui/&amp;&amp;adviser*</div>
+
+Each line may define either base path, wildcard filtering, or both. Base path
+and wildcard filtering are separated by two ampersand characters (<span class="inline_sym">&amp;&amp;</span>). If you
+define only wildcard filtering, prepend ampersands separator before wildcard
+pattern like this:
+
+<div class="quote-code"><span class="inline_lgreen">&amp;&amp;</span>*adviser*</div>
+
+To let them easy to read, you can put spaces or tabs between ampersands
+separator. The above example can be defined like this:
+
+<div class="quote-code">material/ui/adviser<br />
+sound/ui/adviser/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="inline_lgreen">&amp;&amp;</span>&nbsp;&nbsp;&nbsp;*adviser*<br />
+ui/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="inline_lgreen">&amp;&amp;</span>&nbsp;&nbsp;&nbsp;adviser*</div>
+
+<div class="note">Starting SXC Extractor version 1.23.2.14, you can prepend the
+wildcard filtering with a <span class="inline_sym">!</span> (asterisk) symbol to
+"negate" the condition.</div>
+
+Save these filtering definitions as a text file and put the text file name
+prepend with an '<span class="inline_sym">@</span>' (at) character after the <span class="inline_sym">-d</span> switch. For example:
+
+<div class="code">sxc base.scs -d <span class="inline_white">@</span>adviser_filter.txt -o C:\Temp</div>
+
+If you save the multiple filtering definition file with a name containing
+spaces, don't forget to enclose it with double-quotes:
+
+<div class="code">sxc base.scs -d <span class="inline_white">"</span>@C:\My Filters\Adviser Definition.txt<span class="inline_white">"</span> -o C:\Temp</div>
+
+Please note when you define advanced filtering this way, the <span class="inline_sym">-f</span> switch will
+be ignored. Advanced filtering may be handy when you working with a mod that
+contains asset's complexity involving many files.
+
+<div class="note">For security reason, SXC Extractor will reject filtering
+definition file which is larger than 512 Kb in size, containing non-standard
+ASCII text. In short, it accept only pure 7-bit ASCII text file with size less
+than or equal 524,288 bytes.</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="outputsuppress" />
+<h3 class="heading-title">Output Suppression</h3>
+By default, SXC Extractor will be displaying all messages and errors. You can
+hide unnecessary messages by supplying the <span class="inline_sym">-q</span> switch (lowercase letter '<span class="inline_sym">Q</span>').
+To hide error messages as well, use <span class="inline_sym">-qe</span> switch instead. Message suppression
+will be handy when launching SXC Extractor through a batch script, interfacing
+with third-party application, or redirecting output to other device. The
+following example will be saving all list of files in "<span class="inline_file">base.scs</span>" into a text
+file called "<span class="inline_file">list_base.txt</span>":
+
+<div class="code">sxc base.scs <span class="inline_white">-qe</span> &gt; list_base.txt</div>
+
+During <b>List Mode</b>, you can also suppress output entries by specify the <span class="inline_sym">-lq</span> switch.
+No match entries will be displayed, otherwise it will display the progress in percentage.
+The usage of this switch under <b>List Mode</b> is not really useful, unless you want to keep
+the output always tidy and clean during batch process.
+<br /><br />
+Starting with SXC Extractor version 1.22.12.2, the usage of the <span class="inline_sym">-lq</span> switch can also be used
+during <b>Extract Mode</b>. It will suppress unnecessary output and only display entries that
+actually extracted&mdash;or in the usage of the <span class="inline_sym">-oT</span> switch will
+only displaying entries currently different. Take a look at the example below
+to compare the difference.
+<br /><br />
+Without the <span class="inline_sym">-lq</span> switch:
+
+<div class="code">sxc def.scs -d /def/world -f *.sign* -oK C:\extract</div>
+
+Output:
+
+<div class="quote-code">=== skip matching: /def/world/sign.base_vehicle.sii<br />
+=== skip matching: /def/world/sign.custom.sii<br />
+extract: /def/world/sign.sii<br />
+=== skip matching: /def/world/sign_board_model.sii</br />
+extract: /def/world/sign_stand.sii</div>
+
+With the <span class="inline_sym">-lq</span> switch:
+
+<div class="code">sxc def.scs -d /def/world -f *.sign* <span class="inline_white">-lq</span> -oK C:\extract</div>
+
+Output:
+
+<div class="quote-code">extract: /def/world/sign.sii<br />
+extract: /def/world/sign_stand.sii</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="listpause" />
+<h3 class="heading-title">List Mode &amp; Page Pausing</h3>
+When displaying files under List Mode, it will scroll to the last line. If
+working with lots of items, you can use <span class="inline_sym">-p</span> switch to allow a pause message
+appears every 24 lines (default). For example:
+
+<div class="code">sxc base.scs <span class="inline_white">-p</span></div>
+
+To allow pause message appears every n lines, use <span class="inline_sym">-p:n</span> switch. This example
+will show pause message every 50 lines:
+
+<div class="code">sxc base.scs -p<span class="inline_white">:50</span></div>
+
+It is accepting minimum 3 lines and maximum 99 lines. Please note the <span class="inline_sym">-p</span>
+switch doesn't affect when working with message suppression through <span class="inline_sym">-q</span> or
+<span class="inline_sym">-qe</span> switch.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="listdisplay" />
+<h3 class="heading-title">List Mode Display</h3>
+SXC Extractor by default will list files under List Mode. This behavior is
+similar to when supplying the <span class="inline_sym">-l1</span> switch (lowercase letter '<span class="inline_sym">L</span>') into the
+argument. To list both files and path, you can use the <span class="inline_sym">-la</span> or <span class="inline_sym">-l0</span> switch. The <span class="inline_sym">-ld</span>
+or <span class="inline_sym">-l2</span> switch is used to display only paths. This switch mainly intended in the
+purpose of interfacing with third-party application.
+
+<div class="note">Please note SXC Extractor does not provide ability to
+"<i>extract</i>" paths only. Extract operation always applies to files.</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="forcemode" />
+<h3 class="heading-title">Force Mode</h3>
+This function only applies to SCS game data/DLC file format. You must supply
+the <span class="inline_sym">-X</span> switch (uppercase letter '<span class="inline_sym">x</span>') in order this mode to works. It will list
+or extract all files stored in input file into a single level folder hierarchy.
+This mode will be useful when working with game data/DLC files that has no
+root directory or their directory structures has been stripped off. Please
+note since there is no directory information, the path and file names are
+unknown. All files being listed or extracted will be named to their associated
+hash code followed by the <span class="inline_file">.DAT</span> extension. For example:
+
+<div class="code">sxc core.scs -o C:\Temp <span class="inline_white">-X</span></div>
+
+<div class="note">Please note when working with Force Mode, the <span class="inline_sym">-d</span> (base path),
+<span class="inline_sym">-f</span> (wildcard filter), and <span class="inline_sym">-l</span> (list display) switches are ignored since they
+are no longer relevant under this mode.</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="quitprompt" />
+<h3 class="heading-title">Quit Prompt Message</h3>
+When working with batch script or running through a shortcut, you may consider
+to put a confirmation message before SXC Extractor quit and closing console
+window. This can be done by putting the <span class="inline_sym">-c</span> switch (lowercase letter '<span class="inline_sym">C</span>') into
+the argument. This let SXC Extractor showing a confirmation message asking to
+press a key before quit. You can specify a countdown delay with <span class="inline_sym">-c:n</span> switch to
+allow application quit by itself after n seconds. For example, this will
+prompt user to press a key and quit automatically after 10 seconds:
+
+<div class="code">sxc -c<span class="inline_white">:10</span></div>
+
+The countdown delays are ranged from 3 to 60 seconds.
+
+<div class="note">Please note the <span class="inline_sym">-c</span> switch doesn't affect when working with
+message suppression through <span class="inline_sym">-q</span> or <span class="inline_sym">-qe</span> switch.</div>
+
+<!---------------------------------------------------------------------------->
+
+<h1 class="heading-chapter">Extended Usage</h1>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="extractmodes" />
+<h3 class="heading-title">Extract Modes</h3>
+There are additional switches to activate "extract mode" and define a target extract folder,
+besides of the default <span class="inline_sym">-o</span> and <span class="inline_sym">-od</span> switches already described in <a href="#listextract">List Mode &amp; Extraction</a> topic.
+These additional switches, along with their particular purpose, will be explained here in details.
+<br /><br />
+In SXC Extractor prior version 1.19.11.30, the usage of <span class="inline_sym">-o</span> switch will always overwrite
+existing files if present. Later versions, the <span class="inline_sym">-o</span> switch will skip an extracted file
+if one already exists in the target extract folder. In order to allow existing files to be overwriten, the <span class="inline_sym">-ov</span> switch
+should be used instead. This example will overwrite existing files, if any, in target extract folder:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-ov</span> C:\extract</div>
+
+Starting with SXC Extractor version 1.22.9.10, additional switches also available. The <span class="inline_sym">-oc</span> switch
+will create the target extract folder if one currently does not exists. If target folder
+does exists, the extraction continue as the same behavior of <span class="inline_sym">-ov</span> switch:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-oc</span> C:\extract</div>
+
+The <span class="inline_sym">-oC</span> switch (uppercase letter '<span class="inline_sym">c</span>') has opposite existing file behavior compared to the <span class="inline_sym">-oc</span>
+switch. It will create the target extract folder if one currently does not exists. If target folder
+does exists, existing files in it will <b class="inline_lred">NOT</b> overwriten, the extraction continue as the same behavior of <span class="inline_sym">-o</span> switch:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-oC</span> C:\extract</div>
+
+To perform update to the existing files in target folder, you should use the <span class="inline_sym">-ot</span> switch. A file
+will be extracted <b class="inline_lred">only and only if</b> the same file name exists in the target folder and both
+files are differ (update operation). If both files match or that file does not exists in target
+folder, extraction will be skipped:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-ot</span> C:\extract</div>
+
+Meanwhile the <span class="inline_sym">-ot</span> switch will always extract files that differ than the same files in the
+target folder, the <span class="inline_sym">-oT</span> switch (uppercase letter '<span class="inline_sym">t</span>') only check the difference of both
+files (test operation). No extraction performed in this operation:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-oT</span> C:\extract</div>
+
+If both files match, a '<span class="inline_sym">===</span>' symbol will be shown, otherwise will showing a '<span class="inline_sym">=/=</span>' symbol
+instead. Here an output example:
+
+<div class="quote-code">=== : /def/world/model.sii<br />
+=/= : /def/world/overlay.sii<br />
+=== : /def/world/road.sii<br />
+=/= : /def/world/sign.sii<br />
+=== : /def/world/traffic_lane.sii<br />
+=/= : /def/world/traffic_rules.sii<br />
+=/= : /def/world/traffic_rules_spawn.sui</div>
+
+The <span class="inline_sym">-ox</span> switch allow you to perform update operation to the existing files but also
+extract non existing files. This switch is much like a combination of <span class="inline_sym">-o</span> and <span class="inline_sym">-ot</span> switches:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-ox</span> C:\extract</div>
+
+Sometimes, you want to extract files but keep the existing files in the target folder. For
+such purpose, the <span class="inline_sym">-ok</span> switch will always extract files and keep any existing files by
+renaming them:
+
+<div class="code">sxc def.scs -d /def/world <span class="inline_white">-ok</span> C:\extract</div>
+
+Existing (older) files will be renamed with date/time suffix. The date/time is taken from
+the moment of current extraction has been performed. Here an example:
+
+<div class="quote-code">model___OLD-20220125012300.sii<br />
+overlay___OLD-20220125012300.sii<br />
+road___OLD-20220125012300.sii<br />
+sign___OLD-20220125012300.sii<br />
+traffic_lane___OLD-20220125012300.sii<br />
+traffic_rules___OLD-20220125012300.sii<br />
+traffic_rules_spawn___OLD-20220125012300.sui</div>
+
+The <span class="inline_sym">-oK</span> switch (uppercase letter '<span class="inline_sym">k</span>') has a purpose to update existing files and preserve
+the existing one. This <span class="inline_sym">-oK</span> switch has similar purpose to the <span class="inline_sym">-ot</span> switch but also keep
+the older existing files by renaming them.
+<br />
+Let see this example where you want to find changes (test operation) to any file containing '<span class="inline_file">sign</span>'
+text in their file name, under "<span class="inline_file">/def/world</span>" path:
+
+<div class="code">sxc def.scs -d /def/world -f *sign* -oT C:\extract</div>
+
+It then gives the following output:
+
+<div class="quote-code">=== : /def/world/sign.base_vehicle.sii<br />
+=== : /def/world/sign.custom.sii<br />
+=/= : /def/world/sign.sii<br />
+=== : /def/world/sign_board_model.sii</br />
+=/= : /def/world/sign_stand.sii</div>
+
+
+To extract only changed files and preserve the existing one in "<span class="inline_file">C:\extract</span>" folder, use
+the <span class="inline_sym">-oK</span> switch as follows:
+
+<div class="code">sxc def.scs -d /def/world -f *.sign* <span class="inline_white">-oK</span> C:\extract</div>
+
+It then gives the following output:
+
+<div class="quote-code">=== skip matching: /def/world/sign.base_vehicle.sii<br />
+=== skip matching: /def/world/sign.custom.sii<br />
+extract: /def/world/sign.sii<br />
+=== skip matching: /def/world/sign_board_model.sii</br />
+extract: /def/world/sign_stand.sii</div>
+
+The resulting stored files in "<span class="inline_file">C:\extract\def\world</span>" folder should be (as an illustration) like this:
+
+<div class="quote-code">sign.base_vehicle.sii<br />
+sign.custom.sii<br />
+sign.sii<br />
+sign___OLD-20220125012300.sii<br />
+sign_board_model.sii</br />
+sign_stand.sii<br />
+sign_stand___OLD-20220125012300.sii</div>
+
+Please keep in mind, you can't supply multiple <span class="inline_sym">-o</span> switch argument to the command line. In
+that case, only the last argument in the command will take place. The following example showing
+the argument in white color will applies while others in red are simply ignored:
+
+<div class="code">sxc <span class="inline_red">-o C:\extract</span> def.scs <span class="inline_red">-ot C:\extract</span> -d /def/world <span class="inline_white">-ov C:\extract</span></div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="sizefilter" />
+<h3 class="heading-title">File Size Filtering</h3>
+Starting from SXC Extractor version 1.19.11.16, you can filter entries based
+on uncompressed file size range. The two new <span class="inline_file">-fmin</span> and <span class="inline_file">-fmax</span> switches are
+introduced for the purpose. Please note these switches only working with
+extract mode on normal operation, but fully working on raw operation through
+<span class="inline_sym">-x</span> and <span class="inline_sym">-X</span> switches.
+<br /><br />
+These switches need a second argument as number of specified size. The
+following examples will filter only files with size at least 12,345 bytes,
+up to 123,456 bytes, and between 12,345 and 123,456 bytes, respectively:
+
+<div class="code">sxc def.scs -o C:\temp -fmin 12345<br />
+sxc def.scs -o C:\temp -fmax 123456<br />
+sxc def.scs -o C:\temp -fmin 12345 -fmax 123456<br />
+sxc base.scs -x -fmin 12345<br />
+sxc base.scs -x  -fmax 123456<br />
+sxc base.scs -x -fmin 12345 -fmax 123456</div>
+
+Instead of using number in bytes, you can also supply number in kilobytes
+and megabytes. Put an appropriate suffix after the number, which is is <span class="inline_sym">k</span> or <span class="inline_sym">kb</span>
+for kilobytes and <span class="inline_sym">m</span> or <span class="inline_sym">mb</span> for megabytes.
+See the following examples:
+
+<div class="code">sxc def.scs -o C:\temp -fmin 10<span class="inline_white">kb</span><br />
+sxc def.scs -o C:\temp -fmax 10<span class="inline_white">m</span><br />
+sxc def.scs -o C:\temp -fmin 10<span class="inline_white">k</span> -fmax 10<span class="inline_white">mb</span></div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="regexfilter" />
+<h3 class="heading-title">Regular Expression Filtering</h3>
+Since SXC Extractor version 1.22.9.10, you can use regular expression filtering through the
+<span class="inline_sym">-f</span> switch. Regular expression must be started with <span class="inline_file">regex:</span>
+notation followed by the expression pattern. Take a look at this example:
+
+<div class="code">sxc def.scs -f "<span class="inline_white">regex:</span><span class="inline_yellow">^/def/[^/]+\.sii$</span>"</div>
+
+<div class="note">It is highly recommended to <b class="inline_lred">always</b> enclose the regular expression argument with
+double-quotes to prevent any character in the pattern to be interpreted as the console pipeline commands.</div>
+
+Regular expression work in <i>line-based</i>&mdash;each full path and file name treated as a line. That's mean,
+you are allowed to use the <span class="inline_sym">^</span> (starting position) and <span class="inline_sym">$</span> (ending position) meta-character that will apply to
+the scope of full path and file name. From the example command above, the pattern will always
+filter any path that starting with <span class="inline_file">/def</span> folder and list files
+<i>under that folder only</i>. But now take a look at different case in this example:
+
+<div class="code">sxc def.scs <span class="inline_white">-d /def</span> -f "regex:^<span class="inline_white">/def</span>/[^/]+\.sii$"</div>
+
+You will not get a desired result because you have already set base path to <span class="inline_file">/def</span> folder
+through the <span class="inline_sym">-d</span> switch, and regular expression pattern expect another <span class="inline_file">def</span> folder inside
+the current working folder (which is <span class="inline_file">def</span> folder) where none are meet the criteria in this case.
+To fix this scenario, change your regular expression pattern into either these combination:
+
+<div class="code">sxc def.scs -d /def -f "regex:<span class="inline_white">[^/]+\.sii$</span>"<br />
+sxc def.scs -d /def -f "regex:<span class="inline_white">/</span>[^/]+\.sii$</span>"<br />
+sxc def.scs -d /def -f "regex:<span class="inline_white">^</span>[^/]+\.sii$"<br />
+sxc def.scs -d /def -f "regex:<span class="inline_white">^/</span>[^/]+\.sii$</span>"</div>
+
+You can also put regular expression in filter definition file. For example:
+
+<div class="quote-code">/def&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;&nbsp;&nbsp;regex:^(game|economy|police)_data\.sii$<br />
+/def/world&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;&nbsp;&nbsp;regex:^.*model.*\.sii$</div>
+
+When define filtering in a text file, there's no need to enclose the regular expression syntax
+with double-quotes. For more information about filter definition file, please refer to
+another topic: <a href="#advancedfilter">Advanced Filtering</a>.
+<br /><br />
+This document does not cover the usage and syntax of regular expression. Please consider to
+read about Regular Expression from another sources. The following links might help:
+
+<div class="quote"><br />
+&bull;&nbsp;<a href="https://en.wikipedia.org/wiki/Regular_expression" target="_blank">https://en.wikipedia.org/wiki/Regular_expression</a><br />
+<br />
+&bull;&nbsp;<a href="https://regexone.com/" target="_blank">https://regexone.com</a><br />
+<br />
+&bull;&nbsp;<a href="https://regexlearn.com/" target="_blank">https://regexlearn.com</a><br />
+<br />
+&bull;&nbsp;<a href="https://github.com/ziishaned/learn-regex" target="_blank">https://github.com/ziishaned/learn-regex</a><br />
+<br /></div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="contentfilter" />
+<h3 class="heading-title">Content Text Filtering</h3>
+Starting SXC Extractor version 1.22.9.10, you are allowed to filter files to be extracted
+based on searching of the content text by using the <span class="inline_sym">-s</span> switch. Please note, the usage of the
+<span class="inline_sym">-s</span> switch can only be used during <b class="inline_lred">extract</b> mode, otherwise you'll get an error.
+
+<div class="note">Searching text through a file can be a time consuming especially when working with large files.
+For such a reason, it is only available during extract mode. Also it is advisable to narrowing
+your filters with the <span class="inline_sym">-d</span> and/or <span class="inline_sym">-f</span> switch to minimize the number
+of files to be filtered.</div>
+
+The <span class="inline_sym">-s</span> switch is declared in command argument followed by the text to be searched. Take a look
+at this example:
+
+<div class="code">sxc def.scs -d /def/world -f *.sii <span class="inline_white">-s</span> <span class="inline_yellow">traffic_light</span> -o C:\extract</div>
+
+This will extract any <span class="inline_file">*.sii</span> files under <span class="inline_file">\def\world</span> folder, where only if these files
+containing <span class="inline_file">traffic_light</span> text in their content. It shows the list of files matching the
+filter as defined in the <span class="inline_sym">-d</span> and <span class="inline_sym">-f</span> switch, but any file not containing <span class="inline_file">traffic_light</span> text will
+be marked as "skip", like the following example:
+
+<div class="quote-code"><span class="inline_red">-!- skip:</span> /def/world/building_model.sii<br />
+<span class="inline_red">-!- skip:</span> /def/world/far_model.sii<br />
+extract: /def/world/model.sii<br />
+<span class="inline_red">-!- skip:</span> /def/world/overlay.sii<br />
+<span class="inline_red">-!- skip:</span> /def/world/road.sii<br />
+extract: /def/world/semaphore_model.sii<br />
+extract: /def/world/semaphore_profile.sii<br />
+<span class="inline_red">-!- skip:</span> /def/world/sign.custom.sii<br />
+extract: /def/world/sign.sii<br />
+<span class="inline_red">-!- skip:</span> /def/world/vegetation.sii</div>
+
+If the search text has spaces, make sure to enclose it with double-quotes:
+
+<div class="code">sxc def.scs -d /def/world -f *.sii -s <span class="inline_white">"</span>traffic light<span class="inline_white">"</span> -o C:\extract</div>
+
+If the search text must includes non-printable characters, you can define them as 8-bits <b class="inline_lred">hexadecimal</b>
+notation after a backslash character:
+
+<div class="code">sxc base.scs -d /model/traffic_light -f *.pmg -s "<span class="inline_white">\15</span>gmP<span class="inline_white">\07\00\00\00</span>" -o C:\extract</div>
+
+If the search text must contains stand-alone backslash character, they must be defined
+twice to make sure the next characters does not treated as hexadecimal symbols:
+
+<div class="code">sxc base.scs -d /ui -f *.sii -s "<span class="inline_white">\\</span>r<span class="inline_white">\\</span>n" -o C:\extract</div>
+
+Please note the search text is case-sensitive and must not less than 4 characters.
+Any search text less than 4 characters will be ignored.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="modnobase" />
+<h3 class="heading-title">Mod File with "No Base Root"</h3>
+Starting with SXC Extractor version 1.19.10.4, it has additional
+functionalities to handle mod file giving "<span class="inline_file">No Base Root</span>" error message. There
+are additional steps when working with such kind of mod files, which will
+describe in details below.
+
+<div class="note">Before proceed, it is advisable that you have a little knowledge on binary
+file and hex editing. At any particular case, you may need to view binary file
+to recognize their type.</div>
+
+For the start, you need to build a hash database file. In order to do that, it
+assumed you already accessing (with SXC Extractor) at least 5 default game data
+files which is consist of (in alphabetical order):
+
+<div class="quote">base.scs<br />
+core.scs<br />
+def.scs<br />
+effect.scs<br />
+locale.scs</div>
+
+Accessing these game data files for the first time will create an associate
+index file (<span class="inline_file">*.idx</span>) which is always stored at the same folder where you
+put/install SXC Extractor. These index files are required to build the hash
+database.
+<br /><br />
+To create these index file, by assuming you were install the Steam Client
+software in the <span class="inline_file">C:</span> drive with default install folder during
+installation, you can execute SXC Extractor by supplying each game data file
+with their fully qualified path this way:
+
+<div class="code">sxc "C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2\base.scs"<br />
+sxc "C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2\core.scs" <span class="inline_red">-137243</span><br />
+sxc "C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2\def.scs"<br />
+sxc "C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2\effect.scs"<br />
+sxc "C:\Program Files (x86)\Steam\steamapps\common\Euro Truck Simulator 2\locale.scs" <span class="inline_red">-137243</span></div>
+
+<div class="note">If you are using SXC Extractor version 1.19.10.19 or later, there's no longer
+needed to supply the <span class="inline_sym">-137243</span> switch as shown above.</div>
+
+Execute each line one by one from Windows console. Change the path if the
+above example differ than yours. After all lines executed without errors, you
+should see 5 associated index file at SXC Extractor folder:
+
+<div class="quote">C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Base.idx<br />
+C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Core.idx<br />
+C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Def.idx<br />
+C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Effect.idx<br />
+C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Locale.idx</div>
+
+Please note the name of index file always reflect to the folder location of the
+game data file. Yours may differ than they've shown in this example. If that
+the case, please change them accordingly to this instruction. These 5 index
+files are not mandatory. You may access other <span class="inline_file">*.scs</span> files to create their
+associate index file as much as you like. Once our index files are available,
+now to proceed with hash database creation procedure.
+<br /><br />
+To build hash database file, you have to create a text file containing the list
+of index file names. By assuming your SXC Extractor is located at <span class="inline_file">C:\sxc</span>
+folder, Open Windows Explorer program then expand <span class="inline_sym">My Computer</span> or <span class="inline_sym">My PC</span> and
+select <span class="inline_file">sxc</span> folder. From within the folder container panel, right-click to open
+context menu then select <span class="inline_sym">New</span> and choose <span class="inline_sym">Text Document</span>. In this example, give a
+name to this new text file as <span class="inline_file">dblist.txt</span>. Double-click (or use <span class="inline_sym">Open with</span>
+through context menu) to open the newly text file with Windows Notepad
+(default) or any pure text editing software. Fill the content of the text file
+with the full qualified path of all index files, one line each. With SXC
+Extractor stored in <span class="inline_file">C:\sxc</span> folder, the content may look like this:
+
+<div class="code">C:\sxc\C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Core.idx<br />
+C:\sxc\C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Locale.idx<br />
+C:\sxc\C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Effect.idx<br />
+C:\sxc\C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Def.idx<br />
+C:\sxc\C-Program-Files-(x86)_Steam_Steamapps_Common_Euro-Truck-Simulator-2_Base.idx</div>
+
+Their order are not important. The above list use number of items ordering from
+the least to the most to speed up the build time. Save the file and exit the
+text editing software. With this <span class="inline_file">dblist.txt</span> has been created at SXC Extractor
+folder, run this command from Windows console to start building hash database
+file:
+
+<div class="code">sxc -b C:\sxc\dblist.txt</div>
+
+If done successfully, a hash database file named as <span class="inline_file">sxc.hdb</span> will be created
+and stored at the SXC Extractor folder. Once build, now it's time to try
+accessing the mod file.
+<br /><br />
+Let say you have a mod file called <span class="inline_file">stuff.scs</span> located at <span class="inline_file">C:\mod</span> folder, run
+this command to show the file list of it's content:
+
+<div class="code">sxc C:\mod\stuff.scs <span class="inline_red">-137243</span></div>
+
+<div class="note">If you are using SXC Extractor version 1.19.10.19 or later, there's no longer
+needed to supply the <span class="inline_sym">-137243</span> switch as shown above.</div>
+
+If the mod file previously have associated index file (in this example,
+<span class="inline_file">C:\sxc\C-Mod_Stuff.idx</span>), be sure to delete it first prior executing
+the command to allow generating a new index file. When the tool done
+displaying the list of items, look at the last line about total info and
+check if you see a part says "<span class="inline_file"><i>x</i> items missing</span>". If you don't see any,
+congratulations, all items on the mod file are completely revealed.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="missingitem" />
+<h3 class="heading-title">Working with Missing Items</h3>
+The "<span class="inline_file"><i>x</i> items missing</span>" part indicates remaining number of items that not yet
+recovered due of their missing file name. Missing file names may be occurs if
+they are already hardcoded in the game thus no need to redeclared, i.e.
+<span class="inline_file">manifest.sii</span>. Another possible cause is the file name was already defined from
+within another file, i.e. <span class="inline_file">description.txt</span> that declared in <span class="inline_file">manifest.sii</span>. If
+you facing this problem and want to try recovering most or all of those
+missing item's file names, you can try these two approaches.
+<br /><br />
+The first approach is by looking to the item's file content to examine it's
+type. As mentioned earlier, your knowledge to binary and hex editing will
+taking part here. You can start by extracting all the file of missing items
+by using the <span class="inline_sym">-x</span> switch (lowercase letter '<span class="inline_sym">X</span>'). Based on previous example,
+assuming you already have a folder in <span class="inline_file">C:\mod\extract</span> for extracted mod
+files, run the following command:
+
+<div class="code">sxc C:\mod\stuff.scs <span class="inline_white">-x</span> -o C:\mod\extract</div>
+
+All missing item's files will be extracted to <span class="inline_file">C:\mod\extract</span> with their own
+hash number as file name followed by <span class="inline_file">.DAT</span> extension. You need to examine
+these files one by one through hex editing to determine their types. If the
+file started with <span class="inline_sym">SiiNunit</span> then it's definitely a <span class="inline_file">.sii</span> definition file. If
+started with <span class="inline_sym">material</span> then it's definitely a <span class="inline_file">.mat</span> material file. If started
+with <span class="inline_sym">DDS</span> then it's definitely a <span class="inline_file">.dds</span> texture file. If started with <span class="inline_sym">OggS</span> then
+it's definitely a <span class="inline_file">.ogg</span> sound file. If the the first couple bytes has <span class="inline_sym">JFIF</span> or
+<span class="inline_sym">Exif</span> then it's definitely a <span class="inline_file">.jpg</span> image file. Et cetera. If a file can be
+identified, rename the <span class="inline_file">.DAT</span> extention to the appropriate type.
+
+<div class="note">Starting from SXC Extractor version 1.19.11.16, you can supply the <span class="inline_sym">-af</span> switch to allow
+the tool to identidy known files for you. Read further under the "File Type
+Scanning" section below on how to work with this switch.</div>
+
+Several files can be easily identified. For example, once you can identify a
+<span class="inline_file">.sii</span> file and it is definitely <span class="inline_file">manifest.sii</span> file since it is containing
+<span class="inline_sym">mod_package</span> text, you can open it up with text editing software and find out
+the actual name of icon and description files. Other case may not that simple,
+so you need to try the second approach.
+<br /><br />
+The second approach is by extracting all possible known files (e.g. <span class="inline_file">*.sii</span>
+or <span class="inline_file">*.mat</span>) that may contains file name referring to missing items. For
+example, the <span class="inline_file">.sii</span> file may contains include file (usually referring as <span class="inline_file">*.sui</span>)
+or it's members with declaration referred to <span class="inline_sym">MAT</span>, <span class="inline_sym">PMD</span>, <span class="inline_sym">PMA</span>, etc. The <span class="inline_file">.mat</span>
+material file also refer to <span class="inline_file">.tobj</span> file name that may not yet recovered. This
+approach may time consuming and need efforts. But if the results are fairly
+significant, then it's better than nothing.
+<br /><br />
+Collect those suspected file names and put them all into a text file, one name
+per line. For example, if you able to identify <span class="inline_file">manifest.sii</span> along with the
+related files <span class="inline_file">mod_icon.jpg</span> and <span class="inline_file">mod_desc.txt</span>, also additional file name called
+<span class="inline_file">/def/vehicle/physics.mymod.sii</span> and <span class="inline_file">/ui/template/mytext.sii</span>, put them together
+to a text file like this:
+
+<div class="quote">manifest.sii<br />
+mod_icon.jpg<br />
+mod_desc.txt<br />
+/def/vehicle/physics.mymod.sii<br />
+/ui/template/mytext.sii</div>
+
+Save the text file, e.g. <span class="inline_file">namelist_stuff.txt</span> into the SXC Extractor folder and
+execute this command:
+
+<div class="code">sxc C:\mod\stuff.scs <span class="inline_white">-bl</span> C:\sxc\namelist_stuff.txt</div>
+
+The <span class="inline_sym">-bl</span> switch will try to resolve the missing items by looking at the name
+list. If one or more names in the list are correct, the number of missing
+items should decreased or (when all items resolved) no longer displayed at
+all. Names that correctly resolved will be displayed at the end of listed
+items on screen. You may supply <span class="inline_file">-bl</span> switch multiple times to resolve the
+missing items, just make sure to edit and update the list in text file.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="nameresolver" />
+<h3 class="heading-title">Name Resolver List, The <span class="inline_file">-bl</span> Switch Usage</h3>
+Name resolver list is a collection of possible "missing" paths and file names
+where SXC Extractor unable to resolve during index generation. The list are
+defined and stored in a single pure text file, defined one entry per line.
+
+<div class="note">The older version of SXC Extractor only support file names (not paths) to be
+defined in the name resolver list. The fully support for paths was started
+since SXC Extractor version 1.19.10.27.</div>
+
+File name entries may be defined with or without leading path delimiter, for
+example:
+
+<div class="code">/def/traffic_data.mod.sii<br />
+\material\prefab\mud_road.dds<br />
+model/sign/traffic/mod/no_smoking.tobj<br />
+sound\environment\spooky_ambient.ogg</div>
+
+Path name entries may be defined with or without leading path delimiter <b class="inline_lred"><u>BUT</u></b>
+must supply the trailing path delimiter, for example:
+
+<div class="code">/def/mod<span class="inline_white">/</span><br />
+\material\prefab\mod<span class="inline_white">\</span><br />
+model/sign/traffic/mod<span class="inline_white">/</span><br />
+sound\environment\mod<span class="inline_white">\</span></div>
+
+Although the name resolver list is commonly used to find missing items with
+the <span class="inline_sym">-bl</span> switch, you can add the "known working" list to hash database
+(<span class="inline_file">sxc.hdb</span>). This way, no need to supply the list to resolve missing items
+when frequently working with certain <span class="inline_file">*.scs</span> files. For example, to add name
+resolver list stored in <span class="inline_file">list.txt</span> into hash database, the command is:
+
+<div class="code">sxc sxc.hdb -bl list.txt</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="typescan" />
+<h3 class="heading-title">File Type Scanning</h3>
+File type scanning introduced in SXC Extractor version 1.19.11.16, with the
+main goal to detect file type of missing items and eliminate improper files
+indicated as "fake entry". File type scanning work only with <span class="inline_file">*.scs</span> files
+formatted as <span class="inline_sym">HashFS</span> (native game data format).
+
+<div class="note">File type scanning work only with <span class="inline_file">*.scs</span> file which has no digital signature.
+Mod files those build with <span class="inline_sym">HashFS</span> format are usually not digitally signed.
+Because official game data files are mostly digitally signed, file type
+scanning will not work with them.</div>
+
+File type scanning work during index generation, or index update through the
+<span class="inline_sym">-bl</span> switch. To activate this feature, you can
+use <span class="inline_sym">-af</span> switch. For examples:
+
+<div class="code">sxc somemods.scs <span class="inline_white">-af</span><br />
+sxc somemods.scs -bl list.txt <span class="inline_white">-af</span></div>
+
+The first example show operation during index generation, where the <span class="inline_file">*.idx</span> file
+that associated with input file is not available yet (if it does, delete the
+appropriate <span class="inline_file">*.idx</span> file). The second example show operation during index update
+with name resolver list supplied through <span class="inline_sym">-bl</span> switch.
+<br /><br />
+The <span class="inline_sym">-af</span> switch useful only if you encounter missing items. When you perform
+list operation of missing items with <span class="inline_sym">-x</span> switch, each entry now will have
+their known file type associated with their file extension. Take a look at
+this example:
+
+<div class="code">sxc somemods.scs -x<br />
+A1B2C2D4E5F678.sii&nbsp;&nbsp;&nbsp;&nbsp;12.3 kb (comp: 50%, 6.1 kb)<br />
+13579BDF02468A.ogg&nbsp;&nbsp;&nbsp;678.9 kb<br />
+12345678ABCDEF.dds&nbsp;&nbsp;&nbsp;&nbsp;66.6 kb (comp: 97%, 60.2 kb)<br />
+ABCDEF12345678.tobj&nbsp;&nbsp;&nbsp;&nbsp;2.5 kb (comp: 95%, 2.2 kb)<br />
+123ACB456DEF90.DAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.2 Mb</div>
+
+As you can see, instead of showing entries with all <span class="inline_file">.DAT</span> extension as usual,
+now by using <span class="inline_sym">-af</span> switch each entry may have their associate file type in their
+file extension. However the scanner still can't detect 100% of file types so
+some entry may still have their <span class="inline_file">.DAT</span> extension in their name.
+
+<!---------------------------------------------------------------------------->
+
+<h3 class="heading-title">Epilogue</h3>
+SXC Extractor has no relation to the original SCS Extractor and is not
+affiliated with SCS Software. SXC Extractor made by user for users. It offers
+similar functionality as the predecessor with additional features and
+improvements. Since it is useful and proven handy for me (the author), hope it
+is also useful and handy for you especially the modders. Have fun, keep
+trucking, and happy modding!
+<br /><br />
+<center>---ooOoo---
+<div class="text-smaller">Revised: February 14, 2023</div></center>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

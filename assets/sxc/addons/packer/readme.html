@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="author" content="Madman" />
+	<meta name="description" content="SXC Packer Readme" />
+	<title>SXC Packer Readme</title>
+	<style type="text/css">
+		body
+		{
+			color: #002030;
+			background-color: #002030;
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size: 90%;
+			line-height: 160%;
+		}
+		.body-frame
+		{
+			width: 900px;
+			min-width: 480px;
+			color: #001040;
+			background-color: #C0C8CF;
+			text-align: left;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 40px 10px;
+		}
+		.body-head
+		{
+			vertical-align: top;
+		}
+		.body-content
+		{
+			vertical-align: top;
+			text-align: justify;
+		}
+		.body-toc::after
+		{
+			width: 100%;
+			content: "";
+			clear: both;
+			display: table;
+		}
+		.body-toc-left
+		{
+			width: 50%;
+			text-align: center;
+			float: left;
+		}
+		.body-toc-right
+		{
+			width: 50%;
+			text-align: center;
+			float: right;
+		}
+		.body-toc-head
+		{
+			width: 100%;
+			font-family: helvetica,arial,sans-serif;
+			font-size: 160%;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #005060;
+			text-align: center;
+			vertical-align: top;
+			padding-top: 50px;
+			padding-bottom: 10px;
+		}
+		.body-toc-content
+		{
+			width: 100%;
+			font-family: helvetica,arial,sans-serif;
+			font-size: 100%;
+			font-weight: normal;
+			color: #005060;
+			text-align: center;
+			vertical-align: middle;
+			padding-bottom: 5px;
+		}
+		.text-head-big
+		{
+			font-family: helvetica,arial,sans-serif;
+		//	text-transform: uppercase;
+			font-size: 230%;
+			color: #004060;
+		}
+		.text-head-small
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 82%;
+		}
+		.heading-chapter
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 240%;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #005060;
+			margin: 60px 0px 0px;
+		}
+		.heading-title
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 140%;
+			font-weight: normal;
+			font-variant: small-caps;
+			color: #206080;
+			margin: 40px 0px 5px;
+		}
+		.text-small
+		{
+			font-size: 80%;
+			line-height: 120%;
+		}
+		.text-smaller
+		{
+			font-size: 60%;
+			line-height: 120%;
+		}
+		.code
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 100%;
+			font-weight: normal;
+			line-height: 140%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 10px;
+			border-left: 3px solid #000000;
+			border-right: 3px solid #404040;
+			border-top: 3px solid #000000;
+			border-bottom: 3px solid #404040;
+			background-color: #202020;
+			color: #A0A0A0;
+		}
+		.quote-code
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 94%;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #004080;
+			border-right: 1px solid #004080;
+			border-top: 3px solid #004080;
+			border-bottom: 1px dashed #004080;
+			background-color: #90989F;
+			color: #002040;
+		}
+		.quote
+		{
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size: 90%;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #004080;
+			border-right: 1px solid #004080;
+			border-top: 3px solid #004080;
+			border-bottom: 1px dashed #004080;
+			background-color: #90989F;
+			color: #002040;
+		}
+		.note
+		{
+			font-family: helvetica,arial,sans-serif;
+			font-size: 90%;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 16px 0px;
+			padding: 8px 12px;
+			border-left: 10px solid #002040;
+			border-right: 1px dashed #002040;
+			border-top: 1px dashed #002040;
+			border-bottom: 1px dashed #002040;
+			background-color: #B0B8BF;
+			color: #002040;
+		}
+		.inline_file
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 110%;
+			font-weight: normal;
+			color: #802000;
+		}
+		.inline_sym
+		{
+			font-family: monospace,courier,courier-new;
+			font-size: 110%;
+			font-weight: bold;
+			color: #0040A0;
+			background-color: #A0A8AF;
+			border: 1px solid #90989F;
+			padding: 0px 5px 0px;
+		}
+	@media screen and (max-width: 800px)
+	{
+		body
+		{
+			color: #002030;
+			background-color: #002030;
+			font-family: helvetica,sans-serif;
+			font-size: 2.25vw;
+			line-height: 140%;
+		}
+		.body-frame
+		{
+			width: 100%;
+			min-width: 15%;
+			color: #001040;
+			background-color: #C0C8CF;
+			text-align: left;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 40px 10px;
+		}
+		.body-head
+		{
+			vertical-align: top;
+		}
+		.body-content
+		{
+			vertical-align: top;
+			text-align: justify;
+		}
+		.body-toc::after
+		{
+			width: 100%;
+			content: "";
+			clear: both;
+			display: table;
+		}
+		.body-toc-left
+		{
+			width: 100%;
+			text-align: center;
+		}
+		.body-toc-right
+		{
+			width: 100%;
+			text-align: center;
+		}
+		.body-toc-head
+		{
+			width: 100%;
+			font-family: helvetica,sans-serif;
+			font-size: 3.5vw;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #005060;
+			text-align: center;
+			vertical-align: top;
+			padding-top: 50px;
+			padding-bottom: 10px;
+		}
+		.body-toc-content
+		{
+			width: 100%;
+			font-family: helvetica,sans-serif;
+			font-size: 2.75vw;
+			font-weight: normal;
+			color: #005060;
+			text-align: center;
+			vertical-align: middle;
+			padding-bottom: 5px;
+		}
+		.text-head-big
+		{
+			font-family: helvetica,sans-serif;
+		//	text-transform: uppercase;
+			font-size: 3.5vw;
+			color: #004060;
+		}
+		.text-head-small
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 1.75vw;
+		}
+		.heading-chapter
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 3.5vw;
+			font-weight: normal;
+			text-transform: uppercase;
+			color: #005060;
+			margin: 60px 0px 0px;
+		}
+		.heading-title
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 3vw;
+			font-weight: normal;
+			font-variant: small-caps;
+			color: #206080;
+			margin: 40px 0px 5px;
+		}
+		.text-small
+		{
+			font-size: 2.1vw;
+			line-height: 120%;
+		}
+		.text-smaller
+		{
+			font-size: 1.8vw;
+			line-height: 120%;
+		}
+		.code
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.15vw;
+			font-weight: normal;
+			line-height: 140%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 10px;
+			border-left: 3px solid #000000;
+			border-right: 3px solid #404040;
+			border-top: 3px solid #000000;
+			border-bottom: 3px solid #404040;
+			background-color: #202020;
+			color: #A0A0A0;
+		}
+		.quote-code
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.15vw;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #004080;
+			border-right: 1px solid #004080;
+			border-top: 3px solid #004080;
+			border-bottom: 1px dashed #004080;
+			background-color: #90989F;
+			color: #002040;
+		}
+		.quote
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 2.15vw;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 4px 0px 16px 0px;
+			padding: 8px 12px;
+			border-left: 1px solid #004080;
+			border-right: 1px solid #004080;
+			border-top: 3px solid #004080;
+			border-bottom: 1px dashed #004080;
+			background-color: #90989F;
+			color: #002040;
+		}
+		.note
+		{
+			font-family: helvetica,sans-serif;
+			font-size: 2.1vw;
+			font-weight: normal;
+			line-height: 130%;
+			margin: 16px 0px;
+			padding: 8px 12px;
+			border-left: 10px solid #002040;
+			border-right: 1px dashed #002040;
+			border-top: 1px dashed #002040;
+			border-bottom: 1px dashed #002040;
+			background-color: #B0B8BF;
+			color: #002040;
+		}
+		.inline_file
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.35vw;
+			font-weight: normal;
+			color: #802000;
+		}
+		.inline_sym
+		{
+			font-family: monospace,courier-new;
+			font-size: 2.35vw;
+			font-weight: bold;
+			color: #0040A0;
+			background-color: #A0A8AF;
+			border: 1px solid #90989F;
+			padding: 0px 5px 0px;
+		}
+	}
+		.inline_white
+		{
+			color: #FFFFFF;
+		}
+		.inline_grey
+		{
+			color: #8F8F8F;
+		}
+		.inline_yellow
+		{
+			color: #FFFF00;
+		}
+		.inline_gold
+		{
+			color: #FFC000;
+		}
+		.inline_red
+		{
+			color: #FF0000;
+		}
+		.inline_lred
+		{
+			color: #8F0000;
+		}
+		.inline_green
+		{
+			color: #00CF00;
+		}
+		.inline_lgreen
+		{
+			color: #007F00;
+		}
+		.inline_blue
+		{
+			color: #0040AF;
+		}
+		.inline_lblue
+		{
+			color: #00207F;
+		}
+		a, a:link, a:visited
+		{
+			font-weight: normal;
+			text-decoration: none;
+			font-variant: small-caps;
+			color: #004080;
+		}
+		a:hover, a:active
+		{
+			color: #804000;
+		}
+		a.toc, a.toc:link, a.toc:visited
+		{
+			width: 90%;
+			font-weight: normal;
+			text-decoration: none;
+			color: #D0D0D0;
+			background-color: #005060;
+			padding: 8px;
+			display: inline-block;
+		}
+		a.toc:hover, a.toc:active
+		{
+			color: #FFC000;
+			background-color: #802000;
+		}
+		img
+		{
+			margin: 5px 0px 16px 0px;
+			border: 2px solid #002040;
+		}
+	</style>
+</head>
+<body>
+	<table class="body-frame" border="0" cellpadding="2" cellspacing="2">
+		<tbody>
+			<tr align="right">
+				<td class="body-head">
+					<span class="text-head-big">SXC <i>PAC</i>KER</span><br />
+					<span class="text-head-small">A COMPANION TOOL FOR SXC <i>ex</i>TRACTOR<br /></span>
+				</td>
+			</tr>
+			<tr>
+				<td class="body-content">
+<h3 id="prologue" />
+<h3 class="heading-title">Prologue</h3>
+Most mod files for Euro Truck Simulator 2 and American Truck Simulator today
+are compressed and distributed using a standard ZIP file format. However, the
+game themselves pack their assets and data using SCS proprietary compressed
+package format called <span class="inline_sym">HashFS</span> (Hash File Format). SCS&mdash;fortunately,
+support and allows mod file to be packed using this proprietary file format.
+There are known a small amount of modders packing their mod using this format.
+In fact, SCS Software as the game developer does not provides official tool to
+pack mod file into <i>HashFS</i> format. Came from that reason, the SXC Packer
+was written and the <i>HashFS</i> formatted mod file should no longer exclusive
+to a particular modder or group.
+<br /><br />
+SXC Packer (can be pronounced as Sexy Packer) intended to compress and pack
+Euro Truck Simulator 2 and American Truck Simulator mod file in a new way. It
+allows to compress whole sub-items within a folder, exclude certain folders
+and files, hide folders and files from <i>HashFS</i> directory structures, and
+encrypt certain unit (<span class="inline_file">*.sii</span>) files. SXC Packer however does not provide
+ability to extract or decompress. As its name says it just a packer tool.
+<br /><br /><br />
+<center>
+<span class="text-small">Visit SXC discussion thread at <a href="https://forum.scssoft.com/viewtopic.php?f=34&t=276948" target="_blank">SCS Forum</a>
+and drop a comment there<br />if you have problem, find bug, or just
+want to say hi.</span>
+</center>
+
+<div class="body-toc">
+	<div class="body-toc-left">
+		<div class="body-toc-head">Basic Usage</div>
+		<div class="body-toc-content"><a class="toc" href="#about">About the Program</a></div>
+		<div class="body-toc-content"><a class="toc" href="#workinput">Working with Input Folder</a></div>
+		<div class="body-toc-content"><a class="toc" href="#workoutput">Compressed Result File</a></div>
+		<div class="body-toc-content"><a class="toc" href="#defaultcompress">Default Compression Behaviour</a></div>
+	</div>
+	<div class="body-toc-right">
+		<div class="body-toc-head">Extended Usage</div>
+		<div class="body-toc-content"><a class="toc" href="#itemexclude">Exclude Files and Folders</a></div>
+		<div class="body-toc-content"><a class="toc" href="#itemhide">Hide Files and Folders</a></div>
+		<div class="body-toc-content"><a class="toc" href="#itemencrypt">Encrypt Unit Files</a></div>
+		<div class="body-toc-content"><a class="toc" href="#storemode">Non-Compressed Files and Folders</a></div>
+	</div>
+</div>
+
+<!---------------------------------------------------------------------------->
+
+<h1 class="heading-chapter">Basic Usage</h1>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="about" />
+<h3 class="heading-title">About the Program</h3>
+SXC Packer is a console program runs under Microsoft Windows. It is a simple
+text based application. No fancy GUI and no <i>bullsh*t</i>. It comes without
+installer. SXC Packer is shipped together as addons with SXC Extractor.
+Extract the SXC Extractor package using any ZIP Archiver program onto a
+destination folder of your choice. SXC Packer is stored under <span class="inline_file">addons</span> &rarr;
+<span class="inline_file">packer</span> sub-folder. From Windows Explorer, press <span class="inline_file">Shift + Right Click</span> on
+the SXC Packer folder then choose a menu item labeled as "Open Command Prompt
+from here" or "Open Power Shell from here" depending on your Windows version.
+Running SXC Packer can be done by typing:
+
+<div class="code">sxcpack</div>
+
+Or under Power Shell console:
+
+<div class="code"><span class="inline_white">.\</span>sxcpack<span class="inline_white">.exe</span></div>
+
+After typing, press the Enter key on the keyboard to actually execute the
+application. Running SXC Packer without any parameter will just display a
+usage tips of parameter description, which will described more details below.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="workinput" />
+<h3 class="heading-title">Working with Input Folder</h3>
+SXC Packer requires at least input folder in order to function. Items (files
+and folders) under this input folder will be processed, but the input folder
+itself will be excluded from the generated <i>HashFS</i> output file.
+<br /><br />
+To understand it, let's take a look at the following example image:
+<br />
+<img src="img/selectpath.png" alt="Mod Folder Example">
+<br />
+Here, we have a base folder <span class="inline_file">D:\ETS2\Projects\sxc\test</span> where contains
+9 sub-items: consist of 3 files and 6 folders. If we use this base folder as SXC Packer input
+folder, only those 3 files with 6 folders and all their beneath sub-items will be
+processed.
+<br /><br />
+To select input folder from a dialog window, run SXC Packer with <span class="inline_sym">-i</span> switch as
+parameter like this:
+
+<div class="code">sxcpack <span class="inline_yellow">-i</span></div>
+
+Or:
+
+<div class="code">.\sxcpack.exe <span class="inline_yellow">-i</span></div>
+
+It will open a folder selection dialog window, for example:
+<br />
+<img src="img/openfolder.png" alt="Open Folder dialog">
+<br />
+Select a folder of your choice then press <span class="inline_sym">OK</span> button. If you press the
+<span class="inline_sym">Cancel</span> button, SXC Packer will abort any further operation and display
+the usage text. The folder selection dialog by default will highlighted to the
+current folder where you run SXC Packer.
+<br /><br />
+To specify an input folder without opening dialog window, you can specify the
+folder path as a second argument after the <span class="inline_sym">-i</span> switch, as
+follow:
+
+<div class="code">sxcpack <span class="inline_yellow">-i</span> <span class="inline_white">D:\ETS2\Projects\sxc\test</span></div>
+
+Note the second argument is preceding with a space character. Each argument
+must be separated with at least one space character. If an argument contains
+spaces, you should enclose it with double-quotes. Take a look at this example
+for input folder that containing spaces:
+
+<div class="code">sxcpack -i <span class="inline_yellow">"</span>C:\My Mods\Trucks\Tic Tac Truck\<span class="inline_yellow">"</span></div>
+
+In the case you specify root drive as input folder, SXC Packer will reject
+it and informing an invalid operation error. There is no good reason why you
+should packing the whole drive content (try backup tool for such purpose).
+Here's the bad example:
+
+<div class="code">sxcpack <span class="inline_red">-i</span> C:\</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="workoutput" />
+<h3 class="heading-title">Compressed Result File</h3>
+To save the compressed result file into a choosen name, specify the <span class="inline_sym">-o</span> switch
+into the arguments. For example:
+
+<div class="code">sxcpack -i C:\temp <span class="inline_yellow">-o</span></div>
+
+Supplying the <span class="inline_sym">-o</span> switch will bring a Save File dialog window:
+<br />
+<img src="img/savefile.png" alt="Save File dialog">
+<br />
+Type the output file name in edit box and click <span class="inline_sym">Save</span> button. It is advisable
+to always use <span class="inline_file">.scs</span> extention following the file name. Pressing <span class="inline_sym">Cancel</span> button
+will discard file name selection and the output file name will be taken from
+input folder name. For example:
+
+<div class="code">sxcpack -i "C:\My Best Mod" <span class="inline_yellow">-o</span></div>
+
+If you press <span class="inline_sym">Cancel</span> button on File Save dialog, the result of compressed
+output file will be <span class="inline_file">My Best Mod.scs</span> and stored in SXC Packer folder.
+<br /><br />
+To specify an output file without opening dialog window, you can specify the
+file name (with optional folder path) as a second argument after the <span class="inline_sym">-o</span> switch, as
+follow:
+
+<div class="code">sxcpack -i C:\ETS2\mod\firstmod\ <span class="inline_yellow">-o</span> <span class="inline_white">C:\ETS2\mod\myfirstmod.scs</span></div>
+
+<div class="note">
+Please keep in mind that SXC Packer will overwrite existing output file,
+if exists.</div>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="defaultcompress" />
+<h3 class="heading-title">Default Compression Behaviour</h3>
+By default, all packed files will be compressed using the optimal compression
+ratios. However, starting at version 1.0.20.508, SXC Packer will automatically
+packing <b class="inline_lred">sound files</b> in "store" (non-compressed) mode. These sound files are
+OggVorbis (<span class="inline_file">*.ogg</span>), FMOD Sound Bank (<span class="inline_file">*.bank</span>), and FMOD Sound Event Reference
+(<span class="inline_file">*.soundref</span>). To accomplish this feature, make sure to keep the file extension
+to allow SXC Packer recognize any presence of sound file format.
+<br /><br />
+If you want to customize certain files to be packed in "store" (non-compressed)
+mode, SXC Packer version 1.0.20.508 also introduce a new <span class="inline_sym">-s</span> switch. The usage
+of this switch has been described in details at <a href="#storemode">Non-Compressed Files and Folders</a>
+section.
+
+<!---------------------------------------------------------------------------->
+
+<h1 class="heading-chapter">Extended Usage</h1>
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="itemexclude" />
+<h3 class="heading-title">Exclude Files and Folders</h3>
+SXC Packer provides ability to exclude certain files and/or folders so they
+will not included when generating output packed file. To understand how this
+function works, assuming we have a mod project located in <span class="inline_file">D:\ETS2\Projects\sxc\test</span>
+contains 3 files and 6 folders:
+<br />
+<img src="img/selectpath.png" alt="Mod Folder Example">
+<br />
+Let say we want to exclude the <span class="inline_file">unit</span> folder, as well as <span class="inline_file">manifest.sii</span> file so
+they will not included in generated output file. To do this, create a blank
+ASCII text file (you can do this with Windows <span class="inline_sym">Notepad</span> application) and put
+the files and folders we want to exclude:
+
+<div class="quote-code">unit<b class="inline_gold">/</b><br />
+manifest.sii</div>
+
+To define a folder, make sure to append a <span class="inline_file">/</span> (slash) or <span class="inline_file">\</span> (backslash)
+character after the folder name to distinguish them with file type. Please
+note that SXC Packer will always ignore folder that defines the root of
+your mod folder. For example:
+
+<div class="quote-code"><b class="inline_lred">/</b><br />
+unit/<br />
+manifest.sii</div>
+
+The first line of the example above always ignored, because it doesn't make
+sense to exclude the mod's root folder (whole mod file structures) which
+mean you actually not creating a mod at all!
+<br /><br />
+Excluding folder always affect to it's childs (sub-items) as they are also
+excluded entirely. You don't need to redefine sub-items to be excluded if
+their parent folder already there. From the following example, the last two
+lines is not actually neccessary (though it is possible) since their parent
+folder is defined already:
+
+<div class="quote-code">def/<br />
+<span class="inline_lred">def/company/<br />
+def/company/quarry/out/</span></div>
+
+Exclude list definition allow defining items deep to the
+lower hierarchy. Here an example of various file and folder hierarchy:
+
+<div class="quote-code">def/company/cont_port/out/<br />
+def/sign/atlas/<br />
+model/sign/misc/<br />
+model/sign/navigation/uk/<br />
+<br />
+def/sign/boards.sii<br />
+def/game_data.sii<br />
+model/sign/security.dds<br />
+model/sign/security.tobj<br />
+manifest.sii</div>
+
+From the above example, it is possible to put blank lines as they will be
+ignored. If defining exclude items is done, save the text document to a name
+of your choice.
+
+<div class="note">SXC Packer only accept pure ASCII text file. If you are
+using WIndows <span class="inline_sym">Notepad</span>, make sure to select <span class="inline_sym">ANSI</span> encoding
+within Save File dialog window. Do not use foreign character set in defined
+file and folder names.</div>
+
+If&mdash;for example, you save the text file as <span class="inline_file">C:\temp\list_exclude.txt</span>,
+put it as SXC Packer argument after the <span class="inline_sym">-x</span> switch. For example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test -o C:\temp\mymod.scs <span class="inline_yellow">-x</span> <span class="inline_white">C:\temp\list_exclude.txt</span></div>
+
+You can also provide the <span class="inline_sym">-x</span> switch without
+specifying file name, for example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test\ -o C:\temp\mymod.scs <span class="inline_yellow">-x</span></div>
+
+In this case, an Open File dialog window will show up. Browse and select the
+text file created previously then press <span class="inline_sym">Open</span> button. To distinguished
+from opening file for exclude, hidden, and encrypt text file, look at the file
+type drop-down list next to file name edit box in Open File dialog (see below
+image marked with red down arrow). If you press <span class="inline_sym">Cancel</span> button, exclude
+list will ignored during output file creation.
+<br />
+<img src="img/openfile.png" alt="Mod Folder Example">
+<br />
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="itemhide" />
+<h3 class="heading-title">Hide Files and Folders</h3>
+SXC Packer provides ability to hide certain files and/or folders so they will
+not included in the directory structure of the output file. Hiding files
+and folders comes useful if you want to 'obfuscate' them against normal
+extraction. Be careful that <b class="inline_lred">NOT</b> all files and folders can be hidden. You
+need to test your mod file first in the case certain files indicated 'missing'
+in the game's log file.
+<br /><br />
+Assuming we have a mod project located in <span class="inline_file">D:\ETS2\Projects\sxc\test</span>
+contains 3 files and 6 folders:
+<br />
+<img src="img/selectpath.png" alt="Mod Folder Example">
+<br />
+Let say we want to hide the <span class="inline_file">model</span> and <span class="inline_file">vehicle</span> folder, as well
+as <span class="inline_file">manifest.sii</span>, <span class="inline_file">mod_desc.txt</span>, and <span class="inline_file">icon.jpg</span>
+files so they will not included in directory structure of the generated output
+file. To do this, create a blank ASCII text file (you can do this with Windows <span class="inline_sym">Notepad</span> application)
+and put the files and folders we want to hide:
+
+<div class="quote-code">model/<br />
+vehicle/<br />
+manifest.sii<br />
+mod_desc.txt<br />
+icon.jpg</div>
+
+To define a folder, make sure to append a <span class="inline_file">/</span> (slash) or <span class="inline_file">\</span> (backslash)
+character after the folder name to distinguish them with file type.  Hiding
+folder always affect to it's childs (sub-items) as they are also hide
+entirely. You don't need to redefine sub-items to be hide if their parent
+folder already there. From the following example, the last two lines is not
+actually neccessary (though it is possible) since their parent folder is
+defined already:
+
+<div class="quote-code">model/<br />
+<span class="inline_lred">model/building/<br />
+model/building/administration/car_dealer.dds</span></div>
+
+It is possible to hide your entire mod file structure, by defining just your
+mod's root folder like this:
+
+<div class="quote-code">/</div>
+
+If defining hidden items is done, save the text document to a name
+of your choice.
+
+<div class="note">SXC Packer only accept pure ASCII text file. If you are
+using WIndows <span class="inline_sym">Notepad</span>, make sure to select <span class="inline_sym">ANSI</span> encoding
+within Save File dialog window. Do not use foreign character set in defined
+file and folder names.</div>
+
+If&mdash;for example, you save the text file as <span class="inline_file">C:\temp\list_hidden.txt</span>,
+put it as SXC Packer argument after the <span class="inline_sym">-h</span> switch. For example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test\ -o C:\temp\mymod.scs <span class="inline_yellow">-h</span> <span class="inline_white">C:\temp\list_hidden.txt</span></div>
+
+You can also provide the <span class="inline_sym">-h</span> switch without
+specifying file name, for example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test -o C:\temp\mymod.scs <span class="inline_yellow">-h</span></div>
+
+In this case, an Open File dialog window will show up. Browse and select the
+text file created previously then press <span class="inline_sym">Open</span> button. If you press
+<span class="inline_sym">Cancel</span> button, hidden list will ignored during output file creation.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="itemencrypt" />
+<h3 class="heading-title">Encrypt Unit Files</h3>
+SXC Packer provides ability to encrypt certain files and/or folders. Encrypt
+files and folders comes useful if you want to 'obfuscate' their content
+against normal extraction. Please note that only <span class="inline_sym">Unit</span> files (<span class="inline_file">.sii</span>) or folder
+containing unit files will be encrypted. Why only unit file? Because it's the
+game's limitation and SXC Packer can do nothing with that.
+<br /><br />
+Let say we want to hide all <span class="inline_file">*.sii</span> files under the <span class="inline_file">ui</span> folder, as well
+as <span class="inline_file">game_data.sii</span> and <span class="inline_file">economy_data.sii</span> files under the
+<span class="inline_file">def</span> folder so their content will be encrypted in the generated output file. To
+do this, create a blank ASCII text file (you can do this with Windows <span class="inline_sym">Notepad</span>
+application) and put the files and folders we want to encrypt:
+
+<div class="quote-code">ui/<br />
+def/game_data.sii<br />
+def/economy_data.sii</div>
+
+To define a folder, make sure to append a <span class="inline_file">/</span> (slash) or <span class="inline_file">\</span> (backslash)
+character after the folder name to distinguish them with file type. Encrypting
+folder always affect to it's childs (sub-items) as they are also encrypted
+entirely. You don't need to redefine sub-items to be encrypted if their parent
+folder already there. From the following example, the last two lines is not
+actually neccessary (though it is possible) since their parent folder is
+defined already:
+
+<div class="quote-code">def/<br />
+<span class="inline_lred">def/world/<br />
+def/world/traffic_rules.sii</span></div>
+
+You can't&mdash;however, define mod's root folder in the purpose to encrypt
+whole <span class="inline_file">*.sii</span> files in your mod project. This is SXC Packer restriction. The
+first line in the following example will be ignored:
+
+<div class="quote-code"><b class="inline_lred">/</b><br />
+def/<br />
+def/world/<br />
+def/world/traffic_rules.sii</div>
+
+If defining encrypted items is done, save the text document to a name
+of your choice.
+
+<div class="note">SXC Packer only accept pure ASCII text file. If you are
+using WIndows <span class="inline_sym">Notepad</span>, make sure to select <span class="inline_sym">ANSI</span> encoding
+within Save File dialog window. Do not use foreign character set in defined
+file and folder names.</div>
+
+If&mdash;for example, you save the text file as <span class="inline_file">C:\temp\list_encrypt.txt</span>,
+put it as SXC Packer argument after the <span class="inline_sym">-e</span> switch. For example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test -o C:\temp\mymod.scs <span class="inline_yellow">-e</span> <span class="inline_white">C:\temp\list_hidden.txt</span></div>
+
+You can also provide the <span class="inline_sym">-e</span> switch without
+specifying file name, for example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test -o C:\temp\mymod.scs <span class="inline_yellow">-e</span></div>
+
+In this case, an Open File dialog window will show up. Browse and select the
+text file created previously then press <span class="inline_sym">Open</span> button. If you press
+<span class="inline_sym">Cancel</span> button, encrypted list will ignored during output file creation.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="storemode" />
+<h3 class="heading-title">Non-Compressed Files and Folders</h3>
+Starting at version 1.0.20.508, SXC Packer provides ability to allow certain
+folders and files to be packed in "store" (non-compressed) mode. These
+non-compressed entries then read or streamed directly by the game without
+having to store them into uncompressed form in caches.
+
+<div class="note">Sound files with <span class="inline_file">*.ogg</span>, <span class="inline_file">*.bank</span>, and <span class="inline_file">*.soundref</span> extension will be automatically
+packed in "store" (non-compressed) mode. No need to includes these kind of
+files into the definition file.</div>
+
+Assuming we have a mod project located in <span class="inline_file">D:\ETS2\Projects\sxc\test</span>
+contains 3 files and 6 folders:
+<br />
+<img src="img/selectpath.png" alt="Mod Folder Example">
+<br />
+Let say we want all files under the <span class="inline_file">def</span> folder to be packed in non-compressed form,
+as well as <span class="inline_file">icon.jpg</span> file. To do this, create a blank ASCII text file (you can do
+this with Windows <span class="inline_sym">Notepad</span> application) and put the files and folders to be packed
+in non-compressed form:
+
+<div class="quote-code">def/<br />
+icon.jpg</div>
+
+To define a folder, make sure to append a <span class="inline_file">/</span> (slash) or <span class="inline_file">\</span> (backslash)
+character after the folder name to distinguish them with file type.  Defined
+folder will also affect to it's childs (sub-items). You don't need to redefine
+sub-items if their parent folder already there. From the following example,
+the last 3 lines is not actually neccessary (though it is possible) since
+their parent folder is defined already:
+
+<div class="quote-code">def/<br />
+<span class="inline_lred">def/world/<br />
+def/sound_player.sii<br />
+def/world/sound_item_data.sii</span></div>
+
+It is possible to pack entire mod files in non-compressed form, by defining
+just your mod's root folder like this:
+
+<div class="quote-code">/</div>
+
+If defining non-compressed items is done, save the text document to a name
+of your choice.
+
+<div class="note">SXC Packer only accept pure ASCII text file. If you are
+using WIndows <span class="inline_sym">Notepad</span>, make sure to select <span class="inline_sym">ANSI</span> encoding
+within Save File dialog window. Do not use foreign character set in defined
+file and folder names.</div>
+
+If&mdash;for example, you save the text file as <span class="inline_file">C:\temp\list_stored.txt</span>,
+put it as SXC Packer argument after the <span class="inline_sym">-s</span> switch. For example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test\ -o C:\temp\mymod.scs <span class="inline_yellow">-s</span> <span class="inline_white">C:\temp\list_stored.txt</span></div>
+
+You can also provide the <span class="inline_sym">-s</span> switch without
+specifying file name, for example:
+
+<div class="code">sxcpack -i D:\ETS2\Projects\sxc\test -o C:\temp\mymod.scs <span class="inline_yellow">-s</span></div>
+
+In this case, an Open File dialog window will show up. Browse and select the
+text file created previously then press <span class="inline_sym">Open</span> button. If you press
+<span class="inline_sym">Cancel</span> button, hidden list will ignored during output file creation.
+
+<!---------------------------------------------------------------------------->
+
+<h3 id="epilogue" />
+<h3 class="heading-title">Epilogue</h3>
+The author of SXC Packer has no relation and is not affiliated with SCS
+Software. SXC Packer is made by user for users, in the hope it comes useful
+and handy for modders. Have fun, keep trucking, and happy modding!
+<br /><br />
+<center>---ooOoo---
+<div class="text-smaller">Revised: December 10, 2022</div></center>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

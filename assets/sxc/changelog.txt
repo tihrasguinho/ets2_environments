@@ -1,0 +1,110 @@
+Change Log Version 1.23.2.14
+=============================
+- Introduce inverted wildcard pattern filter using '!' (asterisk) symbol.
+- Cut off unnecessary time consuming processes during extract mode.
+- Fix the -f switch does not work when specify root path as current folder.
+- Fix a bug when extracting empty (zero size) entry files.
+- Minor fixes and improvements.
+
+
+Version History
+===============
+1.22.12.10
+- Remove undocumented/debug argument switches.
+- Fix possible memory leaks when working with large ZIP file.
+- Minor fixes and improvements.
+
+1.22.12.2
+- Introduce -oK switch: Rename existing files, skip identical ones.
+- The -lq switch for extract mode, showing actual extracted entries only.
+- Fix bug where empty directories may created when extracting.
+- Fix fatal bug where encrypted .sii files not decrypting properly.
+  (Thanks to "Coal_Bucket_Outlaw" for invaluable report)
+- Minor fixes and improvements.
+
+1.22.9.10
+- Introduce -s switch: Filter files by search text during extraction.
+- Add support for Regular Expression filter through the -f switch.
+- Introduce -oc switch: Create output folder, otherwise similar as -ov switch.
+- Introduce -oC switch: Create output folder, otherwise similar as -o switch.
+- Introduce -ok switch: Rename existing files in output folder with date suffix.
+- Introduce -ot switch: Update files at output folder, ignore non-existing files.
+- Introduce -oT switch: Test files at output folder, non-extract operation.
+- Introduce -ox switch: Update files at output folder, add non-existing files.
+- Minor fixes and improvements.
+
+1.19.12.10
+- Fix a bug ZIP file processing with last end garbage entry.
+- Fix a bug file type (-af switch) result being reset when perform -bl switch.
+- Minor fixes and improvements.
+
+1.19.11.30
+- Change -o switch behavior: now preserve existing files at output folder, if any.
+  (thanks to "knox_xss" for an idea)
+- Introduce -ov switch: Overwrite all files at output folder, if any.
+- Introduce the 64-bit (x64) version of the executable.
+- Fix show only "store" status during extraction.
+- Other small bug fixes and improvements.
+
+1.19.11.23
+- Big fix on hash database inaccurate path.
+  (thanks to "knox_xss" for invaluable report and sample files)
+- Fix missing items logic routine bug.
+  (thanks to "knox_xss" for invaluable report and sample files)
+- Other small bug fixes and improvements.
+
+1.19.11.16
+- Scanner engine improved for recent known protected mod files.
+  (thanks to "knox_xss" for invaluable report and sample files)
+- Introduce file size filtering with -fmin and -fmax switches.
+  (thanks to "knox_xss" for the suggestion)
+- Introduce file type scanning through -af switch.
+- New cosmetic output layout with -x and -X switches.
+- Fix parser bug (again?) on -d and -f switches.
+- Other small bug fixes and improvements.
+
+1.19.10.27
+- Big fixes and improvements on missing item's scanner engine.
+  (thanks to "knox_xss" for invaluable bug report and a sample file)
+- Path is now fully supported in the list file for -bl switch.
+  (thanks to "syscrh" for the suggestion)
+- Other small bug fixes and improvements.
+
+1.19.10.19
+- The -137243 and -271309 switches are now completely removed for obvious reason.
+- Program return codes has changed.
+- Fix path delimiter parser bug on -d and -f switches.
+- Fix serious bug on heuristic code to scan missing items.
+  (thanks to "knox_xss" for invaluable bug report)
+- Other small bug fixes and improvements.
+
+1.19.10.15
+- New -Li switch for alternative folder location of index files.
+  (thanks to "xXCARL1992Xx" for suggestion)
+- The "SXC_IDX_PATH" environment variable as secondary option of -Li switch.
+- Fix "buffer error" bug when extracting zipped mod file.
+- Other small bug fixes and improvements. (Doh!)
+
+1.19.10.12
+- Index file entries now sorted for faster processing.
+- Indexing and re-indexing now better and much faster.
+- Fix duplicate entry bug during re-indexing.
+- Text to hash conversion tool added (with source code in Pascal).
+- Other small bug fixes and improvements.
+
+1.19.10.4
+- More support to non-zip mod files.
+  (thanks to "xXCARL1992Xx" and "knox_xss" for invaluable samples)
+- Better detection routines on zip mod files.
+  (thanks to "knox_xss" for invaluable samples)
+- Introducing hash database mechanism.
+  (thanks to "xXCARL1992Xx" and "knox_xss")
+- Fix file size limit bug on "-d", "-b", and "-bl" switches.
+  (thanks to "knox_xss")
+- Speed optimization on huge file size.
+- Memory usage optimization on huge file size.
+- Other small bug fixes and improvements.
+
+1.19.9.7
+- Initial public release
+

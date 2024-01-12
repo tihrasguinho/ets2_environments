@@ -1,0 +1,17 @@
+Change Log Version 1.0.23.214
+==============================
+- Improve heuristic search logic.
+- Minor fixes and improvements.
+
+
+Version History
+===============
+1.0.19.1230
+- Improve search accuracy.
+- Search through encrypted file.
+- Add/check manifest.sii as known file name.
+- Flagged as stable release.
+- Minor fixes and improvements.
+
+1.0.19.1220
+- Initial public release.
