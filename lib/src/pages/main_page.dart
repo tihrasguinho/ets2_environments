@@ -4,10 +4,14 @@ import 'dart:io';
 
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/entities/mod_entity.dart';
+import 'package:ets2_environments/src/entities/profile_entity.dart';
+import 'package:ets2_environments/src/enums/system_architecture.dart';
 import 'package:ets2_environments/src/extensions/build_context_extension.dart';
 import 'package:ets2_environments/src/extensions/list_extension.dart';
+import 'package:ets2_environments/src/extensions/row_extension.dart';
 import 'package:ets2_environments/src/stores/environment_store.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
@@ -26,7 +30,14 @@ class _MainPageState extends State<MainPage> {
   final EnvironmentStore environmentStore = GetIt.I.get<EnvironmentStore>();
 
   Future<void> pickGamePath() async {
-    if (environmentStore.value.environment.gamePath.isNotEmpty) return;
+    if (environmentStore.value.environment.gamePath.isNotEmpty) {
+      final uri = Uri.file(p.dirname(environmentStore.value.environment.gamePath));
+
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri);
+      }
+      return;
+    }
 
     final path = await pickFolderPath(context);
 
@@ -66,7 +77,7 @@ class _MainPageState extends State<MainPage> {
             return Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                  tooltip: environment.gamePath.isNotEmpty ? environment.gamePath : 'Please select the game path first!',
+                  tooltip: environment.gamePath.isNotEmpty ? 'Open in Explorer ${environment.gamePath}' : 'Please select the game path first!',
                   onPressed: pickGamePath,
                   icon: Container(
                     foregroundDecoration: environment.gamePath.isNotEmpty
@@ -117,6 +128,11 @@ class _MainPageState extends State<MainPage> {
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  tooltip: 'Show local profiles',
+                                  icon: const Icon(Icons.people_rounded),
+                                ),
                                 IconButton(
                                   onPressed: () async {
                                     final modListDetails = await getModListDetails(homedir.directory.path);
@@ -181,27 +197,17 @@ class _MainPageState extends State<MainPage> {
                                   icon: const Icon(Icons.folder_rounded),
                                 ),
                                 IconButton(
-                                  onPressed: environment.gamePath.isEmpty
-                                      ? null
-                                      : () async {
-                                          await Process.run(
-                                            environment.gamePath,
-                                            [
-                                              '-homedir',
-                                              homedir.directory.path,
-                                              ...environment.launchArguments,
-                                            ],
-                                          );
-
-                                          if (environment.closeAppWhenGameLaunch) {
-                                            exit(0);
-                                          }
-                                        },
+                                  onPressed: () => startGameFromHomedir(
+                                    environment.gamePath,
+                                    homedir.directory.path,
+                                    environment.launchArguments,
+                                    environment.closeAppWhenGameLaunch,
+                                  ),
                                   tooltip: 'Start game from this homedir',
                                   icon: const Icon(Icons.play_arrow_rounded),
                                 ),
                               ],
-                            ),
+                            ).withSpacing(16.0),
                           );
                         },
                       ),
@@ -314,8 +320,13 @@ Future<List<ModEntity>> getModListDetails(String path) async {
 
   for (final mod in modList) {
     if (mod is File) {
+      final sxcPath = switch (kDebugMode) {
+        true => getSystemArchitecture() == SystemArchitecture.x64 ? './assets/sxc/sxc64.exe' : './assets/sxc/sxc.exe',
+        false => getSystemArchitecture() == SystemArchitecture.x64 ? './data/flutter_assets/assets/sxc/sxc64.exe' : './data/flutter_assets/assets/sxc/sxc.exe',
+      };
+
       await Process.run(
-        './data/flutter_assets/assets/sxc/sxc64.exe',
+        sxcPath,
         [
           mod.path,
           '-f',
@@ -366,4 +377,103 @@ Future<List<ModEntity>> getModListDetails(String path) async {
   }
 
   return modListNames;
+}
+
+Future<List<ProfileEntity>> getProfilesList(String path) async {
+  final profilesDir = Directory(p.join(path, 'Euro Truck Simulator 2', 'profiles'));
+
+  if (!await profilesDir.exists()) return [];
+
+  final profilesDirList = profilesDir.listSync();
+
+  if (profilesDirList.isEmpty) return [];
+
+  final profiles = <ProfileEntity>[];
+
+  for (final profileDir in profilesDirList) {
+    if (profileDir is Directory) {
+      final profile = File(p.join(profileDir.path, 'profile.sii'));
+
+      if (await profile.exists()) {
+        final profileContent = await profile.readAsBytes();
+
+        final decoded = utf8.decode(profileContent, allowMalformed: true);
+
+        if (decoded.startsWith(RegExp(r'SiiNunit'))) {
+          final companyName = RegExp(r'company_name: ["]?(.*)["]?').firstMatch(decoded)?.group(1)?.replaceAll('"', '');
+
+          final profileName = RegExp(r'profile_name: ["]?(.*)["]?').firstMatch(decoded)?.group(1)?.replaceAll('"', '');
+
+          final activeMods = RegExp(r'active_mods\[[0-9]{1,}\]: ["]?(.*)["]?').allMatches(decoded).map((e) {
+            return e.group(1)?.split('|').last.replaceAll('"', '') ?? 'N/A';
+          }).toList();
+
+          profiles.add(
+            ProfileEntity(
+              companyName: companyName ?? 'N/A',
+              profileName: profileName ?? 'N/A',
+              activeMods: activeMods,
+            ),
+          );
+        } else {
+          final profileTemp = File(p.join(profileDir.path, 'profileTemp.sii'));
+
+          final decryptPath = switch (kDebugMode) {
+            true => './assets/sii_decrypt/SII_Decrypt.exe',
+            false => './data/flutter_assets/assets/sii_decrypt/SII_Decrypt.exe',
+          };
+
+          await Process.run(decryptPath, [profile.path, profileTemp.path]);
+
+          if (!await profileTemp.exists()) {
+            continue;
+          }
+
+          final profileContent = await profileTemp.readAsString();
+
+          final companyName = RegExp(r'company_name: ["]?(.*)["]?').firstMatch(profileContent)?.group(1)?.replaceAll('"', '');
+
+          final profileName = RegExp(r'profile_name: ["]?(.*)["]?').firstMatch(profileContent)?.group(1)?.replaceAll('"', '');
+
+          final activeMods = RegExp(r'active_mods\[[0-9]{1,}\]: ["]?(.*)["]?').allMatches(profileContent).map((e) {
+            return e.group(1)?.split('|').last.replaceAll('"', '') ?? 'N/A';
+          }).toList();
+
+          profiles.add(
+            ProfileEntity(
+              companyName: companyName ?? 'N/A',
+              profileName: profileName ?? 'N/A',
+              activeMods: activeMods,
+            ),
+          );
+
+          await profileTemp.delete();
+        }
+      }
+    }
+  }
+
+  return profiles;
+}
+
+void startGameFromHomedir(
+  String gamePath,
+  String homedirPath, [
+  List<String> launchArguments = const [],
+  bool closeAppWhenGameLaunch = true,
+]) async {
+  if (gamePath.isEmpty) return;
+
+  await Process.run(
+    gamePath,
+    [
+      '-homedir',
+      homedirPath,
+      ...launchArguments,
+    ],
+  );
+
+  if (closeAppWhenGameLaunch) {
+    exit(0);
+  }
 }

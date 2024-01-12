@@ -11,9 +11,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final EnvironmentStore environmentStore = GetIt.I.get<EnvironmentStore>();
+  final environmentStore = GetIt.I.get<EnvironmentStore>();
 
-  late final TextEditingController launchArguments = TextEditingController(text: environmentStore.value.environment.launchArguments.join(' '));
+  late final launchArguments = TextEditingController(text: environmentStore.value.environment.launchArguments.join(' '));
 
   @override
   Widget build(BuildContext context) {
