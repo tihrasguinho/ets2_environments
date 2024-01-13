@@ -1,7 +1,7 @@
 name: ets2_environments
-description: "A new Flutter project."
+description: "Uma forma fácil de separar ambientes para rodar mods diferentes em perfis diferentes no Euro Truck Simulator 2 [windows]"
 publish_to: 'none'
-version: 0.0.2
+version: 0.0.3
 
 environment:
   sdk: '>=3.2.3 <4.0.0'

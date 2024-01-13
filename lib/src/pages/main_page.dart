@@ -2,16 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ets2_environments/src/controllers/main_controller.dart';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
-import 'package:ets2_environments/src/entities/mod_entity.dart';
-import 'package:ets2_environments/src/entities/profile_entity.dart';
-import 'package:ets2_environments/src/enums/system_architecture.dart';
 import 'package:ets2_environments/src/extensions/build_context_extension.dart';
 import 'package:ets2_environments/src/extensions/list_extension.dart';
 import 'package:ets2_environments/src/extensions/row_extension.dart';
-import 'package:ets2_environments/src/stores/environment_store.dart';
+import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
 import 'package:filesystem_picker/filesystem_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
@@ -26,29 +23,8 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-  final EnvironmentStore environmentStore = GetIt.I.get<EnvironmentStore>();
-
-  Future<void> pickGamePath() async {
-    if (environmentStore.value.environment.gamePath.isNotEmpty) {
-      final uri = Uri.file(p.dirname(environmentStore.value.environment.gamePath));
-
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      }
-      return;
-    }
-
-    final path = await pickFolderPath(context);
-
-    if (path == null) return;
-
-    if (!File(p.join(path, 'bin', 'win_x64', 'eurotrucks2.exe')).existsSync()) {
-      return;
-    }
-
-    environmentStore.setGamePath(path);
-  }
+class _MainPageState extends State<MainPage> with StatefulMixin {
+  final MainController controller = GetIt.I.get<MainController>();
 
   @override
   void initState() {
@@ -57,8 +33,8 @@ class _MainPageState extends State<MainPage> {
     scheduleMicrotask(() async {
       await Future.wait(
         [
-          environmentStore.tryFindDefaultGamedirAutomatically(),
-          environmentStore.tryFindGamePathAutomatically(),
+          controller.environmentStore.tryFindDefaultGamedirAutomatically(),
+          controller.environmentStore.tryFindGamePathAutomatically(),
         ],
       );
     });
@@ -67,7 +43,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: environmentStore,
+      valueListenable: controller.environmentStore,
       builder: (context, state, child) {
         return state.when(
           onInitial: () => const SizedBox(),
@@ -78,7 +54,7 @@ class _MainPageState extends State<MainPage> {
               appBar: AppBar(
                 leading: IconButton(
                   tooltip: environment.gamePath.isNotEmpty ? 'Open in Explorer ${environment.gamePath}' : 'Please select the game path first!',
-                  onPressed: pickGamePath,
+                  onPressed: () async => controller.pickGamePath(() => pickFolderPath(context)),
                   icon: Container(
                     foregroundDecoration: environment.gamePath.isNotEmpty
                         ? null
@@ -129,15 +105,78 @@ class _MainPageState extends State<MainPage> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    showLoading('Loading profiles...');
+
+                                    final profiles = await controller.getProfilesList(homedir.directory.path);
+
+                                    hideLoading();
+
+                                    if (!mounted) return;
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          child: SizedBox(
+                                            width: 512.0,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                              children: [
+                                                const SizedBox(height: 16.0),
+                                                Text(
+                                                  'Profiles (Local Only)',
+                                                  textAlign: TextAlign.center,
+                                                  style: context.textTheme.titleLarge?.copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                if (profiles.isEmpty) const SizedBox(height: 16.0),
+                                                if (profiles.isEmpty)
+                                                  Text(
+                                                    'No local profiles found!',
+                                                    textAlign: TextAlign.center,
+                                                    style: context.textTheme.titleMedium?.copyWith(),
+                                                  ),
+                                                if (profiles.isEmpty) const SizedBox(height: 16.0),
+                                                if (profiles.isNotEmpty)
+                                                  Flexible(
+                                                    child: ListView.separated(
+                                                      separatorBuilder: (context, index) => const Divider(),
+                                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                                      shrinkWrap: true,
+                                                      itemCount: profiles.length,
+                                                      itemBuilder: (context, index) {
+                                                        final profile = profiles[index];
+
+                                                        return ListTile(
+                                                          title: Text('${profile.profileName} - ${profile.companyName}'),
+                                                          subtitle: Text(
+                                                            'Active mods\n${profile.activeMods.map((e) => ' - $e').join('\n')}',
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
                                   tooltip: 'Show local profiles',
                                   icon: const Icon(Icons.people_rounded),
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final modListDetails = await getModListDetails(homedir.directory.path);
+                                    showLoading('Loading mods list details\nIt may take a while depending on the number of mods');
+
+                                    final modListDetails = await controller.getModListDetails(homedir.directory.path);
 
                                     if (!mounted) return;
+
+                                    hideLoading();
 
                                     await showDialog(
                                       context: context,
@@ -151,30 +190,39 @@ class _MainPageState extends State<MainPage> {
                                               children: [
                                                 const SizedBox(height: 16.0),
                                                 Text(
-                                                  'Mods list details',
+                                                  'Mods (Local Only)',
                                                   textAlign: TextAlign.center,
                                                   style: context.textTheme.titleLarge?.copyWith(
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                Flexible(
-                                                  child: ListView.separated(
-                                                    separatorBuilder: (context, index) => const Divider(),
-                                                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                                                    shrinkWrap: true,
-                                                    itemCount: modListDetails.length,
-                                                    itemBuilder: (context, index) {
-                                                      final mod = modListDetails[index];
-
-                                                      return ListTile(
-                                                        title: Text(mod.displayName),
-                                                        subtitle: Text(
-                                                          'Author: ${mod.author}\nVersion: ${mod.packageVersion}${mod.categories.isNotEmpty ? '\nCategories: ${mod.categories.join(', ')}' : ''}${mod.compatibleVersions.isNotEmpty ? '\nCompatible versions: ${mod.compatibleVersions.join(', ')}' : ''}',
-                                                        ),
-                                                      );
-                                                    },
+                                                if (modListDetails.isEmpty) const SizedBox(height: 16.0),
+                                                if (modListDetails.isEmpty)
+                                                  Text(
+                                                    'No local mods found!',
+                                                    textAlign: TextAlign.center,
+                                                    style: context.textTheme.titleMedium?.copyWith(),
                                                   ),
-                                                ),
+                                                if (modListDetails.isEmpty) const SizedBox(height: 16.0),
+                                                if (modListDetails.isNotEmpty)
+                                                  Flexible(
+                                                    child: ListView.separated(
+                                                      separatorBuilder: (context, index) => const Divider(),
+                                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                                      shrinkWrap: true,
+                                                      itemCount: modListDetails.length,
+                                                      itemBuilder: (context, index) {
+                                                        final mod = modListDetails[index];
+
+                                                        return ListTile(
+                                                          title: Text(mod.displayName),
+                                                          subtitle: Text(
+                                                            'Author: ${mod.author}\nVersion: ${mod.packageVersion}${mod.categories.isNotEmpty ? '\nCategories: ${mod.categories.join(', ')}' : ''}${mod.compatibleVersions.isNotEmpty ? '\nCompatible versions: ${mod.compatibleVersions.join(', ')}' : ''}',
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
                                               ],
                                             ),
                                           ),
@@ -183,7 +231,7 @@ class _MainPageState extends State<MainPage> {
                                     );
                                   },
                                   tooltip: 'Show the mods list details',
-                                  icon: const Icon(Icons.list_alt_rounded),
+                                  icon: const Icon(Icons.format_list_bulleted),
                                 ),
                                 IconButton(
                                   onPressed: () async {
@@ -197,13 +245,19 @@ class _MainPageState extends State<MainPage> {
                                   icon: const Icon(Icons.folder_rounded),
                                 ),
                                 IconButton(
-                                  onPressed: () => startGameFromHomedir(
-                                    environment.gamePath,
-                                    homedir.directory.path,
-                                    environment.launchArguments,
-                                    environment.closeAppWhenGameLaunch,
-                                  ),
+                                  onPressed: () async {
+                                    showLoading('Starting game...');
+
+                                    await controller.startGameFromHomedir(
+                                      homedir.directory.path,
+                                      environment.launchArguments,
+                                      environment.closeAppWhenGameLaunch,
+                                    );
+
+                                    hideLoading();
+                                  },
                                   tooltip: 'Start game from this homedir',
+                                  color: Colors.green,
                                   icon: const Icon(Icons.play_arrow_rounded),
                                 ),
                               ],
@@ -226,7 +280,7 @@ class _MainPageState extends State<MainPage> {
                   );
 
                   if (homedir != null) {
-                    environmentStore.addHomedir(homedir);
+                    controller.environmentStore.addHomedir(homedir);
                   }
                 },
                 icon: const Icon(Icons.add_rounded),
@@ -305,175 +359,4 @@ Future<String?> pickFolderPath(
   );
 
   return path;
-}
-
-Future<List<ModEntity>> getModListDetails(String path) async {
-  final modDir = Directory(p.join(path, 'Euro Truck Simulator 2', 'mod'));
-
-  if (!modDir.existsSync()) return [];
-
-  final modList = modDir.listSync();
-
-  if (modList.isEmpty) return [];
-
-  final modListNames = <ModEntity>[];
-
-  for (final mod in modList) {
-    if (mod is File) {
-      final sxcPath = switch (kDebugMode) {
-        true => getSystemArchitecture() == SystemArchitecture.x64 ? './assets/sxc/sxc64.exe' : './assets/sxc/sxc.exe',
-        false => getSystemArchitecture() == SystemArchitecture.x64 ? './data/flutter_assets/assets/sxc/sxc64.exe' : './data/flutter_assets/assets/sxc/sxc.exe',
-      };
-
-      await Process.run(
-        sxcPath,
-        [
-          mod.path,
-          '-f',
-          'manifest.sii',
-          '-oc',
-          p.join(modDir.path, 'temp'),
-        ],
-      );
-
-      final manifest = File(p.join(modDir.path, 'temp', 'manifest.sii'));
-
-      if (await manifest.exists()) {
-        final manifestContent = await manifest.readAsString();
-
-        final packageVersion = RegExp(r'package_version: "(.*)"').firstMatch(manifestContent)?.group(1);
-
-        final displayName = RegExp(r'display_name: "(.*)"').firstMatch(manifestContent)?.group(1);
-
-        final author = RegExp(r'author: "(.*)"').firstMatch(manifestContent)?.group(1);
-
-        final categories = RegExp(r'category\[\]: "(.*)"').allMatches(manifestContent).map((e) => e.group(1) ?? 'N/A').toList();
-
-        final compatibleVersions = RegExp(r'compatible_versions\[\]: "(.*)"').allMatches(manifestContent).map((e) => e.group(1) ?? 'N/A').toList();
-
-        modListNames.add(
-          ModEntity(
-            displayName: displayName ?? 'N/A',
-            packageVersion: packageVersion ?? 'N/A',
-            author: author ?? 'N/A',
-            categories: categories,
-            compatibleVersions: compatibleVersions,
-          ),
-        );
-
-        await Directory(p.join(modDir.path, 'temp')).delete(recursive: true);
-      } else {
-        modListNames.add(
-          ModEntity(
-            displayName: mod.path.split(r'\').last,
-            packageVersion: 'N/A',
-            author: 'N/A',
-            categories: [],
-            compatibleVersions: [],
-          ),
-        );
-      }
-    }
-  }
-
-  return modListNames;
-}
-
-Future<List<ProfileEntity>> getProfilesList(String path) async {
-  final profilesDir = Directory(p.join(path, 'Euro Truck Simulator 2', 'profiles'));
-
-  if (!await profilesDir.exists()) return [];
-
-  final profilesDirList = profilesDir.listSync();
-
-  if (profilesDirList.isEmpty) return [];
-
-  final profiles = <ProfileEntity>[];
-
-  for (final profileDir in profilesDirList) {
-    if (profileDir is Directory) {
-      final profile = File(p.join(profileDir.path, 'profile.sii'));
-
-      if (await profile.exists()) {
-        final profileContent = await profile.readAsBytes();
-
-        final decoded = utf8.decode(profileContent, allowMalformed: true);
-
-        if (decoded.startsWith(RegExp(r'SiiNunit'))) {
-          final companyName = RegExp(r'company_name: ["]?(.*)["]?').firstMatch(decoded)?.group(1)?.replaceAll('"', '');
-
-          final profileName = RegExp(r'profile_name: ["]?(.*)["]?').firstMatch(decoded)?.group(1)?.replaceAll('"', '');
-
-          final activeMods = RegExp(r'active_mods\[[0-9]{1,}\]: ["]?(.*)["]?').allMatches(decoded).map((e) {
-            return e.group(1)?.split('|').last.replaceAll('"', '') ?? 'N/A';
-          }).toList();
-
-          profiles.add(
-            ProfileEntity(
-              companyName: companyName ?? 'N/A',
-              profileName: profileName ?? 'N/A',
-              activeMods: activeMods,
-            ),
-          );
-        } else {
-          final profileTemp = File(p.join(profileDir.path, 'profileTemp.sii'));
-
-          final decryptPath = switch (kDebugMode) {
-            true => './assets/sii_decrypt/SII_Decrypt.exe',
-            false => './data/flutter_assets/assets/sii_decrypt/SII_Decrypt.exe',
-          };
-
-          await Process.run(decryptPath, [profile.path, profileTemp.path]);
-
-          if (!await profileTemp.exists()) {
-            continue;
-          }
-
-          final profileContent = await profileTemp.readAsString();
-
-          final companyName = RegExp(r'company_name: ["]?(.*)["]?').firstMatch(profileContent)?.group(1)?.replaceAll('"', '');
-
-          final profileName = RegExp(r'profile_name: ["]?(.*)["]?').firstMatch(profileContent)?.group(1)?.replaceAll('"', '');
-
-          final activeMods = RegExp(r'active_mods\[[0-9]{1,}\]: ["]?(.*)["]?').allMatches(profileContent).map((e) {
-            return e.group(1)?.split('|').last.replaceAll('"', '') ?? 'N/A';
-          }).toList();
-
-          profiles.add(
-            ProfileEntity(
-              companyName: companyName ?? 'N/A',
-              profileName: profileName ?? 'N/A',
-              activeMods: activeMods,
-            ),
-          );
-
-          await profileTemp.delete();
-        }
-      }
-    }
-  }
-
-  return profiles;
-}
-
-void startGameFromHomedir(
-  String gamePath,
-  String homedirPath, [
-  List<String> launchArguments = const [],
-  bool closeAppWhenGameLaunch = true,
-]) async {
-  if (gamePath.isEmpty) return;
-
-  await Process.run(
-    gamePath,
-    [
-      '-homedir',
-      homedirPath,
-      ...launchArguments,
-    ],
-  );
-
-  if (closeAppWhenGameLaunch) {
-    exit(0);
-  }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/extensions/build_context_extension.dart';
+import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
 import 'package:ets2_environments/src/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
@@ -15,7 +16,7 @@ class AddHomedirDialog extends StatefulWidget {
   State<AddHomedirDialog> createState() => _AddHomedirDialogState();
 }
 
-class _AddHomedirDialogState extends State<AddHomedirDialog> {
+class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin {
   final TextEditingController name = TextEditingController();
   final TextEditingController path = TextEditingController();
 
@@ -86,6 +87,8 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> {
                 ElevatedButton(
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
+                      showLoading();
+
                       final directory = Directory(path.text);
 
                       if (!directory.existsSync()) directory.createSync(recursive: true);
@@ -112,15 +115,12 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> {
 
                       if (!mounted) return;
 
+                      hideLoading();
+
                       return Navigator.pop(context, homedir);
                     }
                   },
                   style: ButtonStyle(
-                    // shape: MaterialStateProperty.all(
-                    //   RoundedRectangleBorder(
-                    //     borderRadius: BorderRadius.circular(4.0),
-                    //   ),
-                    // ),
                     fixedSize: MaterialStateProperty.all(const Size.fromHeight(52.0)),
                   ),
                   child: const Text('Add'),
