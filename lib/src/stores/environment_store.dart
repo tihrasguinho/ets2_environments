@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:ets2_environments/src/entities/environment_entity.dart';
@@ -14,20 +15,24 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
 
   Timer? _timer;
 
-  EnvironmentStore(this._preferences) : super(InitialEnvironmentState()) {
-    loadFromLocalStorage();
-  }
+  EnvironmentStore(this._preferences) : super(InitialEnvironmentState());
 
-  void loadFromLocalStorage() {
+  void loadFromLocalStorage([bool verbose = false]) {
+    if (verbose) log('Loading from local storage...', name: 'EnvironmentStore:loadFromLocalStorage');
+
     value = LoadingEnvironmentState();
 
     final environmentJson = _preferences.getString('environment');
 
-    if (environmentJson == null) return;
+    if (environmentJson == null) {
+      value = SuccessEnvironmentState(value.environment);
 
-    final environment = EnvironmentEntity.fromJson(environmentJson);
+      return;
+    } else {
+      final environment = EnvironmentEntity.fromJson(environmentJson);
 
-    value = SuccessEnvironmentState(environment);
+      value = SuccessEnvironmentState(environment);
+    }
   }
 
   void setGamePath(String path) async {
@@ -97,6 +102,8 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
   }
 
   Future<void> tryFindGamePathAutomatically() async {
+    if (value.environment.gamePath.isNotEmpty) return;
+
     final defaultPaths = <String>[
       p.normalize('C:/Program Files (x86)/Steam/steamapps/common/Euro Truck Simulator 2/bin/win_x64/eurotrucks2.exe'),
       p.normalize('C:/Program Files/Steam/steamapps/common/Euro Truck Simulator 2/bin/win_x64/eurotrucks2.exe')

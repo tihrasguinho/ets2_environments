@@ -73,14 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
-  filesystem_picker:
+  filepicker_windows:
     dependency: "direct main"
     description:
-      name: filesystem_picker
-      sha256: cc2bfe7e5a4ce21afd5b1b03824c0e6e5386a981ed6cce7bda062b1af805cf62
+      name: filepicker_windows
+      sha256: da047c72b64abcc0103747c0d6f8f09d68655a5da10ddd6a0d291f8f27f897c9
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "2.0.11"
   flex_color_scheme:
     dependency: "direct main"
     description:

@@ -6,6 +6,7 @@ import 'package:ets2_environments/src/entities/profile_entity.dart';
 import 'package:ets2_environments/src/enums/system_architecture.dart';
 import 'package:ets2_environments/src/stores/environment_store.dart';
 import 'package:ets2_environments/src/utils/sii_decrypt.dart';
+import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
@@ -113,6 +114,31 @@ class MainController {
     return profiles;
   }
 
+  Future<void> pickModFiles(Directory homedir) async {
+    final picker = OpenFilePicker()
+      ..title = 'Select the mods you want to add to this homedir'
+      ..initialDirectory = homedir.path
+      ..filterSpecification = {
+        'Euro Truck Simulator 2 Mods': '*.scs;*.zip',
+      }
+      ..defaultFilterIndex = 0
+      ..defaultExtension = 'scs';
+
+    final files = picker.getFiles();
+
+    if (files.isEmpty) return;
+
+    final modsDir = Directory(p.join(homedir.path, 'Euro Truck Simulator 2', 'mod'));
+
+    if (!await modsDir.exists()) {
+      await modsDir.create(recursive: true);
+    }
+
+    for (final file in files) {
+      await file.copy(p.join(modsDir.path, p.basename(file.path)));
+    }
+  }
+
   Future<List<ModEntity>> getModListDetails(String path) async {
     final modDir = Directory(p.join(path, 'Euro Truck Simulator 2', 'mod'));
 
@@ -185,7 +211,7 @@ class MainController {
     return modListNames;
   }
 
-  Future<void> pickGamePath(Future<String?> Function() fun) async {
+  Future<void> pickGamePath(void Function(String error) onError) async {
     if (environmentStore.value.environment.gamePath.isNotEmpty) {
       final uri = Uri.file(p.dirname(environmentStore.value.environment.gamePath));
 
@@ -195,15 +221,30 @@ class MainController {
       return;
     }
 
-    final path = await fun();
+    final picker = OpenFilePicker()
+      ..title = 'Select the Euro Truck Simulator 2 executable!'
+      ..fileName = 'eurotrucks2.exe'
+      ..defaultExtension = 'exe'
+      ..fileMustExist = true
+      ..filterSpecification = {
+        'Euro Truck Simulator 2': '*.exe',
+      };
 
-    if (path == null) return;
+    final file = picker.getFile();
 
-    if (!File(p.join(path, 'bin', 'win_x64', 'eurotrucks2.exe')).existsSync()) {
+    if (file == null) {
       return;
     }
 
-    environmentStore.setGamePath(path);
+    if (!file.existsSync()) {
+      return onError('File not found!');
+    }
+
+    if (p.basename(file.path) != 'eurotrucks2.exe') {
+      return onError('Invalid Euro Truck Simulator 2 executable!');
+    }
+
+    environmentStore.setGamePath(file.path);
   }
 
   String _withCharBugSolved(String encodedString) {

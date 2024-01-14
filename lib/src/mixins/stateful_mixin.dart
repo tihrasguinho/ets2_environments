@@ -1,3 +1,4 @@
+import 'package:ets2_environments/src/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 mixin StatefulMixin<T extends StatefulWidget> on State<T> {
@@ -38,5 +39,34 @@ mixin StatefulMixin<T extends StatefulWidget> on State<T> {
       _loadingEntry?.remove();
       _loadingEntry = null;
     }
+  }
+
+  void showErrorDialog(String message) async {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Error!',
+            style: context.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: context.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

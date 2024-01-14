@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/extensions/build_context_extension.dart';
 import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
-import 'package:ets2_environments/src/pages/main_page.dart';
+import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 
@@ -21,6 +21,16 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
   final TextEditingController path = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  void pickFolder() {
+    final picker = DirectoryPicker()..title = 'Select a folder to your new homedir';
+
+    final directory = picker.getDirectory();
+
+    if (directory == null) return;
+
+    path.value = TextEditingValue(text: directory.path, selection: TextSelection.collapsed(offset: directory.path.length));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,19 +70,14 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                 const SizedBox(height: 16.0),
                 TextFormField(
                   controller: path,
-                  onTap: () async {
-                    final homedirPath = await pickPath(
-                      context,
-                      title: 'Select a folder to use as homedir',
-                    );
-
-                    if (homedirPath != null) {
-                      path.text = homedirPath;
-                    }
-                  },
+                  onTap: pickFolder,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter a path!';
+                    }
+
+                    if (!Directory(value).existsSync()) {
+                      return 'Path does not exist!';
                     }
 
                     return null;
