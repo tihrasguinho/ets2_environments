@@ -61,7 +61,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                 TextFormField(
                   controller: path,
                   onTap: () async {
-                    final homedirPath = await pickFolderPath(
+                    final homedirPath = await pickPath(
                       context,
                       title: 'Select a folder to use as homedir',
                     );

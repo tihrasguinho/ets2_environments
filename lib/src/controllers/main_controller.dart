@@ -5,6 +5,7 @@ import 'package:ets2_environments/src/entities/mod_entity.dart';
 import 'package:ets2_environments/src/entities/profile_entity.dart';
 import 'package:ets2_environments/src/enums/system_architecture.dart';
 import 'package:ets2_environments/src/stores/environment_store.dart';
+import 'package:ets2_environments/src/utils/sii_decrypt.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
@@ -53,11 +54,22 @@ class MainController {
         final profile = File(p.join(profileDir.path, 'profile.sii'));
 
         if (await profile.exists()) {
-          final profileContent = await profile.readAsBytes();
+          final siiDecryptDllPath = switch (kDebugMode) {
+            true => './assets/sii_decrypt/SII_Decrypt_x64.dll',
+            false => './data/flutter_assets/assets/sii_decrypt/SII_Decrypt_x64.dll',
+          };
 
-          final decoded = utf8.decode(profileContent, allowMalformed: true);
+          final decrypt = SiiDecrypt(siiDecryptDllPath);
 
-          if (decoded.startsWith(RegExp(r'SiiNunit'))) {
+          final isEncrypted = decrypt.isEncrypted(profile.path);
+
+          if (isEncrypted == null) continue;
+
+          if (!isEncrypted) {
+            final profileContent = await profile.readAsBytes();
+
+            final decoded = utf8.decode(profileContent, allowMalformed: true);
+
             final companyName = RegExp(r'company_name: ["]?(.*)["]?').firstMatch(decoded)?.group(1)?.replaceAll('"', '');
 
             final profileName = RegExp(r'profile_name: ["]?(.*)["]?').firstMatch(decoded)?.group(1)?.replaceAll('"', '');
@@ -68,26 +80,15 @@ class MainController {
 
             profiles.add(
               ProfileEntity(
-                companyName: decodeString(companyName ?? 'N/A'),
-                profileName: decodeString(profileName ?? 'N/A'),
+                companyName: _withCharBugSolved(companyName ?? 'N/A'),
+                profileName: _withCharBugSolved(profileName ?? 'N/A'),
                 activeMods: activeMods,
               ),
             );
           } else {
-            final profileTemp = File(p.join(profileDir.path, 'profileTemp.sii'));
+            final profileContent = decrypt.decryptAndDecodeFile(profile.path, verbose: true);
 
-            final decryptPath = switch (kDebugMode) {
-              true => './assets/sii_decrypt/SII_Decrypt.exe',
-              false => './data/flutter_assets/assets/sii_decrypt/SII_Decrypt.exe',
-            };
-
-            await Process.run(decryptPath, [profile.path, profileTemp.path]);
-
-            if (!await profileTemp.exists()) {
-              continue;
-            }
-
-            final profileContent = await profileTemp.readAsString();
+            if (profileContent == null) continue;
 
             final companyName = RegExp(r'company_name: ["]?(.*)["]?').firstMatch(profileContent)?.group(1)?.replaceAll('"', '');
 
@@ -99,13 +100,11 @@ class MainController {
 
             profiles.add(
               ProfileEntity(
-                companyName: decodeString(companyName ?? 'N/A'),
-                profileName: decodeString(profileName ?? 'N/A'),
+                companyName: _withCharBugSolved(companyName ?? 'N/A'),
+                profileName: _withCharBugSolved(profileName ?? 'N/A'),
                 activeMods: activeMods,
               ),
             );
-
-            await profileTemp.delete();
           }
         }
       }
@@ -207,7 +206,7 @@ class MainController {
     environmentStore.setGamePath(path);
   }
 
-  String decodeString(String encodedString) {
+  String _withCharBugSolved(String encodedString) {
     final decoded = encodedString.replaceAllMapped(
       RegExp(r'\\x[0-9a-fA-F]{2}\\x[0-9a-fA-F]{2}'),
       (match) {

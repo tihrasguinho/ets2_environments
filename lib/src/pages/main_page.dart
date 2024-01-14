@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
               appBar: AppBar(
                 leading: IconButton(
                   tooltip: environment.gamePath.isNotEmpty ? 'Open in Explorer ${environment.gamePath}' : 'Please select the game path first!',
-                  onPressed: () async => controller.pickGamePath(() => pickFolderPath(context)),
+                  onPressed: () async => controller.pickGamePath(() => pickPath(context)),
                   icon: Container(
                     foregroundDecoration: environment.gamePath.isNotEmpty
                         ? null
@@ -167,6 +167,39 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                                   },
                                   tooltip: 'Show local profiles',
                                   icon: const Icon(Icons.people_rounded),
+                                ),
+                                IconButton(
+                                  onPressed: () async {
+                                    final path = await pickPath(
+                                      context,
+                                      title: 'Select your mod',
+                                      fsType: FilesystemType.file,
+                                    );
+
+                                    if (path == null) return;
+
+                                    if (path.isEmpty) return;
+
+                                    final modFile = File(path);
+
+                                    if (!await modFile.exists()) return;
+
+                                    showLoading('Adding mod to this homedir');
+
+                                    final modBytes = await modFile.readAsBytes();
+
+                                    final filename = p.basename(path);
+
+                                    final modDir = Directory(p.join(homedir.directory.path, 'Euro Truck Simulator 2', 'mod'));
+
+                                    if (!await modDir.exists()) await modDir.create(recursive: true);
+
+                                    await File(p.join(modDir.path, filename)).writeAsBytes(modBytes);
+
+                                    hideLoading();
+                                  },
+                                  tooltip: 'Add new mods to this homedir',
+                                  icon: const Icon(Icons.add_rounded),
                                 ),
                                 IconButton(
                                   onPressed: () async {
@@ -300,9 +333,10 @@ List<String> getDrivesOnWindows() {
   return LineSplitter.split(data).map((string) => string.trim()).where((string) => string.isNotEmpty).skip(1).toList();
 }
 
-Future<String?> pickFolderPath(
+Future<String?> pickPath(
   BuildContext context, {
   String title = 'Select a folder to pick',
+  FilesystemType fsType = FilesystemType.folder,
 }) async {
   final drivers = getDrivesOnWindows();
 
@@ -344,11 +378,11 @@ Future<String?> pickFolderPath(
     context: context,
     title: title,
     rootDirectory: Directory(p.normalize('$drive/')),
-    fsType: FilesystemType.folder,
+    fsType: fsType,
     pickText: 'Select',
     requestPermission: () async => true,
     itemFilter: (fsEntity, path, name) {
-      if (name.startsWith(r'$') || ['system volume information', 'windows', 'recovery', 'temp'].contains(name.toLowerCase())) {
+      if (name.startsWith(r'$') || name.startsWith('.') || ['system volume information', 'windows', 'recovery', 'temp'].contains(name.toLowerCase())) {
         return false;
       }
 
