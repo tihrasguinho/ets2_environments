@@ -1,3 +1,4 @@
+import 'package:ets2_environments/src/others/theme_mode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,5 +20,5 @@ void main() async {
 
   getIt.registerSingleton<MainController>(MainController(getIt()));
 
-  runApp(const MainWidget());
+  runApp(ThemeModeWidget(child: const MainWidget()));
 }

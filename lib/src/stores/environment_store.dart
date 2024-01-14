@@ -17,7 +17,7 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
 
   EnvironmentStore(this._preferences) : super(InitialEnvironmentState());
 
-  void loadFromLocalStorage([bool verbose = false]) {
+  void loadFromLocalStorage({bool verbose = false, void Function()? doWhenDone}) {
     if (verbose) log('Loading from local storage...', name: 'EnvironmentStore:loadFromLocalStorage');
 
     value = LoadingEnvironmentState();
@@ -27,11 +27,13 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
     if (environmentJson == null) {
       value = SuccessEnvironmentState(value.environment);
 
-      return;
+      return doWhenDone?.call();
     } else {
       final environment = EnvironmentEntity.fromJson(environmentJson);
 
       value = SuccessEnvironmentState(environment);
+
+      return doWhenDone?.call();
     }
   }
 
@@ -45,6 +47,14 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
 
   void addHomedir(HomedirEntity homedir) async {
     final environment = value.environment.copyWith(homedirs: [...value.environment.homedirs, homedir]);
+
+    await _preferences.setString('environment', environment.toJson());
+
+    value = SuccessEnvironmentState(environment);
+  }
+
+  void removeHomedir(HomedirEntity homedir) async {
+    final environment = value.environment.copyWith(homedirs: [...value.environment.homedirs]..remove(homedir));
 
     await _preferences.setString('environment', environment.toJson());
 
@@ -72,10 +82,8 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
     value = SuccessEnvironmentState(environment);
   }
 
-  void setAppThemeToDarkMode(bool? foo) async {
-    if (foo == null) return;
-
-    final environment = value.environment.copyWith(setAppThemeToDarkMode: foo);
+  void setThemeMode(ThemeMode mode) async {
+    final environment = value.environment.copyWith(themeMode: mode);
 
     await _preferences.setString('environment', environment.toJson());
 

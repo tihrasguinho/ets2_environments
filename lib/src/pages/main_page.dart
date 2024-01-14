@@ -10,9 +10,9 @@ import 'package:ets2_environments/src/extensions/column_extension.dart';
 import 'package:ets2_environments/src/extensions/list_extension.dart';
 import 'package:ets2_environments/src/extensions/row_extension.dart';
 import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
+import 'package:ets2_environments/src/others/theme_mode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 
 class MainPage extends StatefulWidget {
@@ -25,13 +25,13 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with StatefulMixin {
   final MainController controller = GetIt.I.get<MainController>();
 
-  Future<void> onPopupMenuSelected(String value, Directory homedir) async {
+  Future<void> onPopupMenuSelected(String value, HomedirEntity homedir) async {
     switch (value) {
       case 'List Local Profiles':
         {
           showLoading('Loading profiles...');
 
-          final profiles = await controller.getProfilesList(homedir.path);
+          final profiles = await controller.getProfilesList(homedir.directory.path);
 
           hideLoading();
 
@@ -94,7 +94,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
         {
           showLoading('Loading mods list details\nIt may take a while depending on the number of mods');
 
-          final modListDetails = await controller.getModListDetails(homedir.path);
+          final modListDetails = await controller.getModListDetails(homedir.directory.path);
 
           if (!mounted) return;
 
@@ -158,7 +158,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
         {
           showLoading();
 
-          await controller.pickModFiles(homedir);
+          await controller.pickModFiles(homedir.directory);
 
           hideLoading();
 
@@ -166,10 +166,78 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
         }
       case 'Open in Explorer':
         {
-          final uri = Uri.file(p.join(homedir.path, 'Euro Truck Simulator 2'));
+          final uri = Uri.file(homedir.homedirPathView);
 
           if (await canLaunchUrl(uri)) {
             await launchUrl(uri);
+          }
+
+          break;
+        }
+      case 'Remove':
+        {
+          final result = await showDialog<({bool remove, bool keep})>(
+            context: context,
+            builder: (context) {
+              final keepDir = ValueNotifier(false);
+
+              return AlertDialog(
+                title: Text(
+                  'Remove This Homedir?',
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Are you sure you want to remove this homedir?',
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                    ValueListenableBuilder(
+                      valueListenable: keepDir,
+                      builder: (context, value, child) {
+                        return CheckboxListTile.adaptive(
+                          value: value,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(
+                            'Keep the directory folder?',
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          onChanged: (foo) {
+                            keepDir.value = foo ?? false;
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ).withSpacing(16.0),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop((remove: false, keep: keepDir.value)),
+                    child: const Text('Cancel!'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop((remove: true, keep: keepDir.value)),
+                    child: const Text('Yes, remove it!'),
+                  )
+                ],
+              );
+            },
+          );
+
+          if (result?.remove ?? false) {
+            controller.environmentStore.removeHomedir(homedir);
+
+            if (!result!.keep) {
+              await homedir.directory.delete(recursive: true);
+            }
           }
 
           break;
@@ -186,7 +254,13 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
     super.initState();
 
     scheduleMicrotask(() async {
-      controller.environmentStore.loadFromLocalStorage(true);
+      controller.environmentStore.loadFromLocalStorage(
+        doWhenDone: () => switch (controller.environmentStore.value.environment.themeMode) {
+          ThemeMode.system => ThemeModeWidget.of(context).setSystemMode(),
+          ThemeMode.light => ThemeModeWidget.of(context).setLightMode(),
+          ThemeMode.dark => ThemeModeWidget.of(context).setDarkMode(),
+        },
+      );
 
       await controller.environmentStore.tryFindGamePathAutomatically();
 
@@ -285,7 +359,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                                   icon: const Icon(Icons.play_arrow_rounded),
                                 ),
                                 PopupMenuButton<String>(
-                                  onSelected: (value) => onPopupMenuSelected(value, homedir.directory),
+                                  onSelected: (value) => onPopupMenuSelected(value, homedir),
                                   itemBuilder: (context) {
                                     return List.from(
                                       <String>[
