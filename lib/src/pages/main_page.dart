@@ -7,13 +7,14 @@ import 'package:ets2_environments/src/dialogs/add_homedir_dialog.dart';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/extensions/build_context_extension.dart';
 import 'package:ets2_environments/src/extensions/column_extension.dart';
-import 'package:ets2_environments/src/extensions/list_extension.dart';
 import 'package:ets2_environments/src/extensions/row_extension.dart';
 import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
-import 'package:ets2_environments/src/others/theme_mode_widget.dart';
+import 'package:ets2_environments/src/others/system_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path/path.dart' as p;
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -23,7 +24,27 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with StatefulMixin {
+  late final SystemManager manager = SystemManager.of(context);
   final MainController controller = GetIt.I.get<MainController>();
+
+  void initTray() async {
+    await trayManager.setIcon('assets/app_icon.ico');
+
+    final menu = Menu(
+      items: [
+        MenuItem(
+          key: 'show_ets2_environments',
+          label: 'Show ETS2 Environments',
+        ),
+        MenuItem(
+          key: 'close_ets2_environments',
+          label: 'Close ETS2 Environments',
+        ),
+      ],
+    );
+
+    await trayManager.setContextMenu(menu);
+  }
 
   Future<void> onPopupMenuSelected(String value, HomedirEntity homedir) async {
     switch (value) {
@@ -254,197 +275,201 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
     super.initState();
 
     scheduleMicrotask(() async {
-      controller.environmentStore.loadFromLocalStorage(
-        doWhenDone: () => switch (controller.environmentStore.value.environment.themeMode) {
-          ThemeMode.system => ThemeModeWidget.of(context).setSystemMode(),
-          ThemeMode.light => ThemeModeWidget.of(context).setLightMode(),
-          ThemeMode.dark => ThemeModeWidget.of(context).setDarkMode(),
-        },
-      );
+      controller.environmentStore.loadFromLocalStorage();
 
-      await controller.environmentStore.tryFindGamePathAutomatically();
+      await manager.tryFindGamePathAutomatically();
 
-      await controller.environmentStore.tryFindDefaultGamedirAutomatically();
+      await manager.tryFindDefaultGamedirAutomatically();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: controller.environmentStore,
-      builder: (context, state, child) {
-        return state.when(
-          onInitial: () => const Material(),
-          onLoading: () => const Material(child: Center(child: CircularProgressIndicator())),
-          onError: (error) => Material(
-            child: Center(
-              child: Text(
-                error,
-                textAlign: TextAlign.center,
-                style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          tooltip: manager.system.gameFileExists ? 'Open in Explorer ${manager.system.gameFile.path}' : 'Please select the game executable first!',
+          onPressed: () async {
+            if (manager.system.gameFileExists) {
+              final uri = Uri.file(p.dirname(manager.system.gameFile.path));
+
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
+              }
+            } else {
+              final gameFile = await controller.pickGamePath();
+
+              if (gameFile == null) {
+                return showErrorDialog('Failed to pick game path');
+              }
+
+              return manager.setGameFile(gameFile);
+            }
+          },
+          icon: Container(
+            foregroundDecoration: manager.system.gameFileExists
+                ? null
+                : const BoxDecoration(
+                    color: Colors.grey,
+                    backgroundBlendMode: BlendMode.saturation,
+                  ),
+            child: Image.asset(
+              'assets/ets2-logo.png',
+              height: 36.0,
+              width: 36.0,
+              cacheWidth: 36,
+              cacheHeight: 36,
             ),
           ),
-          onSuccess: (environment) {
-            return Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  tooltip: environment.gamePath.isNotEmpty ? 'Open in Explorer ${environment.gamePath}' : 'Please select the game path first!',
-                  onPressed: () async => await controller.pickGamePath(showErrorDialog),
-                  icon: Container(
-                    foregroundDecoration: environment.gamePath.isNotEmpty
-                        ? null
-                        : const BoxDecoration(
-                            color: Colors.grey,
-                            backgroundBlendMode: BlendMode.saturation,
-                          ),
-                    child: Image.asset(
-                      'assets/ets2-logo.png',
-                      height: 36.0,
-                      width: 36.0,
-                      cacheWidth: 36,
-                      cacheHeight: 36,
+        ),
+        title: Text(
+          'ETS2 Environments${manager.system.gameFileExists ? '' : ' - Euro Truck Simulator 2 not found!'}',
+          style: context.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).pushNamed('/settings'),
+            icon: const Icon(Icons.settings_rounded),
+          ),
+          const SizedBox(width: 8.0),
+        ],
+      ),
+      body: ValueListenableBuilder(
+        valueListenable: controller.environmentStore,
+        builder: (context, state, child) {
+          return state.when(
+            onInitial: () => const SizedBox(),
+            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onError: (error) => Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.info_rounded,
+                    size: 52.0,
+                  ),
+                  Text(
+                    error,
+                    style: context.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                title: Text(
-                  'ETS2 Environments${environment.gamePath.isNotEmpty ? '' : ' - Euro Truck Simulator 2 not found!'}',
-                  style: context.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pushNamed('/settings'),
-                    icon: const Icon(Icons.settings_rounded),
-                  ),
-                  const SizedBox(width: 8.0),
                 ],
               ),
-              body: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ListView.separated(
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemCount: environment.homedirs.length,
-                        itemBuilder: (context, index) {
-                          final homedir = environment.homedirs[index];
+            ),
+            onSuccess: (environment) => Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView.separated(
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: environment.homedirs.length,
+                itemBuilder: (context, index) {
+                  final homedir = environment.homedirs[index];
 
-                          return ListTile(
-                            onTap: () {},
-                            title: Text(homedir.name),
-                            subtitle: Text(homedir.directory.path),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  onPressed: () async {
-                                    showLoading('Starting game...');
+                  return ListTile(
+                    onTap: () {},
+                    title: Text(homedir.name),
+                    subtitle: Text(homedir.directory.path),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            showLoading('Starting game...');
 
-                                    await controller.startGameFromHomedir(
-                                      homedir.directory.path,
-                                      environment.launchArguments,
-                                      environment.closeAppWhenGameLaunch,
-                                    );
+                            await manager.startGameFromHomedir(homedir);
 
-                                    hideLoading();
-                                  },
-                                  tooltip: 'Start game from this homedir',
-                                  color: Colors.green,
-                                  icon: const Icon(Icons.play_arrow_rounded),
-                                ),
-                                PopupMenuButton<String>(
-                                  onSelected: (value) => onPopupMenuSelected(value, homedir),
-                                  itemBuilder: (context) {
-                                    return List.from(
-                                      <String>[
-                                        'List Local Profiles',
-                                        'List Local Mods',
-                                        'Add Mods',
-                                        'Open in Explorer',
-                                        'Remove',
-                                      ].map(
-                                        (item) {
-                                          return PopupMenuItem(value: item, child: Text(item));
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ).withSpacing(16.0),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                ),
+                            hideLoading();
+                          },
+                          tooltip: 'Start game from this homedir',
+                          color: Colors.green,
+                          icon: const Icon(Icons.play_arrow_rounded),
+                        ),
+                        PopupMenuButton<String>(
+                          onSelected: (value) => onPopupMenuSelected(value, homedir),
+                          itemBuilder: (context) {
+                            return List.from(
+                              <String>[
+                                'List Local Profiles',
+                                'List Local Mods',
+                                'Add Mods',
+                                'Open in Explorer',
+                                'Remove',
+                              ].map(
+                                (item) {
+                                  return PopupMenuItem(value: item, child: Text(item));
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ).withSpacing(16.0),
+                  );
+                },
               ),
-              floatingActionButton: FloatingActionButton.extended(
-                elevation: 2,
-                onPressed: () async {
-                  if (environment.gamePath.isEmpty) {
-                    return await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Dialog(
-                          child: SizedBox(
-                            width: 512.0,
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text('Error!',
-                                      textAlign: TextAlign.center,
-                                      style: context.textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(
-                                    'Please select the game path first!',
-                                    textAlign: TextAlign.center,
-                                    style: context.textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => Navigator.of(context).pop(),
-                                    style: ButtonStyle(fixedSize: MaterialStateProperty.all(const Size(52.0 * 2, 48.0))),
-                                    child: const Text('Ok'),
-                                  ),
-                                ],
-                              ).withSpacing(16.0),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        elevation: 2,
+        onPressed: () async {
+          if (!manager.system.gameFileExists) {
+            return await showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  child: SizedBox(
+                    width: 512.0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Error!',
+                              textAlign: TextAlign.center,
+                              style: context.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              )),
+                          Text(
+                            'Please select the game path first!',
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }
-
-                  final homedir = await showDialog<HomedirEntity>(
-                    context: context,
-                    builder: (context) => AddHomedirDialog(
-                      defaultHomedirPath: environment.homedirs.firstWhereOrNull((e) => e.isDefault)?.directory,
+                          ElevatedButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: ButtonStyle(fixedSize: MaterialStateProperty.all(const Size(52.0 * 2, 48.0))),
+                            child: const Text('Ok'),
+                          ),
+                        ],
+                      ).withSpacing(16.0),
                     ),
-                  );
-
-                  if (homedir != null) {
-                    controller.environmentStore.addHomedir(homedir);
-                  }
-                },
-                icon: const Icon(Icons.add_rounded),
-                label: const Text('Add new homedir'),
-              ),
+                  ),
+                );
+              },
             );
-          },
-        );
-      },
+          }
+
+          final homedir = await showDialog<HomedirEntity>(
+            context: context,
+            builder: (context) => AddHomedirDialog(
+              defaultHomedirPath: manager.system.defaultHomedir,
+            ),
+          );
+
+          if (homedir != null) {
+            controller.environmentStore.addHomedir(homedir);
+          }
+        },
+        icon: const Icon(Icons.add_rounded),
+        label: const Text('Add new homedir'),
+      ),
     );
   }
 }

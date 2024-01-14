@@ -9,35 +9,11 @@ import 'package:ets2_environments/src/utils/sii_decrypt.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
-import 'package:url_launcher/url_launcher.dart';
 
 class MainController {
   final EnvironmentStore environmentStore;
 
   MainController(this.environmentStore);
-
-  Future<void> startGameFromHomedir(
-    String homedirPath, [
-    List<String> launchArguments = const [],
-    bool closeAppWhenGameLaunch = true,
-  ]) async {
-    final gamePath = environmentStore.value.environment.gamePath;
-
-    if (gamePath.isEmpty) return;
-
-    await Process.run(
-      gamePath,
-      [
-        '-homedir',
-        homedirPath,
-        ...launchArguments,
-      ],
-    );
-
-    if (closeAppWhenGameLaunch) {
-      exit(0);
-    }
-  }
 
   Future<List<ProfileEntity>> getProfilesList(String path) async {
     final profilesDir = Directory(p.join(path, 'Euro Truck Simulator 2', 'profiles'));
@@ -211,16 +187,7 @@ class MainController {
     return modListNames;
   }
 
-  Future<void> pickGamePath(void Function(String error) onError) async {
-    if (environmentStore.value.environment.gamePath.isNotEmpty) {
-      final uri = Uri.file(p.dirname(environmentStore.value.environment.gamePath));
-
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri);
-      }
-      return;
-    }
-
+  Future<File?> pickGamePath() async {
     final picker = OpenFilePicker()
       ..title = 'Select the Euro Truck Simulator 2 executable!'
       ..fileName = 'eurotrucks2.exe'
@@ -233,18 +200,18 @@ class MainController {
     final file = picker.getFile();
 
     if (file == null) {
-      return;
+      return null;
     }
 
     if (!file.existsSync()) {
-      return onError('File not found!');
+      return null;
     }
 
     if (p.basename(file.path) != 'eurotrucks2.exe') {
-      return onError('Invalid Euro Truck Simulator 2 executable!');
+      return null;
     }
 
-    environmentStore.setGamePath(file.path);
+    return file;
   }
 
   String _withCharBugSolved(String encodedString) {

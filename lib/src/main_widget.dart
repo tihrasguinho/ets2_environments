@@ -1,9 +1,9 @@
+import 'package:ets2_environments/src/others/system_manager.dart';
 import 'package:ets2_environments/src/pages/settings_page.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'others/theme_mode_widget.dart';
 import 'pages/main_page.dart';
 
 class MainWidget extends StatelessWidget {
@@ -12,7 +12,7 @@ class MainWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: ThemeModeWidget.of(context).notifier!,
+      valueListenable: SystemManager.of(context).notifier!,
       builder: (context, value, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -79,7 +79,7 @@ class MainWidget extends StatelessWidget {
             swapLegacyOnMaterial3: true,
             fontFamily: GoogleFonts.notoSans().fontFamily,
           ),
-          themeMode: value,
+          themeMode: value.themeMode,
         );
       },
     );
