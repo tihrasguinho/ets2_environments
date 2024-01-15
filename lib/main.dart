@@ -1,3 +1,4 @@
+import 'package:ets2_environments/l10n/l10n.dart';
 import 'package:ets2_environments/src/others/system_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -29,6 +30,8 @@ void main() async {
   final GetIt getIt = GetIt.instance;
 
   final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+  getIt.registerLazySingleton<I10n>(() => I10n());
 
   getIt.registerSingleton<SharedPreferences>(preferences);
 

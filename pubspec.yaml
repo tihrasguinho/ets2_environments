@@ -10,10 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
   ffi: ^2.1.0
   filepicker_windows: ^2.0.11
   flex_color_scheme: ^7.3.1
-  fluent_ui: ^4.8.5
   google_fonts: ^6.1.0
   get_it: ^7.6.6
   path: ^1.8.3
@@ -22,6 +24,7 @@ dependencies:
   url_launcher: ^6.2.3
   tray_manager: ^0.2.1
   window_manager: ^0.3.7
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -29,8 +32,16 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+flutter_intl:
+  enabled: true
+  class_name: I10n
+  main_locale: en
+  arb_dir: lib/l10n
+  output_dir: lib/l10n
+
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
     - assets/
@@ -40,5 +51,3 @@ flutter:
     - assets/sxc/addons/packer/img/
     - assets/sxc/addons/pathfinder/
     - assets/sii_decrypt/
-
-

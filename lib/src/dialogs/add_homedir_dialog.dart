@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:ets2_environments/l10n/l10n.dart';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/extensions/build_context_extension.dart';
 import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
 
 class AddHomedirDialog extends StatefulWidget {
@@ -17,13 +19,15 @@ class AddHomedirDialog extends StatefulWidget {
 }
 
 class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin {
+  late final I10n i10n = GetIt.I.get();
+
   final TextEditingController name = TextEditingController();
   final TextEditingController path = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void pickFolder() {
-    final picker = DirectoryPicker()..title = 'Select a folder to your new homedir';
+    final picker = DirectoryPicker()..title = i10n.main_page_select_folder_dialog_title;
 
     final directory = picker.getDirectory();
 
@@ -47,7 +51,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
               children: [
                 const SizedBox(height: 16.0),
                 Text(
-                  'Add new homedir',
+                  i10n.main_page_dialog_title,
                   textAlign: TextAlign.center,
                   style: context.textTheme.titleLarge,
                 ),
@@ -56,15 +60,15 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                   controller: name,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a name!';
+                      return i10n.main_page_dialog_field_name_error;
                     }
 
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    hintText: 'Enter name',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: i10n.main_page_dialog_field_name,
+                    hintText: i10n.main_page_dialog_field_name_hint,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -73,19 +77,19 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                   onTap: pickFolder,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a path!';
+                      return i10n.main_page_dialog_field_path_error;
                     }
 
                     if (!Directory(value).existsSync()) {
-                      return 'Path does not exist!';
+                      return i10n.main_page_dialog_field_path_error_not_exist;
                     }
 
                     return null;
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Path',
-                    hintText: 'Select path',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: i10n.main_page_dialog_field_path,
+                    hintText: i10n.main_page_dialog_field_path_hint,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -128,7 +132,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                   style: ButtonStyle(
                     fixedSize: MaterialStateProperty.all(const Size.fromHeight(52.0)),
                   ),
-                  child: const Text('Add'),
+                  child: Text(i10n.main_page_dialog_button_add),
                 ),
                 const SizedBox(height: 16.0),
               ],

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ets2_environments/l10n/l10n.dart';
 import 'package:ets2_environments/src/entities/mod_entity.dart';
 import 'package:ets2_environments/src/entities/profile_entity.dart';
 import 'package:ets2_environments/src/enums/system_architecture.dart';
@@ -8,6 +9,7 @@ import 'package:ets2_environments/src/stores/environment_store.dart';
 import 'package:ets2_environments/src/utils/sii_decrypt.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
 
 class MainController {
@@ -91,8 +93,10 @@ class MainController {
   }
 
   Future<void> pickModFiles(Directory homedir) async {
+    final I10n i10n = GetIt.I.get();
+
     final picker = OpenFilePicker()
-      ..title = 'Select the mods you want to add to this homedir'
+      ..title = i10n.main_page_select_mods_dialog_title
       ..initialDirectory = homedir.path
       ..filterSpecification = {
         'Euro Truck Simulator 2 Mods': '*.scs;*.zip',
@@ -188,8 +192,10 @@ class MainController {
   }
 
   Future<File?> pickGamePath() async {
+    final I10n i10n = GetIt.I.get();
+
     final picker = OpenFilePicker()
-      ..title = 'Select the Euro Truck Simulator 2 executable!'
+      ..title = i10n.main_page_pick_game_executable_dialog_title
       ..fileName = 'eurotrucks2.exe'
       ..defaultExtension = 'exe'
       ..fileMustExist = true

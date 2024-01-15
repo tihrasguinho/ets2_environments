@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:ets2_environments/l10n/l10n.dart';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/entities/system_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tray_manager/tray_manager.dart';
+import 'package:window_manager/window_manager.dart';
 
 class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   late final SharedPreferences _preferences;
@@ -37,15 +41,15 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     notifier!.value = system;
   }
 
-  void setCloseAppWhenGameLaunche(bool? value) async {
-    final system = notifier!.value.copyWith(closeAppWhenGameLaunch: value);
+  void setLocale(Locale locale) async {
+    final system = notifier!.value.copyWith(locale: locale);
 
     await _preferences.setString('system', system.toJson());
 
     notifier!.value = system;
   }
 
-  void setMinimizeToTray(bool value) async {
+  void setMinimizeToTray(bool? value) async {
     final system = notifier!.value.copyWith(minimizeToTray: value);
 
     await _preferences.setString('system', system.toJson());
@@ -121,10 +125,43 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     );
 
     if (system.minimizeToTray) {
-      // TODO: minimize to tray
-    } else if (system.closeAppWhenGameLaunch) {
-      exit(0);
+      return await setupTrayMenu();
     }
+  }
+
+  Future<void> setupTrayMenu() async {
+    if (!system.minimizeToTray) return;
+
+    final I10n i10n = GetIt.I.get<I10n>();
+
+    await windowManager.hide();
+
+    await trayManager.setIcon('assets/app_icon.ico');
+
+    await trayManager.setToolTip(i10n.tray_tooltip);
+
+    await trayManager.setContextMenu(
+      Menu(
+        items: [
+          MenuItem(
+            key: 'show_ets2_environments',
+            label: i10n.tray_menu_option_show,
+          ),
+          MenuItem(
+            key: 'close_ets2_environments',
+            label: i10n.tray_menu_option_close,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> removeTrayMenu() async {
+    if (!system.minimizeToTray) return;
+
+    await trayManager.destroy();
+
+    await windowManager.show();
   }
 
   static SystemManager of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<SystemManager>()!;
