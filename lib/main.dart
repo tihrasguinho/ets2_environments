@@ -1,8 +1,8 @@
 import 'package:ets2_environments/l10n/l10n.dart';
+import 'package:ets2_environments/src/others/local_storage.dart';
 import 'package:ets2_environments/src/others/system_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'src/controllers/main_controller.dart';
@@ -29,11 +29,11 @@ void main() async {
 
   final GetIt getIt = GetIt.instance;
 
-  final SharedPreferences preferences = await SharedPreferences.getInstance();
+  final LocalStorage storage = LocalStorageImp();
 
   getIt.registerLazySingleton<I10n>(() => I10n());
 
-  getIt.registerSingleton<SharedPreferences>(preferences);
+  getIt.registerSingleton<LocalStorage>(storage);
 
   getIt.registerSingleton<EnvironmentStore>(EnvironmentStore(getIt()));
 
@@ -41,7 +41,7 @@ void main() async {
 
   runApp(
     SystemManager(
-      preferences: preferences,
+      localStorage: storage,
       child: const MainWidget(),
     ),
   );

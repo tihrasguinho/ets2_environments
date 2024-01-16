@@ -1,7 +1,8 @@
 name: ets2_environments
-description: "Uma forma fácil de separar ambientes para rodar mods diferentes em perfis diferentes no Euro Truck Simulator 2 [windows]"
+description: "Separe your mods into different environments!"
 publish_to: 'none'
-version: 0.0.4
+version: 0.0.1
+homepage: https://tihrasguinho.dev/ets2_environments
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
@@ -20,7 +21,6 @@ dependencies:
   get_it: ^7.6.6
   path: ^1.8.3
   path_provider: ^2.1.2
-  shared_preferences: ^2.2.2
   url_launcher: ^6.2.3
   tray_manager: ^0.2.1
   window_manager: ^0.3.7

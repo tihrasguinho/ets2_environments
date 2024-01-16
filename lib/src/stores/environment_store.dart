@@ -3,15 +3,15 @@ import 'dart:developer';
 import 'package:ets2_environments/l10n/l10n.dart';
 import 'package:ets2_environments/src/entities/environment_entity.dart';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
+import 'package:ets2_environments/src/others/local_storage.dart';
 import 'package:ets2_environments/src/states/environment_state.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class EnvironmentStore extends ValueNotifier<EnvironmentState> {
-  final SharedPreferences _preferences;
+  final LocalStorage _localStorage;
 
-  EnvironmentStore(this._preferences) : super(InitialEnvironmentState());
+  EnvironmentStore(this._localStorage) : super(InitialEnvironmentState());
 
   void loadFromLocalStorage({bool verbose = false}) {
     final i10n = GetIt.I.get<I10n>();
@@ -20,7 +20,7 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
 
     value = LoadingEnvironmentState();
 
-    final environmentJson = _preferences.getString('environment');
+    final environmentJson = _localStorage.getString('environment');
 
     if (environmentJson == null) {
       value = ErrorEnvironmentState(i10n.main_page_empty_homedirs);
@@ -35,18 +35,18 @@ class EnvironmentStore extends ValueNotifier<EnvironmentState> {
     }
   }
 
-  void addHomedir(HomedirEntity homedir) async {
+  void addHomedir(HomedirEntity homedir) {
     final environment = value.environment.copyWith(homedirs: [...value.environment.homedirs, homedir]);
 
-    await _preferences.setString('environment', environment.toJson());
+    _localStorage.setString('environment', environment.toJson());
 
     value = SuccessEnvironmentState(environment);
   }
 
-  void removeHomedir(HomedirEntity homedir) async {
+  void removeHomedir(HomedirEntity homedir) {
     final environment = value.environment.copyWith(homedirs: [...value.environment.homedirs]..remove(homedir));
 
-    await _preferences.setString('environment', environment.toJson());
+    _localStorage.setString('environment', environment.toJson());
 
     value = SuccessEnvironmentState(environment);
   }

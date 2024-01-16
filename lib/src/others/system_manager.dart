@@ -3,28 +3,28 @@ import 'dart:io';
 import 'package:ets2_environments/l10n/l10n.dart';
 import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/entities/system_entity.dart';
+import 'package:ets2_environments/src/others/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
-  late final SharedPreferences _preferences;
+  late final LocalStorage _localStorage;
 
   SystemManager({
     super.key,
     required super.child,
-    required SharedPreferences preferences,
+    required LocalStorage localStorage,
   }) : super(notifier: ValueNotifier(SystemEntity.defaultConfig())) {
-    _preferences = preferences;
+    _localStorage = localStorage;
     _loadFromLocalStorage();
   }
 
   void _loadFromLocalStorage() {
-    final systemJson = _preferences.getString('system');
+    final systemJson = _localStorage.getString('system');
 
     if (systemJson == null) return;
 
@@ -36,7 +36,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   void setThemeMode(ThemeMode mode) async {
     final system = notifier!.value.copyWith(themeMode: mode);
 
-    await _preferences.setString('system', system.toJson());
+    _localStorage.setString('system', system.toJson());
 
     notifier!.value = system;
   }
@@ -44,7 +44,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   void setLocale(Locale locale) async {
     final system = notifier!.value.copyWith(locale: locale);
 
-    await _preferences.setString('system', system.toJson());
+    _localStorage.setString('system', system.toJson());
 
     notifier!.value = system;
   }
@@ -52,7 +52,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   void setMinimizeToTray(bool? value) async {
     final system = notifier!.value.copyWith(minimizeToTray: value);
 
-    await _preferences.setString('system', system.toJson());
+    _localStorage.setString('system', system.toJson());
 
     notifier!.value = system;
   }
@@ -60,7 +60,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   void setGameFile(File gameFile) async {
     final system = notifier!.value.copyWith(gameFile: gameFile);
 
-    await _preferences.setString('system', system.toJson());
+    _localStorage.setString('system', system.toJson());
 
     notifier!.value = system;
   }
@@ -68,7 +68,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   void setDefaultHomedir(Directory defaultHomedir) async {
     final system = notifier!.value.copyWith(defaultHomedir: defaultHomedir);
 
-    await _preferences.setString('system', system.toJson());
+    _localStorage.setString('system', system.toJson());
 
     notifier!.value = system;
   }
@@ -76,7 +76,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
   void setLaunchArguments(List<String> args) async {
     final system = notifier!.value.copyWith(launchArguments: args);
 
-    await _preferences.setString('system', system.toJson());
+    _localStorage.setString('system', system.toJson());
 
     notifier!.value = system;
   }
