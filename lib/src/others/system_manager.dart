@@ -33,7 +33,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     notifier!.value = system;
   }
 
-  void setThemeMode(ThemeMode mode) async {
+  void setThemeMode(ThemeMode mode) {
     final system = notifier!.value.copyWith(themeMode: mode);
 
     _localStorage.setString('system', system.toJson());
@@ -41,7 +41,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     notifier!.value = system;
   }
 
-  void setLocale(Locale locale) async {
+  void setLocale(Locale locale) {
     final system = notifier!.value.copyWith(locale: locale);
 
     _localStorage.setString('system', system.toJson());
@@ -49,7 +49,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     notifier!.value = system;
   }
 
-  void setMinimizeToTray(bool? value) async {
+  void setMinimizeToTray(bool? value) {
     final system = notifier!.value.copyWith(minimizeToTray: value);
 
     _localStorage.setString('system', system.toJson());

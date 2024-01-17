@@ -54,10 +54,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Adicionar Novo Homedir"),
         "main_page_empty_homedirs": MessageLookupByLibrary.simpleMessage(
             "Voce não tem nenhum homedir ainda."),
+        "main_page_enable_camera_zero_disabled_message":
+            MessageLookupByLibrary.simpleMessage("Camera Zero foi desativada."),
+        "main_page_enable_camera_zero_enabled_message":
+            MessageLookupByLibrary.simpleMessage("Camera Zero foi ativada."),
         "main_page_item_menu_tooltip":
             MessageLookupByLibrary.simpleMessage("Mostrar Opções"),
         "main_page_item_options_add_mods":
             MessageLookupByLibrary.simpleMessage("Adicionar Mods"),
+        "main_page_item_options_disable_camera_zero":
+            MessageLookupByLibrary.simpleMessage("Desativar Camera Zero"),
+        "main_page_item_options_enable_camera_zero":
+            MessageLookupByLibrary.simpleMessage("Ativar Camera Zero"),
         "main_page_item_options_mods":
             MessageLookupByLibrary.simpleMessage("Listar Mods Locais"),
         "main_page_item_options_open_in_explorer":
@@ -124,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Euro Truck Simulator 2 não encontrado!"),
         "message_starting_the_game":
             MessageLookupByLibrary.simpleMessage("Iniciando o jogo"),
+        "settings_page_game_configurations":
+            MessageLookupByLibrary.simpleMessage("Configurações do Jogo"),
         "settings_page_language_title":
             MessageLookupByLibrary.simpleMessage("Idioma"),
         "settings_page_launch_arguments_description":

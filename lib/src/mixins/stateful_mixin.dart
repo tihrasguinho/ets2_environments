@@ -41,6 +41,34 @@ mixin StatefulMixin<T extends StatefulWidget> on State<T> {
     }
   }
 
+  void showSuccessSnackbar(String message) {
+    ScaffoldMessenger.maybeOf(context)?.removeCurrentSnackBar();
+    ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.green,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 7),
+        showCloseIcon: true,
+        width: 512.0,
+      ),
+    );
+  }
+
+  void showErrorSnackbar(String message) {
+    ScaffoldMessenger.maybeOf(context)?.removeCurrentSnackBar();
+    ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 7),
+        showCloseIcon: true,
+        width: 512.0,
+      ),
+    );
+  }
+
   void showErrorDialog(String message) async {
     return showDialog(
       context: context,

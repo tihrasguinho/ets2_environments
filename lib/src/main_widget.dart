@@ -108,6 +108,13 @@ class _MainWidgetState extends State<MainWidget> with WindowListener, TrayListen
               return const Locale('en');
             }
           },
+          builder: (context, child) {
+            return Overlay(
+              initialEntries: [
+                OverlayEntry(builder: (context) => SelectionArea(child: child ?? const SizedBox())),
+              ],
+            );
+          },
           theme: FlexThemeData.light(
             scheme: FlexScheme.blue,
             surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,

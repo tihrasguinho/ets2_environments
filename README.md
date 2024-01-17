@@ -10,6 +10,7 @@ App features:
  - Include mods in the selected homedir
  - List local mods in the selected homedir
  - List local profiles in the selected homedir
+ - Enable/Disable camera zero in the selected homedir.
  - Remove a selected homedir
  - Open the selected homedir in Windows Explorer
  - Set the application to minimize to the Windows tray when starting the game
@@ -24,9 +25,10 @@ Recursos do aplicativo:
  - Identificação automática do homedir padrão (Meus Documentos\Euro Truck Simulator 2)
  - Criar novos homedirs para separação de mods em diferentes ambientes
  - Iniciar o jogo a partir de um homedir selecionado
- - Incluir mods no diretório homedir
- - Listar mods locais no diretório homedir
- - Listar perfis locais no diretório homedir
+ - Incluir mods no homedir selecionado
+ - Listar mods locais no homedir selecionado
+ - Listar perfis locais no homedir selecionado
+ - Ativar/Desativar a camera zero no homedir selecionado.
  - Remover um homedir selecionado
  - Abrir o homedir selecionado no Explorador do Windows
  - Configurar o aplicativo para minimizar na bandeja do Windows ao iniciar o jogo
@@ -40,6 +42,7 @@ Recursos do aplicativo:
 <p float="left">
   <img src="https://i.imgur.com/r3zwNl6.png" width="256" />
   <img src="https://i.imgur.com/fo2irEq.png" width="256" /> 
+  <img src="https://i.imgur.com/qeQeHwB.png" width="256" />
   <img src="https://i.imgur.com/9gL9HwT.png" width="256" />
   <img src="https://i.imgur.com/tcCrG9z.png" width="256" />
   <img src="https://i.imgur.com/JKnBtCV.png" width="256" />

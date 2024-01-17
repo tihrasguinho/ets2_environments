@@ -159,6 +159,14 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
       }
+    } else if (value == i10n.main_page_item_options_enable_camera_zero || value == i10n.main_page_item_options_disable_camera_zero) {
+      controller.setEnableCameraZero(homedir);
+
+      if (controller.enableCameraZero(homedir)) {
+        showSuccessSnackbar(i10n.main_page_enable_camera_zero_enabled_message);
+      } else {
+        showSuccessSnackbar(i10n.main_page_enable_camera_zero_disabled_message);
+      }
     } else if (value == i10n.main_page_item_options_remove) {
       final result = await showDialog<({bool remove, bool keep})>(
         context: context,
@@ -353,6 +361,8 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                                 i10n.main_page_item_options_mods,
                                 i10n.main_page_item_options_add_mods,
                                 i10n.main_page_item_options_open_in_explorer,
+                                if (controller.enableCameraZero(homedir)) i10n.main_page_item_options_disable_camera_zero,
+                                if (!controller.enableCameraZero(homedir)) i10n.main_page_item_options_enable_camera_zero,
                                 i10n.main_page_item_options_remove,
                               ].map(
                                 (item) {

@@ -66,16 +66,17 @@ class _SettingsPageState extends State<SettingsPage> {
                       };
                     },
                     decoration: InputDecoration(
-                        labelText: i10n.settings_page_theme_title,
-                        labelStyle: context.theme.inputDecorationTheme.labelStyle,
-                        enabledBorder: context.theme.inputDecorationTheme.enabledBorder,
-                        focusedBorder: context.theme.inputDecorationTheme.focusedBorder,
-                        errorBorder: context.theme.inputDecorationTheme.errorBorder,
-                        focusedErrorBorder: context.theme.inputDecorationTheme.focusedErrorBorder,
-                        disabledBorder: context.theme.inputDecorationTheme.disabledBorder,
-                        isDense: context.theme.inputDecorationTheme.isDense,
-                        border: context.theme.inputDecorationTheme.border,
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 0)),
+                      labelText: i10n.settings_page_theme_title,
+                      labelStyle: context.theme.inputDecorationTheme.labelStyle,
+                      enabledBorder: context.theme.inputDecorationTheme.enabledBorder,
+                      focusedBorder: context.theme.inputDecorationTheme.focusedBorder,
+                      errorBorder: context.theme.inputDecorationTheme.errorBorder,
+                      focusedErrorBorder: context.theme.inputDecorationTheme.focusedErrorBorder,
+                      disabledBorder: context.theme.inputDecorationTheme.disabledBorder,
+                      isDense: context.theme.inputDecorationTheme.isDense,
+                      border: context.theme.inputDecorationTheme.border,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    ),
                     items: List.from(
                       ThemeMode.values.map(
                         (mode) => DropdownMenuItem(
@@ -116,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       disabledBorder: context.theme.inputDecorationTheme.disabledBorder,
                       isDense: context.theme.inputDecorationTheme.isDense,
                       border: context.theme.inputDecorationTheme.border,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                     ),
                     items: List.from(
                       I10n.delegate.supportedLocales.map(
@@ -130,6 +131,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ],
             ),
+            const Divider(indent: 24.0, endIndent: 24.0),
+            Text(
+              i10n.settings_page_game_configurations,
+              style: context.textTheme.titleMedium,
+            ),
+            const SizedBox(),
             TextFormField(
               controller: launchArguments,
               onChanged: (value) => manager.setLaunchArguments(value.split(' ')),
@@ -137,6 +144,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 labelText: i10n.settings_page_launch_arguments_title,
                 hintText: i10n.settings_page_launch_arguments_description,
                 border: const OutlineInputBorder(),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
               ),
             ),
           ],

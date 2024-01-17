@@ -250,6 +250,46 @@ class I10n {
     );
   }
 
+  /// `Enable Camera Zero`
+  String get main_page_item_options_enable_camera_zero {
+    return Intl.message(
+      'Enable Camera Zero',
+      name: 'main_page_item_options_enable_camera_zero',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disable Camera Zero`
+  String get main_page_item_options_disable_camera_zero {
+    return Intl.message(
+      'Disable Camera Zero',
+      name: 'main_page_item_options_disable_camera_zero',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Camera Zero is enabled.`
+  String get main_page_enable_camera_zero_enabled_message {
+    return Intl.message(
+      'Camera Zero is enabled.',
+      name: 'main_page_enable_camera_zero_enabled_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Camera Zero is disabled.`
+  String get main_page_enable_camera_zero_disabled_message {
+    return Intl.message(
+      'Camera Zero is disabled.',
+      name: 'main_page_enable_camera_zero_disabled_message',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Remove`
   String get main_page_item_options_remove {
     return Intl.message(
@@ -545,6 +585,16 @@ class I10n {
     return Intl.message(
       'Launch arguments to be passed to the game.',
       name: 'settings_page_launch_arguments_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Game Configurations`
+  String get settings_page_game_configurations {
+    return Intl.message(
+      'Game Configurations',
+      name: 'settings_page_game_configurations',
       desc: '',
       args: [],
     );

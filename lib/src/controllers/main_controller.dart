@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ets2_environments/l10n/l10n.dart';
+import 'package:ets2_environments/src/entities/homedir_entity.dart';
 import 'package:ets2_environments/src/entities/mod_entity.dart';
 import 'package:ets2_environments/src/entities/profile_entity.dart';
 import 'package:ets2_environments/src/enums/system_architecture.dart';
@@ -238,5 +239,37 @@ class MainController {
     );
 
     return decoded;
+  }
+
+  bool enableCameraZero(HomedirEntity homedir) {
+    final config = File(p.join(homedir.directory.path, 'Euro Truck Simulator 2', 'config.cfg'));
+
+    if (!config.existsSync()) return false;
+
+    final configContent = config.readAsStringSync();
+
+    final developerRegex = RegExp(r'uset g_developer "1"');
+
+    final consoleRegex = RegExp(r'uset g_console "1"');
+
+    return developerRegex.hasMatch(configContent) && consoleRegex.hasMatch(configContent);
+  }
+
+  void setEnableCameraZero(HomedirEntity homedir) {
+    final config = File(p.join(homedir.directory.path, 'Euro Truck Simulator 2', 'config.cfg'));
+
+    if (!config.existsSync()) return;
+
+    final configContent = config.readAsStringSync();
+
+    final developerRegex = RegExp(r'uset g_developer "(.*)"');
+
+    final consoleRegex = RegExp(r'uset g_console "(.*)"');
+
+    if (enableCameraZero(homedir)) {
+      return config.writeAsStringSync(configContent.replaceAll(developerRegex, 'uset g_developer "0"').replaceAll(consoleRegex, 'uset g_console "0"'));
+    } else {
+      return config.writeAsStringSync(configContent.replaceAll(developerRegex, 'uset g_developer "1"').replaceAll(consoleRegex, 'uset g_console "1"'));
+    }
   }
 }
