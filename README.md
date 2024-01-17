@@ -46,4 +46,5 @@ Recursos do aplicativo:
   <img src="https://i.imgur.com/1tmiwn5.png" width="256" />
   <img src="https://i.imgur.com/6ACx3qa.png" width="256" />
   <img src="https://i.imgur.com/wa2nkpO.png" width="256" />
+  <img src="https://i.imgur.com/lWeW6Et.png" width="256" />
 </p>
