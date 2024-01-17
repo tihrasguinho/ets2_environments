@@ -1,4 +1,4 @@
-### ETS2 Environments 0.0.1
+### ETS2 Environments 0.0.1 - Made with [Flutter](https://flutter.dev/)
 
 #### English
 
