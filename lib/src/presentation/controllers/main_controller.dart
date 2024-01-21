@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/entities/homedir_entity.dart';
-import 'package:ets2_environments/src/entities/mod_entity.dart';
-import 'package:ets2_environments/src/entities/profile_entity.dart';
-import 'package:ets2_environments/src/enums/system_architecture.dart';
-import 'package:ets2_environments/src/stores/environment_store.dart';
-import 'package:ets2_environments/src/utils/sii_decrypt.dart';
+import 'package:ets2_environments/src/domain/entities/homedir_entity.dart';
+import 'package:ets2_environments/src/domain/entities/mod_entity.dart';
+import 'package:ets2_environments/src/domain/entities/profile_entity.dart';
+import 'package:ets2_environments/src/domain/enums/system_architecture.dart';
+import 'package:ets2_environments/src/presentation/others/sii_decrypt.dart';
+import 'package:ets2_environments/src/presentation/stores/environment_store.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -97,7 +97,7 @@ class MainController {
     final I10n i10n = GetIt.I.get();
 
     final picker = OpenFilePicker()
-      ..title = i10n.main_page_select_mods_dialog_title
+      ..title = i10n.main_page_environments_pick_mods_selector_title
       ..initialDirectory = homedir.path
       ..filterSpecification = {
         'Euro Truck Simulator 2 Mods': '*.scs;*.zip',

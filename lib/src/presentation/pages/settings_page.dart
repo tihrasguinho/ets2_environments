@@ -1,9 +1,9 @@
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/extensions/build_context_extension.dart';
-import 'package:ets2_environments/src/extensions/column_extension.dart';
-import 'package:ets2_environments/src/extensions/locale_extension.dart';
-import 'package:ets2_environments/src/extensions/theme_mode_extension.dart';
-import 'package:ets2_environments/src/others/system_manager.dart';
+import 'package:ets2_environments/src/presentation/extensions/build_context_extension.dart';
+import 'package:ets2_environments/src/presentation/extensions/column_extension.dart';
+import 'package:ets2_environments/src/presentation/extensions/locale_extension.dart';
+import 'package:ets2_environments/src/presentation/extensions/theme_mode_extension.dart';
+import 'package:ets2_environments/src/presentation/others/system_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(i10n.settings_page_title)),
+      appBar: AppBar(title: Text(i10n.settings_page_toolbar_title)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -56,15 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 256.0,
                   child: DropdownButtonFormField<ThemeMode>(
                     value: manager.system.themeMode,
-                    onChanged: (value) {
-                      if (value == null) return;
-
-                      return switch (value) {
-                        ThemeMode.system => manager.setThemeMode(ThemeMode.system),
-                        ThemeMode.light => manager.setThemeMode(ThemeMode.light),
-                        ThemeMode.dark => manager.setThemeMode(ThemeMode.dark),
-                      };
-                    },
+                    onChanged: manager.setThemeMode,
                     decoration: InputDecoration(
                       labelText: i10n.settings_page_theme_title,
                       labelStyle: context.theme.inputDecorationTheme.labelStyle,
@@ -102,11 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: 256.0,
                   child: DropdownButtonFormField<Locale>(
                     value: manager.system.locale,
-                    onChanged: (value) {
-                      if (value == null) return;
-
-                      return manager.setLocale(value);
-                    },
+                    onChanged: manager.setLocale,
                     decoration: InputDecoration(
                       labelText: i10n.settings_page_language_title,
                       labelStyle: context.theme.inputDecorationTheme.labelStyle,

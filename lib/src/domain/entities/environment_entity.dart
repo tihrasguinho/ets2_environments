@@ -1,7 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:ets2_environments/src/entities/homedir_entity.dart';
+import 'package:ets2_environments/src/domain/entities/homedir_entity.dart';
 import 'package:flutter/foundation.dart';
 
 class EnvironmentEntity {

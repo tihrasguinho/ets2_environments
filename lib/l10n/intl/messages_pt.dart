@@ -22,111 +22,113 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "language_name_en": MessageLookupByLibrary.simpleMessage("Inglês"),
-        "language_name_pt": MessageLookupByLibrary.simpleMessage("Português"),
-        "main_page_add_homedir_dialog_error_message":
+        "add_environment_dialog_button_title":
+            MessageLookupByLibrary.simpleMessage("Adicionar"),
+        "add_environment_dialog_field_name":
+            MessageLookupByLibrary.simpleMessage("Nome"),
+        "add_environment_dialog_field_name_error":
+            MessageLookupByLibrary.simpleMessage("Por favor, insira um nome!"),
+        "add_environment_dialog_field_name_hint":
+            MessageLookupByLibrary.simpleMessage(
+                "Digite o nome do novo ambiente."),
+        "add_environment_dialog_field_path":
+            MessageLookupByLibrary.simpleMessage("Caminho"),
+        "add_environment_dialog_field_path_error":
+            MessageLookupByLibrary.simpleMessage(
+                "Por favor, insira um caminho!"),
+        "add_environment_dialog_field_path_error_not_exists":
+            MessageLookupByLibrary.simpleMessage("O caminho não existe!"),
+        "add_environment_dialog_field_path_hint":
+            MessageLookupByLibrary.simpleMessage(
+                "Digite o caminho do novo ambiente."),
+        "add_environment_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Adicionar Novo Ambiente"),
+        "language_name_en": MessageLookupByLibrary.simpleMessage("Inglês"),
+        "language_name_pt": MessageLookupByLibrary.simpleMessage("Português"),
+        "main_page_empty_environments_message":
+            MessageLookupByLibrary.simpleMessage(
+                "Você não possui nenhum ambiente ainda."),
+        "main_page_environments_active_mods_dialog_subtitle":
+            MessageLookupByLibrary.simpleMessage("Mods Ativos"),
+        "main_page_environments_add_mods_item":
+            MessageLookupByLibrary.simpleMessage("Adicionar Mods"),
+        "main_page_environments_disable_camera_zero_item":
+            MessageLookupByLibrary.simpleMessage("Desativar Câmera Zero"),
+        "main_page_environments_disable_camera_zero_item_message":
+            MessageLookupByLibrary.simpleMessage(
+                "A Câmera Zero está desativada."),
+        "main_page_environments_enable_camera_zero_item":
+            MessageLookupByLibrary.simpleMessage("Ativar Câmera Zero"),
+        "main_page_environments_enable_camera_zero_item_message":
+            MessageLookupByLibrary.simpleMessage("A Câmera Zero está ativada."),
+        "main_page_environments_error_dialog_subtitle":
             MessageLookupByLibrary.simpleMessage(
                 "Por favor, selecione o caminho do jogo primeiro!"),
-        "main_page_add_homedir_dialog_error_title":
+        "main_page_environments_error_dialog_title":
             MessageLookupByLibrary.simpleMessage("Erro!"),
-        "main_page_add_new_homedir":
-            MessageLookupByLibrary.simpleMessage("Adicionar Novo Homedir"),
-        "main_page_dialog_button_add":
-            MessageLookupByLibrary.simpleMessage("Adicionar"),
-        "main_page_dialog_field_name":
-            MessageLookupByLibrary.simpleMessage("Nome"),
-        "main_page_dialog_field_name_error":
-            MessageLookupByLibrary.simpleMessage("Por favor, digite um nome!"),
-        "main_page_dialog_field_name_hint":
+        "main_page_environments_loading_mods_list_message":
             MessageLookupByLibrary.simpleMessage(
-                "Digite o nome do novo homedir."),
-        "main_page_dialog_field_path":
-            MessageLookupByLibrary.simpleMessage("Caminho"),
-        "main_page_dialog_field_path_error":
-            MessageLookupByLibrary.simpleMessage(
-                "Por favor, digite um caminho!"),
-        "main_page_dialog_field_path_error_not_exist":
-            MessageLookupByLibrary.simpleMessage("Caminho não existe!"),
-        "main_page_dialog_field_path_hint":
-            MessageLookupByLibrary.simpleMessage(
-                "Digite o caminho do novo homedir."),
-        "main_page_dialog_title":
-            MessageLookupByLibrary.simpleMessage("Adicionar Novo Homedir"),
-        "main_page_empty_homedirs": MessageLookupByLibrary.simpleMessage(
-            "Voce não tem nenhum homedir ainda."),
-        "main_page_enable_camera_zero_disabled_message":
-            MessageLookupByLibrary.simpleMessage("Camera Zero foi desativada."),
-        "main_page_enable_camera_zero_enabled_message":
-            MessageLookupByLibrary.simpleMessage("Camera Zero foi ativada."),
-        "main_page_item_menu_tooltip":
-            MessageLookupByLibrary.simpleMessage("Mostrar Opções"),
-        "main_page_item_options_add_mods":
-            MessageLookupByLibrary.simpleMessage("Adicionar Mods"),
-        "main_page_item_options_disable_camera_zero":
-            MessageLookupByLibrary.simpleMessage("Desativar Camera Zero"),
-        "main_page_item_options_enable_camera_zero":
-            MessageLookupByLibrary.simpleMessage("Ativar Camera Zero"),
-        "main_page_item_options_mods":
-            MessageLookupByLibrary.simpleMessage("Listar Mods Locais"),
-        "main_page_item_options_open_in_explorer":
-            MessageLookupByLibrary.simpleMessage("Abrir no Explorador"),
-        "main_page_item_options_profiles":
-            MessageLookupByLibrary.simpleMessage("Listar Perfis Locais"),
-        "main_page_item_options_remove":
-            MessageLookupByLibrary.simpleMessage("Remover"),
-        "main_page_item_start_game_tooltip":
-            MessageLookupByLibrary.simpleMessage(
-                "Iniciar o jogo apartir deste homedir"),
-        "main_page_leading_tooltip":
-            MessageLookupByLibrary.simpleMessage("Abrir no Explorador"),
-        "main_page_leading_tooltip_empty": MessageLookupByLibrary.simpleMessage(
-            "Por favor, selecione o executável do jogo primeiro!"),
-        "main_page_loading_mods_list_message": MessageLookupByLibrary.simpleMessage(
-            "Carregando lista de mods\nPode demorar dependendo do número de mods"),
-        "main_page_loading_profiles_list_message":
-            MessageLookupByLibrary.simpleMessage("Carregando Perfis"),
-        "main_page_mods_dialog_author":
+                "Carregando detalhes da lista de mods\nPode levar um tempo dependendo do número de mods"),
+        "main_page_environments_loading_profiles_list_message":
+            MessageLookupByLibrary.simpleMessage("Carregando perfis"),
+        "main_page_environments_mods_dialog_author_subtitle":
             MessageLookupByLibrary.simpleMessage("Autor"),
-        "main_page_mods_dialog_categories":
+        "main_page_environments_mods_dialog_categories_subtitle":
             MessageLookupByLibrary.simpleMessage("Categorias"),
-        "main_page_mods_dialog_compatible_versions":
+        "main_page_environments_mods_dialog_compatibility":
             MessageLookupByLibrary.simpleMessage("Versões Compatíveis"),
-        "main_page_mods_dialog_empty":
-            MessageLookupByLibrary.simpleMessage("No mods found."),
-        "main_page_mods_dialog_title":
-            MessageLookupByLibrary.simpleMessage("Mods (Apenas Locais)"),
-        "main_page_mods_dialog_version":
+        "main_page_environments_mods_dialog_empty_message":
+            MessageLookupByLibrary.simpleMessage("Nenhum mod encontrado."),
+        "main_page_environments_mods_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Mods (Somente Local)"),
+        "main_page_environments_mods_dialog_version_subtitle":
             MessageLookupByLibrary.simpleMessage("Versão"),
+        "main_page_environments_mods_item":
+            MessageLookupByLibrary.simpleMessage("Listar Mods Locais"),
+        "main_page_environments_open_in_explorer_item":
+            MessageLookupByLibrary.simpleMessage("Abrir no Explorer"),
+        "main_page_environments_pick_environment_folder_selector_title":
+            MessageLookupByLibrary.simpleMessage(
+                "Selecione uma pasta para o novo ambiente"),
+        "main_page_environments_pick_mods_selector_title":
+            MessageLookupByLibrary.simpleMessage(
+                "Selecione mods que deseja adicionar a este ambiente"),
+        "main_page_environments_profiles_dialog_empty_message":
+            MessageLookupByLibrary.simpleMessage("Nenhum perfil encontrado."),
+        "main_page_environments_profiles_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Perfis (Somente Local)"),
+        "main_page_environments_profiles_item":
+            MessageLookupByLibrary.simpleMessage("Listar Perfis Locais"),
+        "main_page_environments_remove_dialog_cancel_button":
+            MessageLookupByLibrary.simpleMessage("Cancelar"),
+        "main_page_environments_remove_dialog_check_title":
+            MessageLookupByLibrary.simpleMessage("Manter o diretório?"),
+        "main_page_environments_remove_dialog_confirm_button":
+            MessageLookupByLibrary.simpleMessage("Sim, remover!"),
+        "main_page_environments_remove_dialog_subtitle":
+            MessageLookupByLibrary.simpleMessage(
+                "Tem certeza de que deseja remover este ambiente?"),
+        "main_page_environments_remove_dialog_title":
+            MessageLookupByLibrary.simpleMessage("Remover Este Ambiente?"),
+        "main_page_environments_remove_item":
+            MessageLookupByLibrary.simpleMessage("Remover"),
+        "main_page_environments_show_menu_tooltip":
+            MessageLookupByLibrary.simpleMessage("Mostrar opções"),
+        "main_page_environments_start_game_tooltip":
+            MessageLookupByLibrary.simpleMessage(
+                "Iniciar o jogo a partir deste ambiente"),
+        "main_page_fab_title":
+            MessageLookupByLibrary.simpleMessage("Adicionar Novo Ambiente"),
+        "main_page_leading_tooltip":
+            MessageLookupByLibrary.simpleMessage("Abrir no Explorer"),
+        "main_page_leading_tooltip_empty": MessageLookupByLibrary.simpleMessage(
+            "Por favor, selecione primeiro o executável do jogo!"),
         "main_page_pick_game_executable_dialog_error":
             MessageLookupByLibrary.simpleMessage(
                 "Falha ao selecionar o executável do jogo!"),
         "main_page_pick_game_executable_dialog_title":
             MessageLookupByLibrary.simpleMessage(
                 "Selecione o executável do Euro Truck Simulator 2!"),
-        "main_page_profiles_dialog_active_mods":
-            MessageLookupByLibrary.simpleMessage("Mods Ativos"),
-        "main_page_profiles_dialog_empty":
-            MessageLookupByLibrary.simpleMessage("No profiles found."),
-        "main_page_profiles_dialog_title":
-            MessageLookupByLibrary.simpleMessage("Perfis (Apenas Locais)"),
-        "main_page_remove_homedir_dialog_button_cancel":
-            MessageLookupByLibrary.simpleMessage("Cancelar"),
-        "main_page_remove_homedir_dialog_button_confirm":
-            MessageLookupByLibrary.simpleMessage("Sim, remover!"),
-        "main_page_remove_homedir_dialog_description":
-            MessageLookupByLibrary.simpleMessage(
-                "Tem certeza que deseja remover este homedir?"),
-        "main_page_remove_homedir_dialog_keep_directories":
-            MessageLookupByLibrary.simpleMessage(
-                "Manter a pasta do diretorio?"),
-        "main_page_remove_homedir_dialog_title":
-            MessageLookupByLibrary.simpleMessage("Remover Este Homedir?"),
-        "main_page_select_folder_dialog_title":
-            MessageLookupByLibrary.simpleMessage(
-                "Selecione uma pasta para o seu novo homedir"),
-        "main_page_select_mods_dialog_title":
-            MessageLookupByLibrary.simpleMessage(
-                "Selecione os mods que deseja adicionar a este homedir"),
         "main_page_toolbar_game_not_found":
             MessageLookupByLibrary.simpleMessage(
                 "Euro Truck Simulator 2 não encontrado!"),
@@ -138,27 +140,29 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Idioma"),
         "settings_page_launch_arguments_description":
             MessageLookupByLibrary.simpleMessage(
-                "Argumentos de lançamento para serem passados ao jogo."),
+                "Argumentos de inicialização a serem passados para o jogo."),
         "settings_page_launch_arguments_title":
-            MessageLookupByLibrary.simpleMessage("Argumentos de Lançamento"),
+            MessageLookupByLibrary.simpleMessage("Argumentos de Inicialização"),
         "settings_page_minimize_to_tray_description":
             MessageLookupByLibrary.simpleMessage(
-                "Quando o jogo inicia, a aplicação será minimizada para a bandeja do sistema."),
+                "Quando o jogo iniciar, o aplicativo será minimizado para a bandeja do sistema."),
         "settings_page_minimize_to_tray_title":
             MessageLookupByLibrary.simpleMessage(
-                "Minimizar para a bandeja do sistema quando clicar para minimizar."),
+                "Minimizar para a bandeja do sistema ao clicar para minimizar."),
         "settings_page_theme_title":
-            MessageLookupByLibrary.simpleMessage("Modo do Tema"),
-        "settings_page_title":
+            MessageLookupByLibrary.simpleMessage("Modo de Tema"),
+        "settings_page_toolbar_title":
             MessageLookupByLibrary.simpleMessage("Configurações"),
         "theme_mode_dark": MessageLookupByLibrary.simpleMessage("Escuro"),
         "theme_mode_light": MessageLookupByLibrary.simpleMessage("Claro"),
         "theme_mode_system": MessageLookupByLibrary.simpleMessage("Sistema"),
         "tray_menu_option_close":
             MessageLookupByLibrary.simpleMessage("Fechar"),
-        "tray_menu_option_show":
-            MessageLookupByLibrary.simpleMessage("Mostrar"),
-        "tray_tooltip":
-            MessageLookupByLibrary.simpleMessage("ETS2 Environments rodando")
+        "tray_menu_option_environment_title":
+            MessageLookupByLibrary.simpleMessage("Opções de Ambiente"),
+        "tray_menu_option_start_from_specific_environment":
+            MessageLookupByLibrary.simpleMessage("Iniciar apartir de"),
+        "tray_tooltip": MessageLookupByLibrary.simpleMessage(
+            "ETS2 Environments em execução")
       };
 }

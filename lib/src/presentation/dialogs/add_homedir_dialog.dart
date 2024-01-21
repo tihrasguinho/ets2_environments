@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/entities/homedir_entity.dart';
-import 'package:ets2_environments/src/extensions/build_context_extension.dart';
-import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
+import 'package:ets2_environments/src/domain/entities/homedir_entity.dart';
+import 'package:ets2_environments/src/presentation/extensions/build_context_extension.dart';
+import 'package:ets2_environments/src/presentation/mixins/stateful_mixin.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -27,7 +27,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void pickFolder() {
-    final picker = DirectoryPicker()..title = i10n.main_page_select_folder_dialog_title;
+    final picker = DirectoryPicker()..title = i10n.main_page_environments_pick_environment_folder_selector_title;
 
     final directory = picker.getDirectory();
 
@@ -51,7 +51,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
               children: [
                 const SizedBox(height: 16.0),
                 Text(
-                  i10n.main_page_dialog_title,
+                  i10n.add_environment_dialog_title,
                   textAlign: TextAlign.center,
                   style: context.textTheme.titleLarge,
                 ),
@@ -60,14 +60,14 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                   controller: name,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return i10n.main_page_dialog_field_name_error;
+                      return i10n.add_environment_dialog_field_name_error;
                     }
 
                     return null;
                   },
                   decoration: InputDecoration(
-                    labelText: i10n.main_page_dialog_field_name,
-                    hintText: i10n.main_page_dialog_field_name_hint,
+                    labelText: i10n.add_environment_dialog_field_name,
+                    hintText: i10n.add_environment_dialog_field_name_hint,
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -77,18 +77,18 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                   onTap: pickFolder,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return i10n.main_page_dialog_field_path_error;
+                      return i10n.add_environment_dialog_field_path;
                     }
 
                     if (!Directory(value).existsSync()) {
-                      return i10n.main_page_dialog_field_path_error_not_exist;
+                      return i10n.add_environment_dialog_field_path_error_not_exists;
                     }
 
                     return null;
                   },
                   decoration: InputDecoration(
-                    labelText: i10n.main_page_dialog_field_path,
-                    hintText: i10n.main_page_dialog_field_path_hint,
+                    labelText: i10n.add_environment_dialog_field_path,
+                    hintText: i10n.add_environment_dialog_field_path_hint,
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -106,7 +106,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                         await Process.run(
                           'Robocopy.exe',
                           [
-                            '${widget.defaultHomedirPath!.path}/Euro Truck Simulator 2',
+                            (widget.defaultHomedirPath!.path),
                             '${directory.path}/Euro Truck Simulator 2',
                             '/mir',
                             '/xd',
@@ -132,7 +132,7 @@ class _AddHomedirDialogState extends State<AddHomedirDialog> with StatefulMixin 
                   style: ButtonStyle(
                     fixedSize: MaterialStateProperty.all(const Size.fromHeight(52.0)),
                   ),
-                  child: Text(i10n.main_page_dialog_button_add),
+                  child: Text(i10n.add_environment_dialog_button_title),
                 ),
                 const SizedBox(height: 16.0),
               ],

@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/entities/homedir_entity.dart';
-import 'package:ets2_environments/src/entities/system_entity.dart';
-import 'package:ets2_environments/src/others/local_storage.dart';
+import 'package:ets2_environments/src/domain/entities/environment_entity.dart';
+import 'package:ets2_environments/src/domain/entities/homedir_entity.dart';
+import 'package:ets2_environments/src/domain/entities/system_entity.dart';
+import 'package:ets2_environments/src/presentation/extensions/list_extension.dart';
+import 'package:ets2_environments/src/presentation/others/local_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
@@ -33,7 +35,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     notifier!.value = system;
   }
 
-  void setThemeMode(ThemeMode mode) {
+  void setThemeMode(ThemeMode? mode) {
     final system = notifier!.value.copyWith(themeMode: mode);
 
     _localStorage.setString('system', system.toJson());
@@ -41,7 +43,7 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     notifier!.value = system;
   }
 
-  void setLocale(Locale locale) {
+  void setLocale(Locale? locale) {
     final system = notifier!.value.copyWith(locale: locale);
 
     _localStorage.setString('system', system.toJson());
@@ -140,13 +142,28 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
 
     await trayManager.setToolTip(i10n.tray_tooltip);
 
+    final enviroment = _localStorage.getString('environment');
+
+    final homedirs = switch (enviroment != null) {
+      true => <HomedirEntity>[...EnvironmentEntity.fromJson(enviroment!).homedirs],
+      false => <HomedirEntity>[],
+    };
+
     await trayManager.setContextMenu(
       Menu(
         items: [
-          MenuItem(
-            key: 'show_ets2_environments',
-            label: i10n.tray_menu_option_show,
-          ),
+          if (homedirs.isNotEmpty)
+            MenuItem(
+              label: i10n.tray_menu_option_environment_title,
+              disabled: true,
+            ),
+          if (homedirs.isNotEmpty) MenuItem.separator(),
+          for (final homedir in homedirs)
+            MenuItem(
+              key: 'start_ets2_from_homedir_${homedir.name.toLowerCase().split(' ').join('_')}',
+              label: '${i10n.tray_menu_option_start_from_specific_environment} ${homedir.name}',
+            ),
+          if (homedirs.isNotEmpty) MenuItem.separator(),
           MenuItem(
             key: 'close_ets2_environments',
             label: i10n.tray_menu_option_close,
@@ -162,6 +179,25 @@ class SystemManager extends InheritedNotifier<ValueNotifier<SystemEntity>> {
     await trayManager.destroy();
 
     await windowManager.show();
+  }
+
+  Future<void> onMenuItemTapped(MenuItem item) async {
+    final enviroment = _localStorage.getString('environment');
+
+    final homedirs = switch (enviroment != null) {
+      true => <HomedirEntity>[...EnvironmentEntity.fromJson(enviroment!).homedirs],
+      false => <HomedirEntity>[],
+    };
+
+    final homedir = homedirs.firstWhereOrNull((homedir) => 'start_ets2_from_homedir_${homedir.name.toLowerCase().split(' ').join('_')}' == item.key);
+
+    if (homedir != null) {
+      return await startGameFromHomedir(homedir);
+    }
+
+    if (item.key == 'close_ets2_environments') {
+      exit(0);
+    }
   }
 
   static SystemManager of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<SystemManager>()!;

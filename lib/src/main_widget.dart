@@ -1,16 +1,13 @@
-import 'dart:io';
-
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/others/system_manager.dart';
-import 'package:ets2_environments/src/pages/settings_page.dart';
+import 'package:ets2_environments/src/presentation/others/system_manager.dart';
+import 'package:ets2_environments/src/presentation/pages/main_page.dart';
+import 'package:ets2_environments/src/presentation/pages/settings_page.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
-
-import 'pages/main_page.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -57,17 +54,12 @@ class _MainWidgetState extends State<MainWidget> with WindowListener, TrayListen
 
   @override
   void onTrayMenuItemClick(MenuItem menuItem) async {
-    switch (menuItem.key) {
-      case 'show_ets2_environments':
-        {
-          await manager.removeTrayMenu();
-          break;
-        }
-      case 'close_ets2_environments':
-        {
-          exit(0);
-        }
-    }
+    return await manager.onMenuItemTapped(menuItem);
+  }
+
+  @override
+  void onTrayIconMouseDown() async {
+    await manager.removeTrayMenu();
   }
 
   @override

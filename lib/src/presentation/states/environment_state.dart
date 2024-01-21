@@ -1,4 +1,4 @@
-import 'package:ets2_environments/src/entities/environment_entity.dart';
+import 'package:ets2_environments/src/domain/entities/environment_entity.dart';
 
 sealed class EnvironmentState {
   final EnvironmentEntity environment;

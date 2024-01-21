@@ -100,431 +100,431 @@ class I10n {
     );
   }
 
-  /// `You do not have any homedirs yet.`
-  String get main_page_empty_homedirs {
+  /// `You do not have any environments yet.`
+  String get main_page_empty_environments_message {
     return Intl.message(
-      'You do not have any homedirs yet.',
-      name: 'main_page_empty_homedirs',
+      'You do not have any environments yet.',
+      name: 'main_page_empty_environments_message',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add New Homedir`
-  String get main_page_add_new_homedir {
+  /// `Add New Environment`
+  String get main_page_fab_title {
     return Intl.message(
-      'Add New Homedir',
-      name: 'main_page_add_new_homedir',
+      'Add New Environment',
+      name: 'main_page_fab_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Add New Homedir`
-  String get main_page_dialog_title {
+  /// `Add New Environment`
+  String get add_environment_dialog_title {
     return Intl.message(
-      'Add New Homedir',
-      name: 'main_page_dialog_title',
+      'Add New Environment',
+      name: 'add_environment_dialog_title',
       desc: '',
       args: [],
     );
   }
 
   /// `Name`
-  String get main_page_dialog_field_name {
+  String get add_environment_dialog_field_name {
     return Intl.message(
       'Name',
-      name: 'main_page_dialog_field_name',
+      name: 'add_environment_dialog_field_name',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter the name of the new homedir.`
-  String get main_page_dialog_field_name_hint {
+  /// `Enter the name of the new environment.`
+  String get add_environment_dialog_field_name_hint {
     return Intl.message(
-      'Enter the name of the new homedir.',
-      name: 'main_page_dialog_field_name_hint',
+      'Enter the name of the new environment.',
+      name: 'add_environment_dialog_field_name_hint',
       desc: '',
       args: [],
     );
   }
 
   /// `Please enter a name!`
-  String get main_page_dialog_field_name_error {
+  String get add_environment_dialog_field_name_error {
     return Intl.message(
       'Please enter a name!',
-      name: 'main_page_dialog_field_name_error',
+      name: 'add_environment_dialog_field_name_error',
       desc: '',
       args: [],
     );
   }
 
   /// `Path`
-  String get main_page_dialog_field_path {
+  String get add_environment_dialog_field_path {
     return Intl.message(
       'Path',
-      name: 'main_page_dialog_field_path',
+      name: 'add_environment_dialog_field_path',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter the path of the new homedir.`
-  String get main_page_dialog_field_path_hint {
+  /// `Enter the path of the new environment.`
+  String get add_environment_dialog_field_path_hint {
     return Intl.message(
-      'Enter the path of the new homedir.',
-      name: 'main_page_dialog_field_path_hint',
+      'Enter the path of the new environment.',
+      name: 'add_environment_dialog_field_path_hint',
       desc: '',
       args: [],
     );
   }
 
   /// `Please enter a path!`
-  String get main_page_dialog_field_path_error {
+  String get add_environment_dialog_field_path_error {
     return Intl.message(
       'Please enter a path!',
-      name: 'main_page_dialog_field_path_error',
+      name: 'add_environment_dialog_field_path_error',
       desc: '',
       args: [],
     );
   }
 
   /// `Path does not exist!`
-  String get main_page_dialog_field_path_error_not_exist {
+  String get add_environment_dialog_field_path_error_not_exists {
     return Intl.message(
       'Path does not exist!',
-      name: 'main_page_dialog_field_path_error_not_exist',
+      name: 'add_environment_dialog_field_path_error_not_exists',
       desc: '',
       args: [],
     );
   }
 
   /// `Add`
-  String get main_page_dialog_button_add {
+  String get add_environment_dialog_button_title {
     return Intl.message(
       'Add',
-      name: 'main_page_dialog_button_add',
+      name: 'add_environment_dialog_button_title',
       desc: '',
       args: [],
     );
   }
 
   /// `List Local Profiles`
-  String get main_page_item_options_profiles {
+  String get main_page_environments_profiles_item {
     return Intl.message(
       'List Local Profiles',
-      name: 'main_page_item_options_profiles',
+      name: 'main_page_environments_profiles_item',
       desc: '',
       args: [],
     );
   }
 
   /// `List Local Mods`
-  String get main_page_item_options_mods {
+  String get main_page_environments_mods_item {
     return Intl.message(
       'List Local Mods',
-      name: 'main_page_item_options_mods',
+      name: 'main_page_environments_mods_item',
       desc: '',
       args: [],
     );
   }
 
   /// `Add Mods`
-  String get main_page_item_options_add_mods {
+  String get main_page_environments_add_mods_item {
     return Intl.message(
       'Add Mods',
-      name: 'main_page_item_options_add_mods',
+      name: 'main_page_environments_add_mods_item',
       desc: '',
       args: [],
     );
   }
 
   /// `Open in Explorer`
-  String get main_page_item_options_open_in_explorer {
+  String get main_page_environments_open_in_explorer_item {
     return Intl.message(
       'Open in Explorer',
-      name: 'main_page_item_options_open_in_explorer',
+      name: 'main_page_environments_open_in_explorer_item',
       desc: '',
       args: [],
     );
   }
 
   /// `Enable Camera Zero`
-  String get main_page_item_options_enable_camera_zero {
+  String get main_page_environments_enable_camera_zero_item {
     return Intl.message(
       'Enable Camera Zero',
-      name: 'main_page_item_options_enable_camera_zero',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Disable Camera Zero`
-  String get main_page_item_options_disable_camera_zero {
-    return Intl.message(
-      'Disable Camera Zero',
-      name: 'main_page_item_options_disable_camera_zero',
+      name: 'main_page_environments_enable_camera_zero_item',
       desc: '',
       args: [],
     );
   }
 
   /// `Camera Zero is enabled.`
-  String get main_page_enable_camera_zero_enabled_message {
+  String get main_page_environments_enable_camera_zero_item_message {
     return Intl.message(
       'Camera Zero is enabled.',
-      name: 'main_page_enable_camera_zero_enabled_message',
+      name: 'main_page_environments_enable_camera_zero_item_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Disable Camera Zero`
+  String get main_page_environments_disable_camera_zero_item {
+    return Intl.message(
+      'Disable Camera Zero',
+      name: 'main_page_environments_disable_camera_zero_item',
       desc: '',
       args: [],
     );
   }
 
   /// `Camera Zero is disabled.`
-  String get main_page_enable_camera_zero_disabled_message {
+  String get main_page_environments_disable_camera_zero_item_message {
     return Intl.message(
       'Camera Zero is disabled.',
-      name: 'main_page_enable_camera_zero_disabled_message',
+      name: 'main_page_environments_disable_camera_zero_item_message',
       desc: '',
       args: [],
     );
   }
 
   /// `Remove`
-  String get main_page_item_options_remove {
+  String get main_page_environments_remove_item {
     return Intl.message(
       'Remove',
-      name: 'main_page_item_options_remove',
+      name: 'main_page_environments_remove_item',
       desc: '',
       args: [],
     );
   }
 
-  /// `Start game from this homedir`
-  String get main_page_item_start_game_tooltip {
+  /// `Start game from this environment`
+  String get main_page_environments_start_game_tooltip {
     return Intl.message(
-      'Start game from this homedir',
-      name: 'main_page_item_start_game_tooltip',
+      'Start game from this environment',
+      name: 'main_page_environments_start_game_tooltip',
       desc: '',
       args: [],
     );
   }
 
   /// `Show options`
-  String get main_page_item_menu_tooltip {
+  String get main_page_environments_show_menu_tooltip {
     return Intl.message(
       'Show options',
-      name: 'main_page_item_menu_tooltip',
+      name: 'main_page_environments_show_menu_tooltip',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select a folder to your new homedir`
-  String get main_page_select_folder_dialog_title {
+  /// `Select a folder to your new environment`
+  String get main_page_environments_pick_environment_folder_selector_title {
     return Intl.message(
-      'Select a folder to your new homedir',
-      name: 'main_page_select_folder_dialog_title',
+      'Select a folder to your new environment',
+      name: 'main_page_environments_pick_environment_folder_selector_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Select mods that you want to add to this homedir`
-  String get main_page_select_mods_dialog_title {
+  /// `Select mods that you want to add to this environment`
+  String get main_page_environments_pick_mods_selector_title {
     return Intl.message(
-      'Select mods that you want to add to this homedir',
-      name: 'main_page_select_mods_dialog_title',
+      'Select mods that you want to add to this environment',
+      name: 'main_page_environments_pick_mods_selector_title',
       desc: '',
       args: [],
     );
   }
 
   /// `Profiles (Local Only)`
-  String get main_page_profiles_dialog_title {
+  String get main_page_environments_profiles_dialog_title {
     return Intl.message(
       'Profiles (Local Only)',
-      name: 'main_page_profiles_dialog_title',
+      name: 'main_page_environments_profiles_dialog_title',
       desc: '',
       args: [],
     );
   }
 
   /// `Active Mods`
-  String get main_page_profiles_dialog_active_mods {
+  String get main_page_environments_active_mods_dialog_subtitle {
     return Intl.message(
       'Active Mods',
-      name: 'main_page_profiles_dialog_active_mods',
+      name: 'main_page_environments_active_mods_dialog_subtitle',
       desc: '',
       args: [],
     );
   }
 
   /// `No profiles found.`
-  String get main_page_profiles_dialog_empty {
+  String get main_page_environments_profiles_dialog_empty_message {
     return Intl.message(
       'No profiles found.',
-      name: 'main_page_profiles_dialog_empty',
+      name: 'main_page_environments_profiles_dialog_empty_message',
       desc: '',
       args: [],
     );
   }
 
   /// `Mods (Local Only)`
-  String get main_page_mods_dialog_title {
+  String get main_page_environments_mods_dialog_title {
     return Intl.message(
       'Mods (Local Only)',
-      name: 'main_page_mods_dialog_title',
+      name: 'main_page_environments_mods_dialog_title',
       desc: '',
       args: [],
     );
   }
 
   /// `No mods found.`
-  String get main_page_mods_dialog_empty {
+  String get main_page_environments_mods_dialog_empty_message {
     return Intl.message(
       'No mods found.',
-      name: 'main_page_mods_dialog_empty',
+      name: 'main_page_environments_mods_dialog_empty_message',
       desc: '',
       args: [],
     );
   }
 
   /// `Author`
-  String get main_page_mods_dialog_author {
+  String get main_page_environments_mods_dialog_author_subtitle {
     return Intl.message(
       'Author',
-      name: 'main_page_mods_dialog_author',
+      name: 'main_page_environments_mods_dialog_author_subtitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Version`
-  String get main_page_mods_dialog_version {
+  String get main_page_environments_mods_dialog_version_subtitle {
     return Intl.message(
       'Version',
-      name: 'main_page_mods_dialog_version',
+      name: 'main_page_environments_mods_dialog_version_subtitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Categories`
-  String get main_page_mods_dialog_categories {
+  String get main_page_environments_mods_dialog_categories_subtitle {
     return Intl.message(
       'Categories',
-      name: 'main_page_mods_dialog_categories',
+      name: 'main_page_environments_mods_dialog_categories_subtitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Compatible Versions`
-  String get main_page_mods_dialog_compatible_versions {
+  String get main_page_environments_mods_dialog_compatibility {
     return Intl.message(
       'Compatible Versions',
-      name: 'main_page_mods_dialog_compatible_versions',
+      name: 'main_page_environments_mods_dialog_compatibility',
       desc: '',
       args: [],
     );
   }
 
-  /// `Remove This Homedir?`
-  String get main_page_remove_homedir_dialog_title {
+  /// `Remove This Environment?`
+  String get main_page_environments_remove_dialog_title {
     return Intl.message(
-      'Remove This Homedir?',
-      name: 'main_page_remove_homedir_dialog_title',
+      'Remove This Environment?',
+      name: 'main_page_environments_remove_dialog_title',
       desc: '',
       args: [],
     );
   }
 
-  /// `Are you sure you want to remove this homedir?`
-  String get main_page_remove_homedir_dialog_description {
+  /// `Are you sure you want to remove this environment?`
+  String get main_page_environments_remove_dialog_subtitle {
     return Intl.message(
-      'Are you sure you want to remove this homedir?',
-      name: 'main_page_remove_homedir_dialog_description',
+      'Are you sure you want to remove this environment?',
+      name: 'main_page_environments_remove_dialog_subtitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Keep the directory folder?`
-  String get main_page_remove_homedir_dialog_keep_directories {
+  String get main_page_environments_remove_dialog_check_title {
     return Intl.message(
       'Keep the directory folder?',
-      name: 'main_page_remove_homedir_dialog_keep_directories',
+      name: 'main_page_environments_remove_dialog_check_title',
       desc: '',
       args: [],
     );
   }
 
   /// `Cancel`
-  String get main_page_remove_homedir_dialog_button_cancel {
+  String get main_page_environments_remove_dialog_cancel_button {
     return Intl.message(
       'Cancel',
-      name: 'main_page_remove_homedir_dialog_button_cancel',
+      name: 'main_page_environments_remove_dialog_cancel_button',
       desc: '',
       args: [],
     );
   }
 
   /// `Yes, remove it!`
-  String get main_page_remove_homedir_dialog_button_confirm {
+  String get main_page_environments_remove_dialog_confirm_button {
     return Intl.message(
       'Yes, remove it!',
-      name: 'main_page_remove_homedir_dialog_button_confirm',
+      name: 'main_page_environments_remove_dialog_confirm_button',
       desc: '',
       args: [],
     );
   }
 
   /// `Error!`
-  String get main_page_add_homedir_dialog_error_title {
+  String get main_page_environments_error_dialog_title {
     return Intl.message(
       'Error!',
-      name: 'main_page_add_homedir_dialog_error_title',
+      name: 'main_page_environments_error_dialog_title',
       desc: '',
       args: [],
     );
   }
 
   /// `Please select the game path first!`
-  String get main_page_add_homedir_dialog_error_message {
+  String get main_page_environments_error_dialog_subtitle {
     return Intl.message(
       'Please select the game path first!',
-      name: 'main_page_add_homedir_dialog_error_message',
+      name: 'main_page_environments_error_dialog_subtitle',
       desc: '',
       args: [],
     );
   }
 
   /// `Loading mods list details\nIt may take a while depending on the number of mods`
-  String get main_page_loading_mods_list_message {
+  String get main_page_environments_loading_mods_list_message {
     return Intl.message(
       'Loading mods list details\nIt may take a while depending on the number of mods',
-      name: 'main_page_loading_mods_list_message',
+      name: 'main_page_environments_loading_mods_list_message',
       desc: '',
       args: [],
     );
   }
 
   /// `Loading profiles`
-  String get main_page_loading_profiles_list_message {
+  String get main_page_environments_loading_profiles_list_message {
     return Intl.message(
       'Loading profiles',
-      name: 'main_page_loading_profiles_list_message',
+      name: 'main_page_environments_loading_profiles_list_message',
       desc: '',
       args: [],
     );
   }
 
   /// `Settings`
-  String get settings_page_title {
+  String get settings_page_toolbar_title {
     return Intl.message(
       'Settings',
-      name: 'settings_page_title',
+      name: 'settings_page_toolbar_title',
       desc: '',
       args: [],
     );
@@ -670,11 +670,21 @@ class I10n {
     );
   }
 
-  /// `Show`
-  String get tray_menu_option_show {
+  /// `Environment Options`
+  String get tray_menu_option_environment_title {
     return Intl.message(
-      'Show',
-      name: 'tray_menu_option_show',
+      'Environment Options',
+      name: 'tray_menu_option_environment_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start from`
+  String get tray_menu_option_start_from_specific_environment {
+    return Intl.message(
+      'Start from',
+      name: 'tray_menu_option_start_from_specific_environment',
       desc: '',
       args: [],
     );

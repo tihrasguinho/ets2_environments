@@ -1,13 +1,14 @@
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/others/local_storage.dart';
-import 'package:ets2_environments/src/others/system_manager.dart';
+import 'package:ets2_environments/src/presentation/others/local_storage.dart';
+import 'package:ets2_environments/src/presentation/others/system_manager.dart';
+import 'package:ets2_environments/src/presentation/stores/environment_store.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'src/controllers/main_controller.dart';
+import 'src/presentation/controllers/main_controller.dart';
 import 'src/main_widget.dart';
-import 'src/stores/environment_store.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

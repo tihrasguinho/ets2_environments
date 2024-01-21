@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:ets2_environments/l10n/l10n.dart';
-import 'package:ets2_environments/src/controllers/main_controller.dart';
-import 'package:ets2_environments/src/dialogs/add_homedir_dialog.dart';
-import 'package:ets2_environments/src/entities/homedir_entity.dart';
-import 'package:ets2_environments/src/extensions/build_context_extension.dart';
-import 'package:ets2_environments/src/extensions/column_extension.dart';
-import 'package:ets2_environments/src/extensions/row_extension.dart';
-import 'package:ets2_environments/src/mixins/stateful_mixin.dart';
-import 'package:ets2_environments/src/others/system_manager.dart';
+import 'package:ets2_environments/src/presentation/controllers/main_controller.dart';
+import 'package:ets2_environments/src/domain/entities/homedir_entity.dart';
+import 'package:ets2_environments/src/presentation/extensions/build_context_extension.dart';
+import 'package:ets2_environments/src/presentation/extensions/column_extension.dart';
+import 'package:ets2_environments/src/presentation/extensions/row_extension.dart';
+import 'package:ets2_environments/src/presentation/dialogs/add_homedir_dialog.dart';
+import 'package:ets2_environments/src/presentation/mixins/stateful_mixin.dart';
+import 'package:ets2_environments/src/presentation/others/system_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path/path.dart' as p;
@@ -27,8 +27,8 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
   final MainController controller = GetIt.I.get<MainController>();
 
   Future<void> onPopupMenuSelected(String value, HomedirEntity homedir) async {
-    if (value == i10n.main_page_item_options_profiles) {
-      showLoading(i10n.main_page_loading_profiles_list_message);
+    if (value == i10n.main_page_environments_profiles_item) {
+      showLoading(i10n.main_page_environments_loading_profiles_list_message);
 
       final profiles = await controller.getProfilesList(homedir.directory.path);
 
@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                 children: [
                   const SizedBox(height: 16.0),
                   Text(
-                    i10n.main_page_profiles_dialog_title,
+                    i10n.main_page_environments_profiles_dialog_title,
                     textAlign: TextAlign.center,
                     style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                   if (profiles.isEmpty) const SizedBox(height: 16.0),
                   if (profiles.isEmpty)
                     Text(
-                      i10n.main_page_profiles_dialog_empty,
+                      i10n.main_page_environments_profiles_dialog_empty_message,
                       textAlign: TextAlign.center,
                       style: context.textTheme.titleMedium?.copyWith(),
                     ),
@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                           return ListTile(
                             title: Text('${profile.profileName} - ${profile.companyName}'),
                             subtitle: Text(
-                              '${i10n.main_page_profiles_dialog_active_mods}\n${profile.activeMods.map((e) => ' - $e').join('\n')}',
+                              '${i10n.main_page_environments_active_mods_dialog_subtitle}\n${profile.activeMods.map((e) => ' - $e').join('\n')}',
                             ),
                           );
                         },
@@ -87,8 +87,8 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
           );
         },
       );
-    } else if (value == i10n.main_page_item_options_mods) {
-      showLoading(i10n.main_page_loading_mods_list_message);
+    } else if (value == i10n.main_page_environments_mods_item) {
+      showLoading(i10n.main_page_environments_loading_mods_list_message);
 
       final modListDetails = await controller.getModListDetails(homedir.directory.path);
 
@@ -108,7 +108,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                 children: [
                   const SizedBox(height: 16.0),
                   Text(
-                    i10n.main_page_mods_dialog_title,
+                    i10n.main_page_environments_mods_dialog_title,
                     textAlign: TextAlign.center,
                     style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
@@ -117,7 +117,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                   if (modListDetails.isEmpty) const SizedBox(height: 16.0),
                   if (modListDetails.isEmpty)
                     Text(
-                      i10n.main_page_mods_dialog_empty,
+                      i10n.main_page_environments_mods_dialog_empty_message,
                       textAlign: TextAlign.center,
                       style: context.textTheme.titleMedium?.copyWith(),
                     ),
@@ -135,7 +135,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                           return ListTile(
                             title: Text(mod.displayName),
                             subtitle: Text(
-                              '${i10n.main_page_mods_dialog_author}: ${mod.author}\n${i10n.main_page_mods_dialog_version}: ${mod.packageVersion}${mod.categories.isNotEmpty ? '\n${i10n.main_page_mods_dialog_categories}: ${mod.categories.join(', ')}' : ''}${mod.compatibleVersions.isNotEmpty ? '\n${i10n.main_page_mods_dialog_compatible_versions}: ${mod.compatibleVersions.join(', ')}' : ''}',
+                              '${i10n.main_page_environments_mods_dialog_author_subtitle}: ${mod.author}\n${i10n.main_page_environments_mods_dialog_version_subtitle}: ${mod.packageVersion}${mod.categories.isNotEmpty ? '\n${i10n.main_page_environments_mods_dialog_categories_subtitle}: ${mod.categories.join(', ')}' : ''}${mod.compatibleVersions.isNotEmpty ? '\n${i10n.main_page_environments_mods_dialog_compatibility}: ${mod.compatibleVersions.join(', ')}' : ''}',
                             ),
                           );
                         },
@@ -147,27 +147,27 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
           );
         },
       );
-    } else if (value == i10n.main_page_item_options_add_mods) {
+    } else if (value == i10n.main_page_environments_add_mods_item) {
       showLoading();
 
       await controller.pickModFiles(homedir.directory);
 
       hideLoading();
-    } else if (value == i10n.main_page_item_options_open_in_explorer) {
+    } else if (value == i10n.main_page_environments_open_in_explorer_item) {
       final uri = Uri.file(homedir.homedirPathView);
 
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri);
       }
-    } else if (value == i10n.main_page_item_options_enable_camera_zero || value == i10n.main_page_item_options_disable_camera_zero) {
+    } else if (value == i10n.main_page_environments_enable_camera_zero_item || value == i10n.main_page_environments_disable_camera_zero_item) {
       controller.setEnableCameraZero(homedir);
 
       if (controller.enableCameraZero(homedir)) {
-        showSuccessSnackbar(i10n.main_page_enable_camera_zero_enabled_message);
+        showSuccessSnackbar(i10n.main_page_environments_enable_camera_zero_item_message);
       } else {
-        showSuccessSnackbar(i10n.main_page_enable_camera_zero_disabled_message);
+        showSuccessSnackbar(i10n.main_page_environments_disable_camera_zero_item_message);
       }
-    } else if (value == i10n.main_page_item_options_remove) {
+    } else if (value == i10n.main_page_environments_remove_item) {
       final result = await showDialog<({bool remove, bool keep})>(
         context: context,
         builder: (context) {
@@ -175,7 +175,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
 
           return AlertDialog(
             title: Text(
-              i10n.main_page_remove_homedir_dialog_title,
+              i10n.main_page_environments_remove_dialog_title,
               style: context.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -185,7 +185,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  i10n.main_page_remove_homedir_dialog_description,
+                  i10n.main_page_environments_remove_dialog_subtitle,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.normal,
                   ),
@@ -197,7 +197,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                       value: value,
                       contentPadding: EdgeInsets.zero,
                       title: Text(
-                        i10n.main_page_remove_homedir_dialog_keep_directories,
+                        i10n.main_page_environments_remove_dialog_check_title,
                         style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.normal,
                         ),
@@ -213,11 +213,11 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop((remove: false, keep: keepDir.value)),
-                child: Text(i10n.main_page_remove_homedir_dialog_button_cancel),
+                child: Text(i10n.main_page_environments_remove_dialog_cancel_button),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop((remove: true, keep: keepDir.value)),
-                child: Text(i10n.main_page_remove_homedir_dialog_button_confirm),
+                child: Text(i10n.main_page_environments_remove_dialog_confirm_button),
               )
             ],
           );
@@ -324,60 +324,78 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                 ],
               ),
             ),
-            onSuccess: (environment) => Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView.separated(
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: environment.homedirs.length,
-                itemBuilder: (context, index) {
-                  final homedir = environment.homedirs[index];
-
-                  return ListTile(
-                    onTap: () {},
-                    title: Text(homedir.name),
-                    subtitle: Text(homedir.directory.path),
-                    trailing: Row(
+            onSuccess: (environment) => environment.homedirs.isEmpty
+                ? Center(
+                    child: Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        IconButton(
-                          onPressed: () async {
-                            showLoading(i10n.message_starting_the_game);
-
-                            await manager.startGameFromHomedir(homedir);
-
-                            hideLoading();
-                          },
-                          tooltip: i10n.main_page_item_start_game_tooltip,
-                          color: Colors.green,
-                          icon: const Icon(Icons.play_arrow_rounded),
+                        const Icon(
+                          Icons.info_rounded,
+                          size: 52.0,
                         ),
-                        PopupMenuButton<String>(
-                          tooltip: i10n.main_page_item_menu_tooltip,
-                          onSelected: (value) => onPopupMenuSelected(value, homedir),
-                          itemBuilder: (context) {
-                            return List.from(
-                              <String>[
-                                i10n.main_page_item_options_profiles,
-                                i10n.main_page_item_options_mods,
-                                i10n.main_page_item_options_add_mods,
-                                i10n.main_page_item_options_open_in_explorer,
-                                if (controller.enableCameraZero(homedir)) i10n.main_page_item_options_disable_camera_zero,
-                                if (!controller.enableCameraZero(homedir)) i10n.main_page_item_options_enable_camera_zero,
-                                i10n.main_page_item_options_remove,
-                              ].map(
-                                (item) {
-                                  return PopupMenuItem(value: item, child: Text(item));
-                                },
-                              ),
-                            );
-                          },
+                        Text(
+                          i10n.main_page_empty_environments_message,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
-                    ).withSpacing(16.0),
-                  );
-                },
-              ),
-            ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: environment.homedirs.length,
+                      itemBuilder: (context, index) {
+                        final homedir = environment.homedirs[index];
+
+                        return ListTile(
+                          title: Text(homedir.name),
+                          subtitle: Text(homedir.directory.path),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  showLoading(i10n.message_starting_the_game);
+
+                                  await manager.startGameFromHomedir(homedir);
+
+                                  hideLoading();
+                                },
+                                tooltip: i10n.main_page_environments_start_game_tooltip,
+                                color: Colors.green,
+                                icon: const Icon(Icons.play_arrow_rounded),
+                              ),
+                              PopupMenuButton<String>(
+                                tooltip: i10n.main_page_environments_show_menu_tooltip,
+                                onSelected: (value) => onPopupMenuSelected(value, homedir),
+                                itemBuilder: (context) {
+                                  return List.from(
+                                    <String>[
+                                      i10n.main_page_environments_profiles_item,
+                                      i10n.main_page_environments_mods_item,
+                                      i10n.main_page_environments_add_mods_item,
+                                      i10n.main_page_environments_open_in_explorer_item,
+                                      if (controller.enableCameraZero(homedir)) i10n.main_page_environments_disable_camera_zero_item,
+                                      if (!controller.enableCameraZero(homedir)) i10n.main_page_environments_enable_camera_zero_item,
+                                      i10n.main_page_environments_remove_item,
+                                    ].map(
+                                      (item) {
+                                        return PopupMenuItem(value: item, child: Text(item));
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ).withSpacing(16.0),
+                        );
+                      },
+                    ),
+                  ),
           );
         },
       ),
@@ -398,14 +416,14 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            i10n.main_page_add_homedir_dialog_error_title,
+                            i10n.main_page_environments_error_dialog_title,
                             textAlign: TextAlign.center,
                             style: context.textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
-                            i10n.main_page_add_homedir_dialog_error_message,
+                            i10n.main_page_environments_error_dialog_subtitle,
                             textAlign: TextAlign.center,
                             style: context.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.normal,
@@ -437,7 +455,7 @@ class _MainPageState extends State<MainPage> with StatefulMixin {
           }
         },
         icon: const Icon(Icons.add_rounded),
-        label: Text(i10n.main_page_add_new_homedir),
+        label: Text(i10n.main_page_fab_title),
       ),
     );
   }

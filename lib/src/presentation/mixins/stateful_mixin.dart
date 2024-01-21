@@ -1,4 +1,4 @@
-import 'package:ets2_environments/src/extensions/build_context_extension.dart';
+import 'package:ets2_environments/src/presentation/extensions/build_context_extension.dart';
 import 'package:flutter/material.dart';
 
 mixin StatefulMixin<T extends StatefulWidget> on State<T> {
